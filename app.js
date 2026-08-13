@@ -63,14 +63,32 @@
     return d.innerHTML;
   }
 
-  // ---------- category nav ----------
+  // ---------- category nav (sidebar) ----------
+  const CAT_ICONS = {
+    all: "📚",
+    warehouse: "🏭",
+    robots: "🤖",
+    "robotics-basics": "⚙️",
+    simulation: "🧪",
+    nvidia: "🟩",
+    learning: "🧠",
+    frontier: "🚀",
+    optimization: "📐",
+    "logistics-opt": "📦",
+    pathfinding: "🧭",
+    multiagent: "🐝",
+  };
+
   function renderCatNav() {
     const nav = $("#catNav");
     nav.innerHTML = "";
     const mk = (id, label, count) => {
       const b = document.createElement("button");
-      b.className = "cat-chip" + (activeCat === id ? " active" : "");
-      b.innerHTML = `${esc(label)}<span class="count">${count}</span>`;
+      b.className = "sb-item" + (activeCat === id ? " active" : "");
+      b.title = label;
+      b.innerHTML =
+        `<span class="sb-icon">${CAT_ICONS[id] || "📁"}</span>` +
+        `<span class="sb-label">${esc(label)}<span class="count">${count}</span></span>`;
       b.onclick = () => {
         activeCat = id;
         if (view === "guide") setView("dict");
@@ -315,8 +333,6 @@
     $("#dictView").hidden = v !== "dict";
     $("#flashView").hidden = v !== "flash";
     $("#guideView").hidden = v !== "guide";
-    $("#searchRow").style.display = v === "guide" ? "none" : "";
-    $("#catNav").style.display = v === "guide" ? "none" : "";
 
     const modeBtn = $("#modeToggle");
     modeBtn.classList.toggle("active", v === "flash");
@@ -341,6 +357,8 @@
     if (view !== "dict") setView("dict");
     render();
   });
+
+  $("#searchIconBtn").addEventListener("click", () => $("#searchInput").focus());
 
   $("#hideKnown").addEventListener("change", (e) => {
     hideKnown = e.target.checked;
