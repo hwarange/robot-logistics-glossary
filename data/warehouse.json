@@ -8,10 +8,20 @@
       "ko": "자동 입출고 시스템 (자동창고)",
       "definition": "컴퓨터 제어로 물건을 정해진 위치에 자동으로 저장(입고)하고 꺼내오는(출고) 설비 시스템입니다. 사람이 선반 사이를 돌아다니는 대신 기계가 물건을 넣고 꺼냅니다.",
       "details": "스태커 크레인, 셔틀, 큐브 로봇(AutoStore 등)이 고밀도 랙 사이를 오가며 토트(상자)나 팔레트를 자동으로 입출고합니다. 좁은 공간에 훨씬 많은 재고를 보관하고, 사람의 이동 시간을 없애 처리 속도를 크게 높이는 것이 핵심 가치입니다. 쿠팡식 물류센터 시뮬레이션에서는 AS/RS가 상품을 꺼내 작업 스테이션이나 로봇에게 전달하는 '재고의 출발점'이므로, Isaac Sim에서 랙·셔틀·토트 흐름을 모델링할 때 기준이 되는 개념입니다.",
+      "example": "노르웨이 AutoStore는 큐브형 그리드 위를 로봇들이 달리며 토트를 꺼내는 방식으로 국내 롯데슈퍼 미아점 등에 도입됐고, 전통형 AS/RS는 10m 이상 높이의 랙 통로를 스태커 크레인 1대가 오가며 팔레트를 자동 입출고합니다.",
+      "aiTip": "AS/RS 내부 기구(크레인·셔틀)까지 물리 시뮬레이션할 필요는 없고, '요청 후 N초 뒤 토트 배출'이라는 지연 모델(블랙박스)로 추상화하는 것이 일반적입니다. AI 관점에서는 어떤 토트를 어떤 순서로 꺼낼지가 스케줄링 문제이며, AMR 작업 할당과 연결되는 인터페이스(출고 포트에 토트 도착 이벤트)만 잘 정의하면 됩니다.",
       "sources": [
-        {"name": "Wikipedia - Automated storage and retrieval system", "url": "https://en.wikipedia.org/wiki/Automated_storage_and_retrieval_system"}
+        {
+          "name": "Wikipedia - Automated storage and retrieval system",
+          "url": "https://en.wikipedia.org/wiki/Automated_storage_and_retrieval_system"
+        }
       ],
-      "related": ["Shuttle System", "GTP / Goods-to-Person", "WCS (Warehouse Control System)", "Material Handling"]
+      "related": [
+        "Shuttle System",
+        "GTP / Goods-to-Person",
+        "WCS (Warehouse Control System)",
+        "Material Handling"
+      ]
     },
     {
       "id": "goods-to-person",
@@ -19,11 +29,24 @@
       "ko": "물건이 사람에게 오는 방식 (GTP)",
       "definition": "작업자가 물건을 찾으러 가는 것이 아니라, 로봇이나 자동설비가 물건(선반·토트)을 작업자 앞으로 가져다주는 방식입니다.",
       "details": "AMR이 선반째 들고 오거나(아마존 Kiva 방식), AS/RS·셔틀이 토트를 피킹 스테이션으로 보내면 작업자는 제자리에서 집기만 합니다. 작업자 걷는 시간(피킹 시간의 절반 이상)을 제거해 생산성이 2~5배 올라가는 것이 핵심이며, 반대 개념인 PTG(Person-to-Goods)와 대비됩니다. 쿠팡식 로봇 물류센터 시뮬레이션의 중심 시나리오가 바로 GTP로, '로봇이 선반을 들어 스테이션까지 운반'하는 경로 계획·교통 제어가 시뮬레이션의 주요 검증 대상입니다.",
+      "example": "아마존은 2012년 Kiva Systems를 인수한 뒤 현재 75만 대 이상의 주행 로봇이 선반(파드)째 들어 피커 앞으로 가져다주고 있으며, 쿠팡 대구 FC에서도 유사하게 선반을 통째로 운반하는 AGV가 운영됩니다.",
+      "aiTip": "이 프로젝트의 중심 시나리오입니다. '어떤 로봇에게 어떤 선반 운반을 맡길지'가 작업 할당 최적화, '스테이션까지 어떻게 갈지'가 다중 로봇 경로 계획(MAPF) 문제로 직결됩니다. 강화학습을 쓴다면 보상을 '시간당 스테이션 도착 토트 수'로 잡는 것이 자연스럽고, 먼저 '가장 가까운 로봇 할당' 같은 규칙 기반 베이스라인부터 만들어 비교하세요.",
       "sources": [
-        {"name": "Wikipedia - Order picking", "url": "https://en.wikipedia.org/wiki/Order_picking"},
-        {"name": "MHI Glossary", "url": "https://www.mhi.org/glossary"}
+        {
+          "name": "Wikipedia - Order picking",
+          "url": "https://en.wikipedia.org/wiki/Order_picking"
+        },
+        {
+          "name": "MHI Glossary",
+          "url": "https://www.mhi.org/glossary"
+        }
       ],
-      "related": ["Person-to-Goods", "AMR", "AS/RS (Automated Storage and Retrieval System)", "Picking"]
+      "related": [
+        "Person-to-Goods",
+        "AMR",
+        "AS/RS (Automated Storage and Retrieval System)",
+        "Picking"
+      ]
     },
     {
       "id": "person-to-goods",
@@ -31,10 +54,19 @@
       "ko": "사람이 물건에게 가는 방식 (PTG)",
       "definition": "작업자가 카트를 끌고 창고 통로를 직접 걸어 다니며 물건을 찾아 집는 전통적인 피킹 방식입니다.",
       "details": "설비 투자가 거의 필요 없어 아직도 전 세계 창고의 대다수가 이 방식이지만, 작업자 근무 시간의 50% 이상이 '걷기'에 소모되는 것이 약점입니다. GTP가 물건을 사람에게 가져오는 것과 정확히 반대 개념으로, 자동화 도입의 효과를 설명할 때 항상 비교 기준(baseline)이 됩니다. 시뮬레이션 프로젝트에서도 PTG 대비 GTP 도입 시 처리량이 얼마나 개선되는지를 보여주는 것이 좋은 평가 지표가 됩니다.",
+      "example": "중소 3PL 창고에서 작업자가 PDA와 카트를 들고 통로를 돌며 시간당 60~100건 정도를 피킹하는 것이 전형적인 PTG이며, GTP를 도입하면 같은 인원이 시간당 300~600건까지 처리한다고 알려져 있습니다.",
+      "aiTip": "시뮬레이션에서 PTG는 비교용 베이스라인 수치로만 쓰면 충분하고, 사람 작업자를 물리적으로 모델링할 필요는 없습니다. '수작업 시 시간당 피킹 X건' 같은 문헌 수치를 인용해 GTP 시나리오의 개선율(몇 배 향상)을 결과 보고에 제시하는 용도로 활용하세요.",
       "sources": [
-        {"name": "Wikipedia - Order picking", "url": "https://en.wikipedia.org/wiki/Order_picking"}
+        {
+          "name": "Wikipedia - Order picking",
+          "url": "https://en.wikipedia.org/wiki/Order_picking"
+        }
       ],
-      "related": ["GTP / Goods-to-Person", "Picking", "Order Fulfillment"]
+      "related": [
+        "GTP / Goods-to-Person",
+        "Picking",
+        "Order Fulfillment"
+      ]
     },
     {
       "id": "picking",
@@ -42,10 +74,20 @@
       "ko": "피킹 (주문 상품 집기)",
       "definition": "고객 주문에 맞춰 창고 재고에서 해당 상품을 골라 꺼내는 작업입니다. 물류센터에서 가장 노동력이 많이 드는 핵심 공정입니다.",
       "details": "창고 운영비의 절반 이상을 차지할 만큼 비중이 커서 자동화의 최우선 대상입니다. 주문 단위로 하나씩 집는 단일 피킹, 여러 주문을 묶어 도는 배치 피킹, 구역을 나눠 맡는 존 피킹 등 전략이 다양하고, 최근에는 로봇 팔(피스 피킹 로봇)이 사람을 대체하기 시작했습니다. 로봇 물류 시뮬레이션에서는 '어떤 로봇이 어떤 주문의 어떤 상품을 언제 집으러 가는가'가 곧 작업 할당(Task Allocation) 문제로, 시뮬레이션 성능 지표(시간당 피킹 수)의 핵심입니다.",
+      "example": "쿠팡 FC에서 작업자가 화면에 뜬 '토트 3번 칸에 샴푸 2개' 지시를 보고 집어 담는 것이 피킹이며, 영국 오카도(Ocado)는 로봇 팔이 식료품을 직접 집는 피스 피킹까지 자동화했습니다. GTP 환경의 피킹 속도는 시간당 300~400건 수준입니다.",
+      "aiTip": "시간당 피킹 수(picks per hour)를 시뮬레이션의 대표 KPI로 잡으세요. 어떤 주문들을 묶어(배칭) 어떤 로봇·스테이션에 배분할지는 조합 최적화 문제이므로, 처음에는 그리디 규칙으로 시작하고 이후 헝가리안 알고리즘이나 강화학습 기반 할당으로 개선하는 로드맵이 현실적입니다.",
       "sources": [
-        {"name": "Wikipedia - Order picking", "url": "https://en.wikipedia.org/wiki/Order_picking"}
+        {
+          "name": "Wikipedia - Order picking",
+          "url": "https://en.wikipedia.org/wiki/Order_picking"
+        }
       ],
-      "related": ["Putaway", "GTP / Goods-to-Person", "Packing", "Order Fulfillment"]
+      "related": [
+        "Putaway",
+        "GTP / Goods-to-Person",
+        "Packing",
+        "Order Fulfillment"
+      ]
     },
     {
       "id": "putaway",
@@ -53,11 +95,23 @@
       "ko": "적치 (입고 상품 보관 배치)",
       "definition": "입고된 상품을 검수 후 창고 내 보관 위치(선반·랙)로 옮겨 저장하는 작업입니다. 피킹의 반대 방향 흐름이라고 보면 됩니다.",
       "details": "어디에 두느냐(슬로팅)가 이후 피킹 효율을 좌우하기 때문에, WMS가 회전율·크기·무게를 고려해 최적 위치를 지정해 줍니다. 쿠팡이 유명해진 '랜덤 스토우(아무 곳에나 두되 위치를 정확히 기록)' 방식도 적치 전략의 하나입니다. 시뮬레이션에서는 입고 → 적치 → 보관 → 피킹으로 이어지는 재고 흐름의 앞단을 구성하며, 로봇이 빈 선반 위치를 찾아 상품을 넣는 동선을 모델링하게 됩니다.",
+      "example": "쿠팡의 '랜덤 스토우'가 대표 사례로, 입고 상품을 빈 칸 아무 데나 넣되 바코드 스캔으로 위치를 정확히 기록합니다. 같은 상품이 센터 곳곳에 분산되어 있어 어떤 주문이 와도 가까운 곳에서 꺼낼 수 있게 되는 효과가 있습니다.",
+      "aiTip": "적치 위치 결정(슬로팅)은 회전율 높은 상품을 피킹 스테이션 가까이 두는 배치 최적화 문제로, '적치 정책에 따라 로봇 평균 주행 거리가 어떻게 변하는가'를 시뮬레이션으로 실험하기 좋은 주제입니다. 초기 구현은 무작위 적치로 두고, 나중에 인기 상품 근접 배치 정책과 처리량을 비교해 보세요.",
       "sources": [
-        {"name": "MHI Glossary", "url": "https://www.mhi.org/glossary"},
-        {"name": "Wikipedia - Warehouse management system", "url": "https://en.wikipedia.org/wiki/Warehouse_management_system"}
+        {
+          "name": "MHI Glossary",
+          "url": "https://www.mhi.org/glossary"
+        },
+        {
+          "name": "Wikipedia - Warehouse management system",
+          "url": "https://en.wikipedia.org/wiki/Warehouse_management_system"
+        }
       ],
-      "related": ["Picking", "WMS (Warehouse Management System)", "Cross-Docking"]
+      "related": [
+        "Picking",
+        "WMS (Warehouse Management System)",
+        "Cross-Docking"
+      ]
     },
     {
       "id": "sortation",
@@ -65,11 +119,24 @@
       "ko": "분류 (소팅)",
       "definition": "상품이나 포장물을 목적지(배송 지역, 주문, 슈트)별로 자동으로 나누어 보내는 공정입니다.",
       "details": "바코드를 스캔해 각 물건의 목적지를 식별한 뒤, 소터(분류기)가 해당 슈트나 컨베이어 라인으로 밀어 보냅니다. 출고 직전 '어느 트럭·어느 지역으로 갈지'를 가르는 병목 공정이라 처리량(시간당 분류 수)이 센터 전체 속도를 좌우합니다. 쿠팡식 시뮬레이션에서는 소팅 로봇(예: 소터 AMR이 소포를 등에 싣고 해당 슈트 구멍에 떨어뜨리는 방식)이나 컨베이어 소터를 재현하는 장면으로 자주 등장합니다.",
+      "example": "중국 택배사들은 수백 대의 소형 소터 로봇이 소포를 등에 싣고 2층 격자 플랫폼을 달리다 목적지 슈트 구멍에 떨어뜨리는 방식(Libiao 등)으로 시간당 2만 개 이상을 분류합니다.",
+      "aiTip": "소팅 구역은 좁은 격자에서 로봇 수십~수백 대가 동시에 움직이는 전형적인 MAPF 환경이라, 경로 계획·강화학습 데모로 시각적 효과가 가장 큽니다. 다만 병목이 슈트 개수나 투입 스테이션 속도에서 생기는 경우가 많아 '로봇 수를 늘려도 처리량이 선형으로 늘지 않는다'는 것을 실험으로 보여주면 좋은 분석이 됩니다.",
       "sources": [
-        {"name": "MHI Glossary", "url": "https://www.mhi.org/glossary"},
-        {"name": "Wikipedia - Conveyor system", "url": "https://en.wikipedia.org/wiki/Conveyor_system"}
+        {
+          "name": "MHI Glossary",
+          "url": "https://www.mhi.org/glossary"
+        },
+        {
+          "name": "Wikipedia - Conveyor system",
+          "url": "https://en.wikipedia.org/wiki/Conveyor_system"
+        }
       ],
-      "related": ["Sorter", "Conveyor", "Packing", "Cross-Docking"]
+      "related": [
+        "Sorter",
+        "Conveyor",
+        "Packing",
+        "Cross-Docking"
+      ]
     },
     {
       "id": "packing",
@@ -77,10 +144,19 @@
       "ko": "포장",
       "definition": "피킹된 상품을 주문 단위로 검수하고 박스나 봉투에 담아 배송 가능한 상태로 만드는 작업입니다.",
       "details": "잘못 담긴 상품을 걸러내는 마지막 품질 관문이자, 박스 크기 선택·완충재·송장 부착까지 포함하는 공정입니다. 자동 제함기(박스 접기), 자동 봉함기, 상품 크기에 맞춰 박스를 만드는 맞춤형 포장기 등으로 자동화가 진행 중입니다. 시뮬레이션에서는 보통 피킹 스테이션 다음 단계의 '싱크(sink)' 노드로 단순화해 모델링하지만, 포장 스테이션의 처리 속도가 전체 라인의 병목이 되지 않는지 검증하는 데 의미가 있습니다.",
+      "example": "아마존 FC에 도입된 CMC CartonWrap 같은 자동 포장기는 상품 크기를 측정해 맞춤 박스를 접어 시간당 600~700개를 포장하는데, 이는 사람 포장 작업자(시간당 100개 내외)의 5배 이상입니다.",
+      "aiTip": "시뮬레이션에서는 포장 스테이션을 '처리 시간 분포를 가진 서버(큐잉 모델)'로 단순화해도 충분합니다. 단, 처리 속도를 비현실적으로 빠르게 잡으면 병목이 사라져 결과가 왜곡되므로 스테이션당 시간당 처리 건수를 실제 수치 기반으로 설정하고, 스테이션 앞 대기열 길이를 모니터링 지표에 포함하세요.",
       "sources": [
-        {"name": "Wikipedia - Packaging and labeling", "url": "https://en.wikipedia.org/wiki/Packaging_and_labeling"}
+        {
+          "name": "Wikipedia - Packaging and labeling",
+          "url": "https://en.wikipedia.org/wiki/Packaging_and_labeling"
+        }
       ],
-      "related": ["Picking", "Sortation", "Order Fulfillment"]
+      "related": [
+        "Picking",
+        "Sortation",
+        "Order Fulfillment"
+      ]
     },
     {
       "id": "palletizing",
@@ -88,11 +164,23 @@
       "ko": "팔레타이징 (팔레트 적재)",
       "definition": "박스나 상품을 팔레트(운반용 받침대) 위에 규칙적으로 쌓아 올리는 작업입니다. 주로 로봇 팔이나 전용 기계가 수행합니다.",
       "details": "무겁고 반복적인 대표 작업이라 산업용 로봇 팔의 가장 오래된 적용 분야 중 하나입니다. 무너지지 않으면서 공간을 최대로 쓰는 적재 패턴 계산(3D 빈패킹 문제)이 핵심 기술이며, 최근에는 크기가 제각각인 박스를 쌓는 '혼합 팔레타이징'을 AI로 풉니다. Isaac Sim에는 팔레타이징 로봇 팔 예제가 있어서, 물류센터 시뮬레이션에서 출고장 로봇 팔 장면을 만들 때 바로 참고할 수 있는 주제입니다.",
+      "example": "KUKA·ABB의 팔레타이징 로봇 팔은 음료 공장 출고장에서 분당 10~15박스를 팔레트에 쌓아 올리며, 최근에는 크기가 제각각인 박스를 섞어 쌓는 혼합 팔레타이징을 Mujin, Dexterity 같은 회사가 AI 계획 알고리즘으로 풀고 있습니다.",
+      "aiTip": "적재 패턴 계산은 3D 빈패킹이라는 NP-hard 문제라 실무에서는 휴리스틱+시뮬레이션 검증 조합을 씁니다. Isaac Sim에 팔레타이징 예제가 있으니 먼저 돌려보며 로봇 팔 제어와 물리 안정성(쌓은 박스가 무너지는지) 시뮬레이션 감을 잡고, 프로젝트에서는 출고장 배경 연출로 넣을지 실제 제어까지 구현할지 범위를 일찍 정하세요.",
       "sources": [
-        {"name": "Wikipedia - Palletizer", "url": "https://en.wikipedia.org/wiki/Palletizer"},
-        {"name": "Wikipedia - Pallet", "url": "https://en.wikipedia.org/wiki/Pallet"}
+        {
+          "name": "Wikipedia - Palletizer",
+          "url": "https://en.wikipedia.org/wiki/Palletizer"
+        },
+        {
+          "name": "Wikipedia - Pallet",
+          "url": "https://en.wikipedia.org/wiki/Pallet"
+        }
       ],
-      "related": ["Depalletizing", "Material Handling", "Conveyor"]
+      "related": [
+        "Depalletizing",
+        "Material Handling",
+        "Conveyor"
+      ]
     },
     {
       "id": "depalletizing",
@@ -100,10 +188,19 @@
       "ko": "디팔레타이징 (팔레트 하역)",
       "definition": "팔레트 위에 쌓여 들어온 박스들을 하나씩 내려 컨베이어나 토트로 옮기는 작업으로, 팔레타이징의 반대 공정입니다.",
       "details": "입고장에서 가장 먼저 일어나는 작업인데, 공급사마다 박스 크기·적재 패턴이 달라서 팔레타이징보다 오히려 자동화가 어렵습니다. 그래서 3D 비전 카메라로 박스 위치·크기를 인식해 집는 AI 기반 디팔레타이징 로봇이 활발히 개발되고 있습니다. 시뮬레이션 관점에서는 합성 데이터(Synthetic Data)로 박스 인식 모델을 학습시키기 좋은 주제라, Isaac Sim의 비전 AI 기능과 연결 지어 볼 수 있는 공정입니다.",
+      "example": "보스턴 다이내믹스의 Stretch 로봇은 흡착 그리퍼와 3D 비전으로 팔레트·트레일러에서 시간당 최대 800개 박스를 내리며, DHL이 물류센터에 다수 도입했습니다.",
+      "aiTip": "AI 담당자에게 가장 직접적인 연결 고리는 비전입니다. Isaac Sim의 Replicator로 다양한 박스 크기·적재 패턴을 합성 데이터로 생성해 박스 검출 모델을 학습시키는 Sim-to-Real 파이프라인이 이 공정의 대표 활용법이니, 프로젝트에 비전 파트를 넣는다면 디팔레타이징이 좋은 데모 후보입니다.",
       "sources": [
-        {"name": "Wikipedia - Palletizer", "url": "https://en.wikipedia.org/wiki/Palletizer"}
+        {
+          "name": "Wikipedia - Palletizer",
+          "url": "https://en.wikipedia.org/wiki/Palletizer"
+        }
       ],
-      "related": ["Palletizing", "Putaway", "Material Handling"]
+      "related": [
+        "Palletizing",
+        "Putaway",
+        "Material Handling"
+      ]
     },
     {
       "id": "cross-docking",
@@ -111,10 +208,19 @@
       "ko": "크로스도킹 (무재고 환적)",
       "definition": "입고된 상품을 창고에 보관하지 않고, 곧바로 분류해서 출고 트럭으로 옮겨 싣는 물류 방식입니다.",
       "details": "'입고 도크에서 출고 도크로 가로질러(cross) 간다'는 뜻으로, 보관·피킹 단계를 건너뛰어 재고 비용과 리드타임을 최소화합니다. 신선식품이나 당일배송 상품처럼 빨리 흘려보내야 하는 물량에 쓰이며, 쿠팡의 신선센터도 이 방식을 많이 활용합니다. 시뮬레이션에서는 '보관 없이 입고 → 분류 → 출고'로 직행하는 흐름이므로, 일반 풀필먼트 흐름과 별도의 최단 경로 시나리오로 모델링할 수 있습니다.",
+      "example": "월마트가 이 방식의 원조 격 사례로 유명하며, 국내에서는 쿠팡 신선센터가 새벽배송 신선식품을 보관 없이 입고 후 몇 시간 안에 분류해 배송 트럭으로 옮겨 싣습니다.",
+      "aiTip": "보관 단계가 없어 흐름은 단순하지만, 대신 '입고 시각과 출고 트럭 마감 시각의 동기화'라는 강한 시간 제약이 생깁니다. 스케줄링 관점에서 마감 시간(deadline)이 있는 작업 할당 문제가 되므로, 일반 풀필먼트와 별도 시나리오로 두고 마감을 놓친 비율(지각률)을 평가 지표로 삼으면 좋습니다.",
       "sources": [
-        {"name": "Wikipedia - Cross-docking", "url": "https://en.wikipedia.org/wiki/Cross-docking"}
+        {
+          "name": "Wikipedia - Cross-docking",
+          "url": "https://en.wikipedia.org/wiki/Cross-docking"
+        }
       ],
-      "related": ["Sortation", "Putaway", "TMS (Transportation Management System)"]
+      "related": [
+        "Sortation",
+        "Putaway",
+        "TMS (Transportation Management System)"
+      ]
     },
     {
       "id": "order-fulfillment",
@@ -122,10 +228,20 @@
       "ko": "주문 풀필먼트 (주문 처리)",
       "definition": "고객이 주문한 순간부터 상품이 문 앞에 도착할 때까지의 전 과정(주문 접수 → 피킹 → 포장 → 배송)을 뜻합니다.",
       "details": "이커머스 경쟁력의 핵심 지표로, '주문 후 몇 시간 만에 받느냐'가 곧 풀필먼트 속도입니다. 쿠팡의 로켓배송은 전국 풀필먼트 센터에 재고를 미리 두고 이 과정을 극단적으로 단축한 사례입니다. 로봇 물류 시뮬레이션 프로젝트의 최종 목표도 결국 '주문 유입 → 로봇 피킹 → 포장 → 출고'라는 풀필먼트 파이프라인 전체를 가상으로 돌려보고 처리량과 병목을 측정하는 것입니다.",
+      "example": "쿠팡 로켓배송은 자정 전 주문을 다음 날 아침에 배달하는데, 전국 30여 개 지역의 FC에 재고를 미리 분산해 두고 주문 접수부터 피킹·포장·출고까지를 몇 시간 안에 끝내기 때문에 가능한 것입니다.",
+      "aiTip": "풀필먼트 파이프라인(주문 생성→피킹→포장→출고)이 곧 시뮬레이션의 이벤트 흐름 설계도입니다. 주문 도착을 포아송 분포 등으로 만들어내는 주문 생성기(order generator)가 있어야 할당·경로 등 모든 하위 알고리즘의 입력이 생기므로, AI 담당자가 가장 먼저 구현할 모듈로 잡는 것을 권합니다.",
       "sources": [
-        {"name": "Wikipedia - Order fulfillment", "url": "https://en.wikipedia.org/wiki/Order_fulfillment"}
+        {
+          "name": "Wikipedia - Order fulfillment",
+          "url": "https://en.wikipedia.org/wiki/Order_fulfillment"
+        }
       ],
-      "related": ["Fulfillment Center", "Picking", "Packing", "WMS (Warehouse Management System)"]
+      "related": [
+        "Fulfillment Center",
+        "Picking",
+        "Packing",
+        "WMS (Warehouse Management System)"
+      ]
     },
     {
       "id": "fulfillment-center",
@@ -133,11 +249,23 @@
       "ko": "풀필먼트 센터",
       "definition": "이커머스 주문을 받아 보관·피킹·포장·출고까지 한 번에 처리하는 물류센터입니다. 단순 보관 중심의 전통 창고와 달리 '개별 소비자 주문 처리'가 목적입니다.",
       "details": "전통 창고가 팔레트·박스 단위로 기업 간(B2B) 물량을 다룬다면, FC는 낱개 상품을 소비자별 주문으로 조립해 내보내는 B2C 시설이라 훨씬 많은 피킹·분류 작업이 발생합니다. 그래서 아마존·쿠팡의 FC가 GTP 로봇, 소터 등 자동화 기술의 최대 격전지가 되었습니다. 이 프로젝트에서 시뮬레이션하려는 대상 공간 자체가 바로 쿠팡식 FC이므로, 레이아웃(입고장·보관 구역·피킹 스테이션·소팅·출고장)을 이해하는 출발점이 되는 용어입니다.",
+      "example": "쿠팡 대구 FC는 축구장 46개 크기(연면적 약 33만㎡)에 물류 로봇 1,000대 이상을 운영하는 아시아 최대급 FC이며, 아마존은 전 세계에 175개가 넘는 FC를 운영합니다.",
+      "aiTip": "시뮬레이션 씬을 만들 때 실제 FC의 구역 구분(입고장→보관→피킹 스테이션→소팅→출고장)을 그대로 따르면 이후 시나리오 확장이 쉽습니다. 처음부터 FC 전체를 재현하려 하지 말고 한 구역(예: GTP 보관+피킹 구역)만 완성한 뒤 넓히는 것이 Isaac Sim 성능 관리 면에서도 유리합니다.",
       "sources": [
-        {"name": "Wikipedia - Order fulfillment", "url": "https://en.wikipedia.org/wiki/Order_fulfillment"},
-        {"name": "Wikipedia - Distribution center", "url": "https://en.wikipedia.org/wiki/Distribution_center"}
+        {
+          "name": "Wikipedia - Order fulfillment",
+          "url": "https://en.wikipedia.org/wiki/Order_fulfillment"
+        },
+        {
+          "name": "Wikipedia - Distribution center",
+          "url": "https://en.wikipedia.org/wiki/Distribution_center"
+        }
       ],
-      "related": ["Order Fulfillment", "MFC (Micro-Fulfillment Center)", "Smart Warehouse"]
+      "related": [
+        "Order Fulfillment",
+        "MFC (Micro-Fulfillment Center)",
+        "Smart Warehouse"
+      ]
     },
     {
       "id": "mfc",
@@ -145,11 +273,23 @@
       "ko": "마이크로 풀필먼트 센터 (초소형 도심 물류센터)",
       "definition": "도심이나 매장 뒷공간 같은 작은 면적에 고밀도 자동화 설비를 넣어, 소비자 가까이에서 주문을 처리하는 초소형 풀필먼트 센터입니다.",
       "details": "대형 FC가 도시 외곽에 있어 배송에 시간이 걸리는 문제를, '작지만 가까운' 센터로 푸는 개념입니다. 좁은 공간에서 처리량을 내야 하므로 AutoStore 같은 큐브 스토리지나 셔틀 시스템 등 고밀도 GTP 자동화가 필수이며, 주로 신선식품 즉시배송에 쓰입니다. 시뮬레이션 관점에서는 대형 FC보다 규모가 작아 로봇 수십 대 수준으로 전체를 재현하기 좋은, 현실적인 축소판 시나리오가 될 수 있습니다.",
+      "example": "미국 슈퍼마켓 체인들은 매장 뒤편 1,000평 이하 공간에 AutoStore나 Takeoff Technologies 설비를 넣어 온라인 장보기 주문을 1시간 내에 피킹하며, 국내에서는 롯데슈퍼 미아점의 AutoStore 매장이 이런 형태에 가깝습니다.",
+      "aiTip": "MFC는 로봇 수십 대·구역 하나 규모라, 팀 시뮬레이션이 전체를 완결성 있게 재현할 수 있는 현실적인 목표 스케일입니다. 대형 FC를 흉내 내다 미완성으로 끝나는 것보다, MFC급 규모에서 작업 할당·경로 계획·처리량 실험을 완주하는 편이 결과물 품질이 훨씬 높습니다.",
       "sources": [
-        {"name": "AutoStore - What is a Micro-fulfillment Center (MFC)?", "url": "https://www.autostoresystem.com/insights/micro-fulfillment-centers-mfcs-the-hyperlocal-solution"},
-        {"name": "Dematic - Micro-Fulfillment Solutions", "url": "https://www.dematic.com/en-us/solutions/micro-fulfillment/"}
+        {
+          "name": "AutoStore - What is a Micro-fulfillment Center (MFC)?",
+          "url": "https://www.autostoresystem.com/insights/micro-fulfillment-centers-mfcs-the-hyperlocal-solution"
+        },
+        {
+          "name": "Dematic - Micro-Fulfillment Solutions",
+          "url": "https://www.dematic.com/en-us/solutions/micro-fulfillment/"
+        }
       ],
-      "related": ["Fulfillment Center", "AS/RS (Automated Storage and Retrieval System)", "GTP / Goods-to-Person"]
+      "related": [
+        "Fulfillment Center",
+        "AS/RS (Automated Storage and Retrieval System)",
+        "GTP / Goods-to-Person"
+      ]
     },
     {
       "id": "dark-warehouse",
@@ -157,10 +297,20 @@
       "ko": "다크 웨어하우스 (무인 창고)",
       "definition": "사람이 거의 또는 전혀 없이 로봇과 자동화 설비만으로 24시간 운영되는 창고입니다. 사람이 없어 조명을 꺼도 되기에 '어두운(dark)' 창고라고 부릅니다.",
       "details": "제조업의 '소등 공장(lights-out manufacturing)' 개념을 물류에 적용한 것으로, 인건비·조명·냉난방 비용을 줄이고 야간에도 쉬지 않고 가동할 수 있습니다. 모든 작업이 로봇으로 수행되어야 하므로 GTP, 자동 피킹 로봇 팔, AMR, WES가 총동원되는 완전 자동화의 끝판 개념입니다. 로봇만으로 창고가 돌아가는 시나리오라는 점에서, 이 팀의 시뮬레이션이 그리는 미래상(사람 개입 없는 로봇 물류센터)과 가장 직접적으로 맞닿아 있는 용어입니다.",
+      "example": "중국 JD.com의 상하이 '아시아 1호' 창고가 대표 사례로, 하루 20만 건의 주문을 상주 인력이 거의 없이 로봇과 자동 설비만으로 처리합니다.",
+      "aiTip": "사람이 없으면 안전 정지·보행자 회피 같은 예외 처리를 뺄 수 있어 시뮬레이션 난이도가 오히려 낮아집니다. '완전 무인 24시간 가동' 설정은 강화학습 에피소드를 길게 돌리기에도 좋으므로, 사람-로봇 혼재 시나리오보다 먼저 만들고 데모 스토리의 최종 단계로 배치하면 자연스럽습니다.",
       "sources": [
-        {"name": "Wikipedia - Lights out (manufacturing)", "url": "https://en.wikipedia.org/wiki/Lights_out_(manufacturing)"}
+        {
+          "name": "Wikipedia - Lights out (manufacturing)",
+          "url": "https://en.wikipedia.org/wiki/Lights_out_(manufacturing)"
+        }
       ],
-      "related": ["Smart Warehouse", "AMR", "GTP / Goods-to-Person", "WES (Warehouse Execution System)"]
+      "related": [
+        "Smart Warehouse",
+        "AMR",
+        "GTP / Goods-to-Person",
+        "WES (Warehouse Execution System)"
+      ]
     },
     {
       "id": "smart-warehouse",
@@ -168,11 +318,24 @@
       "ko": "스마트 창고 (지능형 물류센터)",
       "definition": "로봇, IoT 센서, AI, 관리 소프트웨어가 서로 연결되어 입고부터 출고까지 대부분의 과정을 자동·지능적으로 처리하는 창고입니다.",
       "details": "단순히 기계가 많은 창고가 아니라, WMS·WES 같은 소프트웨어가 실시간 데이터를 바탕으로 로봇과 설비를 최적으로 지휘한다는 점이 핵심입니다. 완전 무인인 다크 웨어하우스와 달리 사람과 로봇이 협업하는 단계까지 폭넓게 포함하는 개념입니다. 이 프로젝트가 Isaac Sim으로 만드는 가상 물류센터가 곧 스마트 창고의 디지털 트윈이며, 어떤 요소(로봇 수, 레이아웃, 스케줄링)가 '스마트함'을 만드는지 실험해 보는 장이 됩니다.",
+      "example": "쿠팡 대구 FC는 AGV가 선반을 나르고 소팅 봇이 분류하며 무인지게차·로봇 팔까지 WMS가 실시간으로 지휘하는 국내 대표 스마트 창고입니다.",
+      "aiTip": "'스마트함'의 본질은 하드웨어가 아니라 데이터 기반 의사결정(할당·스케줄링·예측)입니다. 즉 팀에서 AI 담당의 산출물이 곧 스마트 창고의 '스마트'한 부분 그 자체이고, Isaac Sim 시뮬레이션은 그 알고리즘을 안전하게 검증하는 실험대라고 프로젝트를 정의하면 역할이 명확해집니다.",
       "sources": [
-        {"name": "Wikipedia - Warehouse", "url": "https://en.wikipedia.org/wiki/Warehouse"},
-        {"name": "MHI Glossary", "url": "https://www.mhi.org/glossary"}
+        {
+          "name": "Wikipedia - Warehouse",
+          "url": "https://en.wikipedia.org/wiki/Warehouse"
+        },
+        {
+          "name": "MHI Glossary",
+          "url": "https://www.mhi.org/glossary"
+        }
       ],
-      "related": ["Dark Warehouse", "Smart Factory", "Digital Twin", "Intralogistics"]
+      "related": [
+        "Dark Warehouse",
+        "Smart Factory",
+        "Digital Twin",
+        "Intralogistics"
+      ]
     },
     {
       "id": "smart-factory",
@@ -180,10 +343,20 @@
       "ko": "스마트 팩토리 (지능형 공장)",
       "definition": "생산 설비·로봇·센서가 네트워크로 연결되어 데이터를 주고받으며, 생산 과정을 스스로 모니터링하고 최적화하는 공장입니다. 인더스트리 4.0의 핵심 개념입니다.",
       "details": "설비마다 붙은 센서가 상태 데이터를 실시간으로 올리면, MES·AI가 이를 분석해 생산 계획 조정, 고장 예측(예지보전), 품질 관리를 자동으로 수행합니다. 스마트 창고가 '물건의 보관·이동'에 초점이라면 스마트 팩토리는 '제품의 생산'에 초점이라는 차이가 있지만, AMR·디지털 트윈 등 기반 기술은 공유합니다. AIoT 팀 프로젝트라는 큰 틀에서 보면, 물류센터 시뮬레이션에서 검증한 로봇 제어·디지털 트윈 기술이 스마트 팩토리로도 확장 가능하다는 맥락을 알아두면 좋습니다.",
+      "example": "지멘스 암베르크 공장은 공정 대부분을 자동화하고 하루 수천만 건의 데이터를 수집해 불량률을 0.001% 수준으로 낮춘 대표 스마트 팩토리이며, 국내에서는 포스코·LS일렉트릭 공장이 세계경제포럼 '등대공장'으로 선정된 바 있습니다.",
+      "aiTip": "물류센터에서 검증한 AMR 관제·디지털 트윈 기술은 공장의 자재 운송(라인 사이드 물류)에 거의 그대로 이식됩니다. 포트폴리오 관점에서 '물류센터 시뮬레이션 → 스마트 팩토리 물류로 확장 가능'이라는 스토리를 준비해 두면 프로젝트의 확장성을 어필하기 좋습니다.",
       "sources": [
-        {"name": "Wikipedia - Smart factory", "url": "https://en.wikipedia.org/wiki/Smart_factory"}
+        {
+          "name": "Wikipedia - Smart factory",
+          "url": "https://en.wikipedia.org/wiki/Smart_factory"
+        }
       ],
-      "related": ["Smart Warehouse", "MES (Manufacturing Execution System)", "Digital Twin", "Intralogistics"]
+      "related": [
+        "Smart Warehouse",
+        "MES (Manufacturing Execution System)",
+        "Digital Twin",
+        "Intralogistics"
+      ]
     },
     {
       "id": "intralogistics",
@@ -191,10 +364,20 @@
       "ko": "인트라로지스틱스 (시설 내부 물류)",
       "definition": "하나의 시설(창고·공장·물류센터) 담장 안에서 일어나는 물자와 정보의 흐름 전체를 다루는 분야입니다. 시설 밖 운송(트럭·선박)과 구분되는 개념입니다.",
       "details": "컨베이어, AS/RS, AMR, 소터 같은 설비와 이를 지휘하는 WMS·WCS 소프트웨어까지 포함하는 포괄 용어로, Dematic·Swisslog·SSI Schäfer 같은 회사들이 '인트라로지스틱스 기업'으로 불립니다. 외부 물류(운송)가 TMS의 영역이라면, 건물 안의 모든 움직임은 인트라로지스틱스의 영역입니다. 이 프로젝트에서 시뮬레이션하는 대상이 정확히 '건물 내부의 로봇·설비 흐름'이므로, 프로젝트의 도메인을 한 단어로 부르면 인트라로지스틱스 시뮬레이션이라고 할 수 있습니다.",
+      "example": "Dematic·Swisslog·SSI Schäfer 같은 회사가 셔틀 AS/RS, 컨베이어, 소터에 제어 소프트웨어까지 묶어 물류센터 하나를 턴키로 구축해 주는 산업이 인트라로지스틱스 산업이며, 세계 시장 규모가 수십조 원대입니다.",
+      "aiTip": "자료 검색 시 'warehouse robotics'보다 'intralogistics'를 키워드로 쓰면 유럽권 연구와 업계 백서가 훨씬 많이 잡힙니다. 프로젝트 문서에서 도메인을 '인트라로지스틱스 시뮬레이션'으로 명명하면 다루는 범위(건물 안 흐름 전체)가 한 단어로 정확히 전달됩니다.",
       "sources": [
-        {"name": "SSI Schäfer - What do we mean by intralogistics?", "url": "https://www.ssi-schaefer.com/en-us/what-do-we-mean-by-intralogistics--1083242"}
+        {
+          "name": "SSI Schäfer - What do we mean by intralogistics?",
+          "url": "https://www.ssi-schaefer.com/en-us/what-do-we-mean-by-intralogistics--1083242"
+        }
       ],
-      "related": ["Material Handling", "Smart Warehouse", "Conveyor", "AMR"]
+      "related": [
+        "Material Handling",
+        "Smart Warehouse",
+        "Conveyor",
+        "AMR"
+      ]
     },
     {
       "id": "material-handling",
@@ -202,11 +385,24 @@
       "ko": "물자 취급 (머티리얼 핸들링)",
       "definition": "물건을 옮기고, 보관하고, 보호하고, 관리하는 모든 활동과 그에 쓰이는 장비를 통칭하는 용어입니다.",
       "details": "지게차·컨베이어·크레인 같은 전통 장비부터 AMR·로봇 팔까지 '물건을 움직이는 하드웨어' 전반이 이 범주에 속하며, 미국 MHI(Material Handling Industry) 협회가 이 분야의 대표 단체입니다. 인트라로지스틱스가 정보 흐름까지 포함한 유럽식 포괄 용어라면, 머티리얼 핸들링은 장비·물리적 취급에 좀 더 무게가 있는 전통적 용어입니다. 시뮬레이션에서 등장하는 모든 이동 설비(컨베이어, 로봇, 리프트)가 결국 머티리얼 핸들링 장비를 가상으로 재현한 것입니다.",
+      "example": "지게차(Toyota), 컨베이어·소터(Daifuku), 크레인, AMR까지 물건을 움직이는 장비 산업 전체가 머티리얼 핸들링이며, 미국 ProMat·독일 LogiMAT 같은 세계 최대 물류 장비 전시회에 이런 장비들이 총출동합니다.",
+      "aiTip": "시뮬레이션에서 각 장비의 물리 정밀도를 차등화하는 기준을 세우세요. AI 알고리즘 검증이 목적이라면 로봇(AMR)은 물리 기반으로, 컨베이어·리프트는 애니메이션이나 큐 자료구조 수준으로 추상화하는 것이 GPU 자원을 아끼는 실전 요령입니다.",
       "sources": [
-        {"name": "Wikipedia - Material handling", "url": "https://en.wikipedia.org/wiki/Material_handling"},
-        {"name": "MHI - The Fundamentals of Material Handling", "url": "https://www.mhi.org/fundamentals/material-handling"}
+        {
+          "name": "Wikipedia - Material handling",
+          "url": "https://en.wikipedia.org/wiki/Material_handling"
+        },
+        {
+          "name": "MHI - The Fundamentals of Material Handling",
+          "url": "https://www.mhi.org/fundamentals/material-handling"
+        }
       ],
-      "related": ["Intralogistics", "Conveyor", "Palletizing", "AGV"]
+      "related": [
+        "Intralogistics",
+        "Conveyor",
+        "Palletizing",
+        "AGV"
+      ]
     },
     {
       "id": "conveyor",
@@ -214,10 +410,20 @@
       "ko": "컨베이어",
       "definition": "벨트나 롤러 위로 물건을 연속적으로 실어 나르는 고정형 운반 설비입니다. 물류센터와 공장의 가장 기본적인 이동 수단입니다.",
       "details": "벨트식, 롤러식, 체인식 등 종류가 다양하고, 센서·디버터(방향 전환기)와 결합하면 물건을 원하는 지점에서 빼내는 분류 기능까지 수행합니다. 경로가 고정되어 유연성은 낮지만 처리량과 신뢰성이 높아, 경로가 바뀌는 구간은 AMR이, 고정 대량 흐름은 컨베이어가 맡는 식으로 역할을 나눕니다. Isaac Sim에는 컨베이어 벨트를 만드는 전용 유틸리티가 있어서, 시뮬레이션 씬에서 포장·소팅 라인을 구성할 때 직접 다루게 되는 설비입니다.",
+      "example": "인천공항 수하물 시스템이나 쿠팡 FC의 수 km에 달하는 컨베이어 라인처럼, 경로가 고정된 대량 흐름 구간은 분당 수십~수백 m 속도의 컨베이어가 담당합니다.",
+      "aiTip": "Isaac Sim에는 Conveyor Belt 유틸리티가 있어 표면 속도 방식으로 물건을 이동시킬 수 있습니다. 컨베이어 위 물체를 전부 개별 물리 객체로 시뮬레이션하면 성능이 급락하므로, 보이는 구간만 물리를 켜고 나머지는 '큐에 N초 뒤 도착' 식으로 추상화하는 것이 로컬 GPU(RTX 4070 8GB) 환경에서 특히 중요합니다.",
       "sources": [
-        {"name": "Wikipedia - Conveyor system", "url": "https://en.wikipedia.org/wiki/Conveyor_system"}
+        {
+          "name": "Wikipedia - Conveyor system",
+          "url": "https://en.wikipedia.org/wiki/Conveyor_system"
+        }
       ],
-      "related": ["Sorter", "Sortation", "Material Handling", "AMR"]
+      "related": [
+        "Sorter",
+        "Sortation",
+        "Material Handling",
+        "AMR"
+      ]
     },
     {
       "id": "sorter",
@@ -225,11 +431,23 @@
       "ko": "소터 (자동 분류기)",
       "definition": "컨베이어를 타고 흐르는 물건을 목적지별 슈트(출구)로 자동으로 밀어 보내는 분류 전용 설비입니다.",
       "details": "물건을 실은 트레이가 기울어져 떨어뜨리는 틸트 트레이 소터, 벨트 조각이 옆으로 밀어내는 크로스벨트 소터, 바퀴 방향을 틀어 보내는 휠 소터 등이 대표적이며 시간당 수만 개까지 분류합니다. 최근에는 고정 설비 대신 소형 AMR 무리가 분류를 수행하는 '로봇 소터' 방식도 확산 중입니다. 시뮬레이션에서 출고 분류 구역을 만들 때, 고정식 소터로 할지 로봇 소터 군집으로 할지가 흥미로운 설계 선택지가 됩니다.",
+      "example": "Daifuku·BEUMER의 크로스벨트 소터는 시간당 2만~4만 개를 분류하며 CJ대한통운 곤지암 허브 같은 대형 택배 터미널의 심장 역할을 하고, 반대로 Libiao류의 소형 로봇 소터는 대규모 설비 공사 없이 깔 수 있어 중소 센터로 확산 중입니다.",
+      "aiTip": "고정식 소터는 '스캔 후 N초 뒤 해당 슈트로 배출'이라는 결정적 로직이라 AI가 개입할 여지가 적고, 로봇 소터 방식은 다중 로봇 경로 계획 문제가 그대로 살아 있습니다. 알고리즘 시연이 목적이라면 시뮬레이션 분류 구역을 로봇 소터 방식으로 설계하는 편이 AI 담당자가 보여줄 것이 많습니다.",
       "sources": [
-        {"name": "MHI Glossary", "url": "https://www.mhi.org/glossary"},
-        {"name": "Wikipedia - Conveyor system", "url": "https://en.wikipedia.org/wiki/Conveyor_system"}
+        {
+          "name": "MHI Glossary",
+          "url": "https://www.mhi.org/glossary"
+        },
+        {
+          "name": "Wikipedia - Conveyor system",
+          "url": "https://en.wikipedia.org/wiki/Conveyor_system"
+        }
       ],
-      "related": ["Sortation", "Conveyor", "AMR"]
+      "related": [
+        "Sortation",
+        "Conveyor",
+        "AMR"
+      ]
     },
     {
       "id": "shuttle-system",
@@ -237,10 +455,19 @@
       "ko": "셔틀 시스템 (셔틀형 자동창고)",
       "definition": "랙의 각 층 레일 위를 달리는 소형 대차(셔틀)들이 토트나 박스를 넣고 꺼내는 AS/RS의 한 종류입니다.",
       "details": "한 대의 크레인이 랙 전체를 담당하는 전통 AS/RS와 달리, 층마다 셔틀이 여러 대 동시에 움직여 입출고 속도가 훨씬 빠릅니다. 셔틀이 꺼낸 토트는 리프트를 타고 내려와 피킹 스테이션으로 전달되므로 GTP 방식의 대표 설비이며, Dematic Multishuttle 등이 유명합니다. 시뮬레이션에서 고밀도 보관 구역을 재현한다면, 셔틀 다수의 동시 주행과 리프트 스케줄링이 재미있는 제어 문제가 됩니다.",
+      "example": "Dematic Multishuttle은 랙의 각 층마다 셔틀 대차가 달리고 층 끝의 리프트가 토트를 피킹 스테이션으로 내려보내는 구조로, 시간당 수백 토트를 처리하며 국내 이커머스·제약 물류센터에 다수 설치돼 있습니다.",
+      "aiTip": "정밀하게 모델링하면 '층별 셔틀 스케줄링+리프트 병목'이라는 좋은 최적화 문제가 나오지만, 프로젝트 초기에는 셔틀 시스템 전체를 '요청→지연→토트 배출' 블랙박스로 추상화하고 AMR 구역에 집중하는 것을 권합니다. 이런 시스템은 보통 리프트가 병목이라는 점만 기억해 두세요.",
       "sources": [
-        {"name": "Wikipedia - Automated storage and retrieval system", "url": "https://en.wikipedia.org/wiki/Automated_storage_and_retrieval_system"}
+        {
+          "name": "Wikipedia - Automated storage and retrieval system",
+          "url": "https://en.wikipedia.org/wiki/Automated_storage_and_retrieval_system"
+        }
       ],
-      "related": ["AS/RS (Automated Storage and Retrieval System)", "GTP / Goods-to-Person", "MFC (Micro-Fulfillment Center)"]
+      "related": [
+        "AS/RS (Automated Storage and Retrieval System)",
+        "GTP / Goods-to-Person",
+        "MFC (Micro-Fulfillment Center)"
+      ]
     },
     {
       "id": "digital-twin",
@@ -248,11 +475,24 @@
       "ko": "디지털 트윈 (디지털 쌍둥이)",
       "definition": "실제 물류센터나 공장을 물리 법칙까지 반영해 컴퓨터 속에 그대로 복제한 가상 모델입니다. 현실을 건드리지 않고 가상에서 먼저 실험할 수 있게 해줍니다.",
       "details": "레이아웃 변경, 로봇 100대 추가, 주문 폭증 같은 시나리오를 실제 센터에 적용하기 전에 가상으로 검증해 비용과 리스크를 줄이는 것이 핵심 가치이며, 실시간 센서 데이터와 동기화되면 운영 모니터링·예측까지 가능합니다. NVIDIA는 Omniverse와 Isaac Sim을 물류센터·공장 디지털 트윈 구축 플랫폼으로 밀고 있고, 아마존·BMW 등이 실제로 활용합니다. 이 팀이 Isaac Sim으로 만드는 쿠팡식 물류센터 시뮬레이션이 바로 디지털 트윈의 전 단계(가상 실험 환경)로, 프로젝트의 정체성을 설명하는 가장 중요한 단어입니다.",
+      "example": "BMW는 NVIDIA Omniverse로 전 세계 30여 개 공장의 디지털 트윈을 구축해 신규 생산 라인을 가상에서 먼저 검증하고, 아마존 로보틱스도 FC 디지털 트윈으로 로봇 배치와 레이아웃을 실험합니다.",
+      "aiTip": "엄밀한 의미의 디지털 트윈은 실물과의 실시간 동기화까지 포함하므로, 실물 없이 가상 실험만 하는 이 프로젝트는 '디지털 트윈의 전 단계(시뮬레이션 기반 가상 검증)'라고 표현하는 것이 정확합니다. 발표에서 이 구분을 짚어주면 개념 이해도가 높아 보이고, 혼용하면 오히려 지적받기 쉬운 포인트입니다.",
       "sources": [
-        {"name": "Wikipedia - Digital twin", "url": "https://en.wikipedia.org/wiki/Digital_twin"},
-        {"name": "NVIDIA Isaac Sim", "url": "https://developer.nvidia.com/isaac/sim"}
+        {
+          "name": "Wikipedia - Digital twin",
+          "url": "https://en.wikipedia.org/wiki/Digital_twin"
+        },
+        {
+          "name": "NVIDIA Isaac Sim",
+          "url": "https://developer.nvidia.com/isaac/sim"
+        }
       ],
-      "related": ["Isaac Sim", "Smart Warehouse", "Smart Factory", "Simulation"]
+      "related": [
+        "Isaac Sim",
+        "Smart Warehouse",
+        "Smart Factory",
+        "Simulation"
+      ]
     },
     {
       "id": "wms",
@@ -260,10 +500,20 @@
       "ko": "창고 관리 시스템",
       "definition": "창고의 재고·주문·작업을 관리하는 최상위 소프트웨어입니다. '무엇을(어떤 상품을), 얼마나, 어디에' 수준의 업무 결정을 담당합니다.",
       "details": "재고가 몇 개이고 어느 위치에 있는지, 어떤 주문을 언제 처리할지, 입고 상품을 어디에 적치할지를 결정하는 창고의 '두뇌'입니다. 설비를 직접 움직이는 WCS나 실시간 작업 최적화를 하는 WES보다 위 계층에서, 분 단위 이상의 업무·재고 관점 결정을 내린다는 것이 차이입니다. 시뮬레이션 프로젝트에서 '주문 생성 → 작업 지시' 로직을 만든다면 그것이 곧 미니 WMS 역할이며, 로봇 제어 계층과 분리해 설계하는 것이 실제 산업 구조와 일치합니다.",
+      "example": "SAP EWM, Manhattan Associates, 삼성SDS Cello 등이 대표 상용 WMS이며, 쿠팡은 자체 개발 WMS로 랜덤 스토우의 위치 기록과 주문별 작업 지시를 관리합니다.",
+      "aiTip": "시뮬레이션 아키텍처에서 '주문·재고 관리(WMS 역할)'와 '로봇 제어'를 처음부터 별도 모듈로 분리하세요. 계층을 나눠 두면 나중에 할당 알고리즘만 갈아 끼워 A/B 실험하기 쉽고, 실제 산업 시스템 구조와 같아져 포트폴리오 설명력도 좋아집니다.",
       "sources": [
-        {"name": "Wikipedia - Warehouse management system", "url": "https://en.wikipedia.org/wiki/Warehouse_management_system"}
+        {
+          "name": "Wikipedia - Warehouse management system",
+          "url": "https://en.wikipedia.org/wiki/Warehouse_management_system"
+        }
       ],
-      "related": ["WCS (Warehouse Control System)", "WES (Warehouse Execution System)", "Order Fulfillment", "Putaway"]
+      "related": [
+        "WCS (Warehouse Control System)",
+        "WES (Warehouse Execution System)",
+        "Order Fulfillment",
+        "Putaway"
+      ]
     },
     {
       "id": "wcs",
@@ -271,10 +521,20 @@
       "ko": "창고 제어 시스템",
       "definition": "컨베이어, 소터, AS/RS 같은 자동화 설비를 실시간으로 직접 구동·제어하는 소프트웨어 계층입니다.",
       "details": "WMS가 '이 주문을 처리하라'고 지시하면, WCS는 그것을 받아 '컨베이어 3번 라인 가동, 디버터 작동, 셔틀 12번 토트 회수' 같은 설비 수준 명령으로 바꿔 초 단위로 실행합니다. WMS(업무 관리)와 설비(PLC·로봇) 사이의 중간 통역자라고 보면 됩니다. 시뮬레이션에서 컨베이어·소터·리프트를 움직이는 제어 코드를 짠다면 그 부분이 WCS 계층에 해당하며, 상위 주문 로직(WMS 역할)과 분리해 두면 구조가 깔끔해집니다.",
+      "example": "컨베이어 위 소포가 바코드 스캐너를 지나는 순간 WCS가 0.1초 안에 디버터를 작동시켜 해당 슈트로 밀어내는 식으로, PLC 바로 윗단에서 초 단위 설비 제어를 수행합니다. Dematic·Daifuku 같은 설비사가 자사 설비용 WCS를 함께 공급합니다.",
+      "aiTip": "컨베이어 분기·리프트 호출 같은 설비 제어는 단순 규칙(if-then)으로 충분하며 AI를 넣을 필요가 없는 계층입니다. AI 담당자의 에너지는 WES/FMS 계층(할당·스케줄링)에 쓰고, 시뮬레이션의 WCS 부분은 이벤트 핸들러 수준으로 가볍게 구현하세요.",
       "sources": [
-        {"name": "Wikipedia - Warehouse control system", "url": "https://en.wikipedia.org/wiki/Warehouse_control_system"}
+        {
+          "name": "Wikipedia - Warehouse control system",
+          "url": "https://en.wikipedia.org/wiki/Warehouse_control_system"
+        }
       ],
-      "related": ["WMS (Warehouse Management System)", "WES (Warehouse Execution System)", "Conveyor", "AS/RS (Automated Storage and Retrieval System)"]
+      "related": [
+        "WMS (Warehouse Management System)",
+        "WES (Warehouse Execution System)",
+        "Conveyor",
+        "AS/RS (Automated Storage and Retrieval System)"
+      ]
     },
     {
       "id": "wes",
@@ -282,10 +542,19 @@
       "ko": "창고 실행 시스템",
       "definition": "WMS와 WCS 사이에서 작업의 순서·배분을 실시간으로 최적화하는 소프트웨어입니다. 두 시스템의 기능을 합친 형태로도 많이 쓰입니다.",
       "details": "WMS는 '무엇을 할지'(업무·재고), WCS는 '설비를 어떻게 움직일지'(기계 제어)를 맡는데, WES는 그 사이에서 '지금 이 순간 어떤 작업을 어떤 순서로, 어느 스테이션·로봇에 줄지'를 실시간 상황(설비 부하, 대기열)에 맞춰 결정합니다. 자동화 설비가 많아질수록 이 실시간 오케스트레이션이 중요해져서 최근 스마트 창고의 핵심 계층으로 부상했습니다. 로봇 시뮬레이션에서 '대기 중인 피킹 작업을 여러 로봇에 실시간 배분'하는 스케줄러를 만든다면, 그것이 정확히 WES가 하는 일입니다.",
+      "example": "Honeywell Momentum 같은 WES는 피킹 스테이션 3번에 대기열이 쌓이면 신규 작업을 한가한 5번 스테이션으로 돌리고 여유 로봇을 재배치하는 식의 실시간 오케스트레이션을 수행합니다.",
+      "aiTip": "팀에서 만들 '대기 작업을 로봇에 실시간 배분하는 스케줄러'가 바로 WES이며, 여기가 AI 담당자의 주 무대입니다. 규칙 기반→최적화(헝가리안 알고리즘 등)→강화학습 순으로 난이도를 올리되, 어떤 방식이든 같은 인터페이스(작업 큐 입력→로봇 할당 출력)로 교체 가능하게 설계하면 비교 실험이 쉬워집니다.",
       "sources": [
-        {"name": "Wikipedia - Warehouse execution system", "url": "https://en.wikipedia.org/wiki/Warehouse_execution_system"}
+        {
+          "name": "Wikipedia - Warehouse execution system",
+          "url": "https://en.wikipedia.org/wiki/Warehouse_execution_system"
+        }
       ],
-      "related": ["WMS (Warehouse Management System)", "WCS (Warehouse Control System)", "FMS (Fleet Management System)"]
+      "related": [
+        "WMS (Warehouse Management System)",
+        "WCS (Warehouse Control System)",
+        "FMS (Fleet Management System)"
+      ]
     },
     {
       "id": "fms",
@@ -293,11 +562,24 @@
       "ko": "(로봇) 플릿 관리 시스템 (군집 관리 시스템)",
       "definition": "여러 대의 AMR/AGV 무리(fleet)에게 작업을 배분하고, 경로가 겹치지 않게 교통정리를 해주는 관제 소프트웨어입니다.",
       "details": "로봇이 수십~수백 대가 되면 개별 로봇의 자율성만으로는 부족해서, 작업 할당(어느 로봇이 이 일을 맡을지), 경로 계획, 교차로 우선순위, 충전 스케줄까지 중앙에서 조율해야 합니다. 서로 다른 제조사 로봇을 한 시스템이 관제할 수 있도록 VDA 5050 같은 표준 인터페이스도 나와 있습니다. 쿠팡식 시뮬레이션에서 로봇 여러 대가 충돌·교착 없이 물류센터를 누비게 만드는 핵심이 바로 FMS 로직이며, Isaac Sim 상에서 멀티 로봇 관제를 구현하는 것이 프로젝트의 기술적 하이라이트가 될 수 있습니다.",
+      "example": "Geek+ 같은 벤더의 FMS는 로봇 수백 대의 위치를 초 단위로 추적하며 교차로 통행 우선권을 조정하고 배터리가 30% 이하로 떨어진 로봇을 충전소로 보냅니다. VDA 5050 표준을 쓰면 제조사가 다른 로봇들도 하나의 관제 시스템에 붙일 수 있습니다.",
+      "aiTip": "FMS의 핵심인 다중 로봇 경로 계획은 MAPF라는 독립 연구 분야로, CBS(Conflict-Based Search)와 우선순위 기반 계획이 대표 알고리즘이니 공부 우선순위를 높게 두세요. 시뮬레이션에서 로봇 수를 늘리면 교착(deadlock)이 반드시 발생하므로, 이를 감지·해소하는 로직을 처음부터 설계에 포함해야 합니다.",
       "sources": [
-        {"name": "Wikipedia - Fleet management", "url": "https://en.wikipedia.org/wiki/Fleet_management"},
-        {"name": "VDA 5050 - AGV Communication Interface (GitHub)", "url": "https://github.com/VDA5050/VDA5050"}
+        {
+          "name": "Wikipedia - Fleet management",
+          "url": "https://en.wikipedia.org/wiki/Fleet_management"
+        },
+        {
+          "name": "VDA 5050 - AGV Communication Interface (GitHub)",
+          "url": "https://github.com/VDA5050/VDA5050"
+        }
       ],
-      "related": ["AMR", "AGV", "RMS (Robot Management System)", "WES (Warehouse Execution System)"]
+      "related": [
+        "AMR",
+        "AGV",
+        "RMS (Robot Management System)",
+        "WES (Warehouse Execution System)"
+      ]
     },
     {
       "id": "rms",
@@ -305,11 +587,23 @@
       "ko": "로봇 관리 시스템",
       "definition": "물류센터 안의 로봇들을 등록·모니터링·제어하는 통합 관리 소프트웨어로, FMS와 거의 같은 의미로 쓰이거나 이를 포함하는 상위 개념으로 쓰입니다.",
       "details": "이동 로봇 교통관제 중심의 FMS보다 조금 넓게, 로봇 팔·소터 로봇 등 이기종 로봇 전체의 상태 관리, 작업 통계, 오류 대응, 상위 시스템(WMS/WES) 연동까지 포괄하는 용어로 쓰이는 경우가 많습니다. Geek+, Hikrobot 같은 물류 로봇 벤더들이 자사 관제 플랫폼을 RMS라고 부릅니다. 시뮬레이션 프로젝트에서 로봇 상태 대시보드(가동률, 배터리, 처리 작업 수)를 만든다면 그것이 RMS의 모니터링 기능을 재현하는 셈입니다.",
+      "example": "Geek+의 관제 플랫폼이나 Hikrobot의 RCS처럼, 이동 로봇·로봇 팔 등 이기종 로봇의 가동률·배터리·오류 상태를 한 화면에서 관리하는 상용 플랫폼들이 RMS로 불립니다.",
+      "aiTip": "FMS와 RMS는 벤더마다 경계가 흐릿하니 정의 암기보다 '교통관제 중심(FMS) vs 이기종 통합 상태 관리(RMS)' 정도의 감만 잡으면 됩니다. 시뮬레이션에서 로봇별 가동률·이동 거리·대기 시간을 로깅하는 대시보드를 만들면 그것이 RMS 기능 재현이자, 할당 알고리즘 성능을 분석할 데이터 수집 장치가 됩니다.",
       "sources": [
-        {"name": "Wikipedia - Fleet management", "url": "https://en.wikipedia.org/wiki/Fleet_management"},
-        {"name": "VDA 5050 - AGV Communication Interface (GitHub)", "url": "https://github.com/VDA5050/VDA5050"}
+        {
+          "name": "Wikipedia - Fleet management",
+          "url": "https://en.wikipedia.org/wiki/Fleet_management"
+        },
+        {
+          "name": "VDA 5050 - AGV Communication Interface (GitHub)",
+          "url": "https://github.com/VDA5050/VDA5050"
+        }
       ],
-      "related": ["FMS (Fleet Management System)", "AMR", "WES (Warehouse Execution System)"]
+      "related": [
+        "FMS (Fleet Management System)",
+        "AMR",
+        "WES (Warehouse Execution System)"
+      ]
     },
     {
       "id": "mes",
@@ -317,11 +611,23 @@
       "ko": "생산 실행 시스템 (제조 실행 시스템)",
       "definition": "공장에서 생산 작업의 실행을 실시간으로 관리·추적하는 소프트웨어입니다. 창고의 WES에 해당하는 역할을 제조 현장에서 수행합니다.",
       "details": "작업 지시 배포, 공정별 진행 상황 추적, 품질 데이터 수집, 설비 가동 관리 등 '계획(ERP)과 기계(설비 제어) 사이'를 잇는 계층으로, ISA-95 표준에서 레벨 3에 해당합니다. 물류센터의 WMS/WES/WCS 계층 구조와 정확히 대응되는 제조 버전이라고 이해하면 쉽습니다. 스마트 팩토리로 프로젝트가 확장될 경우, 로봇 시뮬레이션이 연동해야 할 상위 시스템이 바로 MES입니다.",
+      "example": "삼성전자 반도체 공장의 MES는 웨이퍼 한 장이 어느 설비에서 어떤 공정을 거쳤는지 전체 이력을 실시간 추적하며, 상용 제품으로는 지멘스 Opcenter, SAP 계열 MES 등이 있습니다.",
+      "aiTip": "물류센터의 WMS-WES-WCS 계층과 제조의 ERP-MES-설비제어 계층이 서로 대응된다는 것만 기억하면 스마트 팩토리 자료를 읽을 때 헷갈리지 않습니다. 이번 프로젝트에서 직접 구현할 일은 없지만, 공장 물류로 확장한다면 AMR 시뮬레이션이 MES와 주고받을 인터페이스(작업 지시/완료 보고)를 상상해 두면 좋습니다.",
       "sources": [
-        {"name": "Wikipedia - Manufacturing execution system", "url": "https://en.wikipedia.org/wiki/Manufacturing_execution_system"},
-        {"name": "Wikipedia - ANSI/ISA-95", "url": "https://en.wikipedia.org/wiki/ANSI/ISA-95"}
+        {
+          "name": "Wikipedia - Manufacturing execution system",
+          "url": "https://en.wikipedia.org/wiki/Manufacturing_execution_system"
+        },
+        {
+          "name": "Wikipedia - ANSI/ISA-95",
+          "url": "https://en.wikipedia.org/wiki/ANSI/ISA-95"
+        }
       ],
-      "related": ["Smart Factory", "WES (Warehouse Execution System)", "Digital Twin"]
+      "related": [
+        "Smart Factory",
+        "WES (Warehouse Execution System)",
+        "Digital Twin"
+      ]
     },
     {
       "id": "tms",
@@ -329,10 +635,19 @@
       "ko": "운송 관리 시스템",
       "definition": "창고 밖의 운송(트럭 배차, 배송 경로, 화물 추적)을 계획·관리하는 소프트웨어입니다. 창고 안을 다루는 WMS와 짝을 이루는 시스템입니다.",
       "details": "어떤 화물을 어떤 트럭에 실어 어떤 경로로 보낼지 최적화하고, 운송비 정산과 배송 추적까지 담당합니다. WMS가 '담장 안', TMS가 '담장 밖'이라는 역할 분담이 명확해서, 출고 도크에서 두 시스템이 만납니다. 시뮬레이션 범위는 보통 담장 안(인트라로지스틱스)이지만, 출고장에서 '몇 시 트럭에 실릴 물량'이라는 마감 시간 제약이 TMS로부터 내려온다는 것을 알면 소팅·출고 시나리오를 더 현실감 있게 설계할 수 있습니다.",
+      "example": "CJ대한통운은 TMS로 하루 수백만 건 택배의 간선 차량 배차와 운행 경로를 최적화하고, 쿠팡도 로켓배송 기사(쿠팡친구)의 배송 동선을 자체 시스템으로 계산합니다.",
+      "aiTip": "시뮬레이션 범위 밖이지만, '17시 마감 트럭에 실려야 하는 물량'처럼 TMS에서 내려오는 마감 제약을 주문 생성기의 속성으로 넣으면 소팅·출고 시나리오가 훨씬 현실적이 됩니다. 마감 시간이 있는 작업은 단순 처리량 최대화와 다른 목적함수(지각 최소화)를 갖는 우선순위 스케줄링 문제로 바뀝니다.",
       "sources": [
-        {"name": "Wikipedia - Transportation management system", "url": "https://en.wikipedia.org/wiki/Transportation_management_system"}
+        {
+          "name": "Wikipedia - Transportation management system",
+          "url": "https://en.wikipedia.org/wiki/Transportation_management_system"
+        }
       ],
-      "related": ["WMS (Warehouse Management System)", "Cross-Docking", "Sortation"]
+      "related": [
+        "WMS (Warehouse Management System)",
+        "Cross-Docking",
+        "Sortation"
+      ]
     }
   ]
 }

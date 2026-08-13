@@ -10,7 +10,7 @@
   let activeCat = "all";
   let query = "";
   let hideKnown = false;
-  let flashMode = false;
+  let view = "dict"; // dict | flash | guide
   let flashDeck = [];
   let flashIdx = 0;
   let flipped = false;
@@ -32,7 +32,6 @@
   const nameIndex = new Map();
   terms.forEach((t) => {
     nameIndex.set(norm(t.term), t);
-    // also index the bare acronym / name without parenthetical
     const bare = t.term.replace(/\s*\(.*?\)\s*/g, "");
     nameIndex.set(norm(bare), t);
     const paren = (t.term.match(/\((.*?)\)/) || [])[1];
@@ -52,7 +51,9 @@
       t.term.toLowerCase().includes(q) ||
       (t.ko || "").toLowerCase().includes(q) ||
       (t.definition || "").toLowerCase().includes(q) ||
-      (t.details || "").toLowerCase().includes(q)
+      (t.details || "").toLowerCase().includes(q) ||
+      (t.example || "").toLowerCase().includes(q) ||
+      (t.aiTip || "").toLowerCase().includes(q)
     );
   }
 
@@ -72,6 +73,8 @@
       b.innerHTML = `${esc(label)}<span class="count">${count}</span>`;
       b.onclick = () => {
         activeCat = id;
+        if (view === "guide") setView("dict");
+        if (view === "flash") buildDeck();
         renderCatNav();
         render();
       };
@@ -84,8 +87,11 @@
     });
   }
 
-  // ---------- dictionary view ----------
-  function sourceLinks(t) {
+  // ---------- modal ----------
+  const overlay = $("#modalOverlay");
+  const modalBody = $("#modalBody");
+
+  function sourceLinksHTML(t) {
     if (!t.sources || !t.sources.length) return "";
     const links = t.sources
       .map(
@@ -93,53 +99,85 @@
           `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.name)} ↗</a>`
       )
       .join("");
-    return `<div class="sources"><span class="src-label">출처</span>${links}</div>`;
+    return `<div class="modal-section modal-sources"><h4>📚 출처</h4><div class="sources">${links}</div></div>`;
   }
 
-  function relatedTags(t) {
-    if (!t.related || !t.related.length) return null;
-    const wrap = document.createElement("div");
-    wrap.className = "related-tags";
-    t.related.forEach((name) => {
-      const target = findByName(name);
-      const tag = document.createElement("button");
-      tag.className = "rel-tag";
-      tag.textContent = "# " + name;
-      if (target) {
-        tag.title = target.ko || target.term;
-        tag.onclick = () => jumpToTerm(target);
-      } else {
+  function openModal(t) {
+    const sec = (icon, title, body, cls) =>
+      body
+        ? `<div class="modal-section ${cls || ""}"><h4>${icon} ${title}</h4><p>${esc(body)}</p></div>`
+        : "";
+
+    modalBody.innerHTML = `
+      <span class="cat-badge">${esc(catName(t.category))}</span>
+      <h3 id="modalTerm" class="modal-term">${esc(t.term)}</h3>
+      <p class="modal-ko">${esc(t.ko)}</p>
+      ${sec("📖", "정의", t.definition)}
+      ${sec("🔍", "자세히", t.details)}
+      ${sec("💡", "예시", t.example, "modal-example")}
+      ${sec("🧠", "AI 담당 팁", t.aiTip, "modal-aitip")}
+      ${sourceLinksHTML(t)}
+    `;
+
+    // know toggle button
+    const knowBtn = document.createElement("button");
+    knowBtn.className = "btn modal-know" + (known.has(t.id) ? " on" : "");
+    knowBtn.textContent = known.has(t.id) ? "✅ 암기 완료" : "☑️ 암기 완료로 표시";
+    knowBtn.onclick = () => {
+      known.has(t.id) ? known.delete(t.id) : known.add(t.id);
+      saveKnown();
+      knowBtn.className = "btn modal-know" + (known.has(t.id) ? " on" : "");
+      knowBtn.textContent = known.has(t.id) ? "✅ 암기 완료" : "☑️ 암기 완료로 표시";
+      if (view === "dict") renderDict();
+    };
+    modalBody.appendChild(knowBtn);
+
+    // related terms
+    if (t.related && t.related.length) {
+      const wrap = document.createElement("div");
+      wrap.className = "modal-section";
+      wrap.innerHTML = "<h4>🔗 관련 용어</h4>";
+      const tags = document.createElement("div");
+      tags.className = "related-tags";
+      t.related.forEach((name) => {
+        const target = findByName(name);
+        const tag = document.createElement("button");
+        tag.className = "rel-tag" + (target ? " linked" : "");
+        tag.textContent = "# " + name;
         tag.onclick = () => {
-          $("#searchInput").value = name;
-          query = name;
-          activeCat = "all";
-          renderCatNav();
-          render();
+          if (target) openModal(target);
+          else {
+            closeModal();
+            $("#searchInput").value = name;
+            query = name;
+            activeCat = "all";
+            setView("dict");
+            renderCatNav();
+            render();
+          }
         };
-      }
-      wrap.appendChild(tag);
-    });
-    return wrap;
+        tags.appendChild(tag);
+      });
+      wrap.appendChild(tags);
+      modalBody.appendChild(wrap);
+    }
+
+    overlay.hidden = false;
+    document.body.style.overflow = "hidden";
+    $(".modal").scrollTop = 0;
   }
 
-  function jumpToTerm(target) {
-    activeCat = "all";
-    query = "";
-    $("#searchInput").value = "";
-    renderCatNav();
-    render();
-    requestAnimationFrame(() => {
-      const el = document.getElementById("term-" + target.id);
-      if (!el) return;
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-      el.classList.add("highlight");
-      const btn = el.querySelector(".details-toggle");
-      const det = el.querySelector(".term-details");
-      if (det && det.hidden && btn) btn.click();
-      setTimeout(() => el.classList.remove("highlight"), 2200);
-    });
+  function closeModal() {
+    overlay.hidden = true;
+    document.body.style.overflow = "";
   }
 
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeModal();
+  });
+  $("#modalClose").addEventListener("click", closeModal);
+
+  // ---------- dictionary view ----------
   function renderDict() {
     const grid = $("#dictView");
     grid.innerHTML = "";
@@ -156,8 +194,9 @@
     const frag = document.createDocumentFragment();
     list.forEach((t) => {
       const card = document.createElement("article");
-      card.className = "term-card" + (known.has(t.id) ? " known" : "");
+      card.className = "term-card clickable" + (known.has(t.id) ? " known" : "");
       card.id = "term-" + t.id;
+      card.tabIndex = 0;
 
       const top = document.createElement("div");
       top.className = "card-top";
@@ -167,10 +206,11 @@
       knowBtn.className = "know-toggle" + (known.has(t.id) ? " on" : "");
       knowBtn.textContent = known.has(t.id) ? "✅" : "☑️";
       knowBtn.title = "암기 완료 표시";
-      knowBtn.onclick = () => {
+      knowBtn.onclick = (e) => {
+        e.stopPropagation();
         known.has(t.id) ? known.delete(t.id) : known.add(t.id);
         saveKnown();
-        render();
+        renderDict();
       };
       top.appendChild(knowBtn);
       card.appendChild(top);
@@ -185,24 +225,16 @@
       def.textContent = t.definition;
       card.appendChild(def);
 
-      if (t.details || (t.sources && t.sources.length)) {
-        const toggle = document.createElement("button");
-        toggle.className = "details-toggle";
-        toggle.textContent = "자세히 보기 ▾";
-        const details = document.createElement("div");
-        details.className = "term-details";
-        details.hidden = true;
-        details.innerHTML = `${t.details ? `<p>${esc(t.details)}</p>` : ""}${sourceLinks(t)}`;
-        toggle.onclick = () => {
-          details.hidden = !details.hidden;
-          toggle.textContent = details.hidden ? "자세히 보기 ▾" : "접기 ▴";
-        };
-        card.appendChild(toggle);
-        card.appendChild(details);
-      }
+      const more = document.createElement("span");
+      more.className = "card-more";
+      more.textContent = "클릭해서 예시 · AI 팁 보기 →";
+      card.appendChild(more);
 
-      const rel = relatedTags(t);
-      if (rel) card.appendChild(rel);
+      const open = () => openModal(t);
+      card.addEventListener("click", open);
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") open();
+      });
 
       frag.appendChild(card);
     });
@@ -216,7 +248,6 @@
     );
     if (!pool.length)
       pool = terms.filter((t) => activeCat === "all" || t.category === activeCat);
-    // shuffle
     for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [pool[i], pool[j]] = [pool[j], pool[i]];
@@ -234,7 +265,7 @@
     const card = $("#flashcard");
 
     $("#statsBar").textContent =
-      `학습 모드 · ${catName2(activeCat)} · 암기 완료 ${known.size}/${terms.length}`;
+      `학습 모드 · ${activeCat === "all" ? "전체" : catName(activeCat)} · 암기 완료 ${known.size}/${terms.length}`;
 
     if (!flashDeck.length || flashIdx >= flashDeck.length) {
       bar.style.width = "100%";
@@ -251,7 +282,11 @@
     counter.textContent = `${flashIdx + 1} / ${flashDeck.length}`;
 
     front.innerHTML = `<div class="fc-term">${esc(t.term)}</div><div class="fc-cat"><span class="cat-badge">${esc(catName(t.category))}</span></div>`;
-    back.innerHTML = `<div class="fc-ko">${esc(t.ko)}</div><p class="fc-def">${esc(t.definition)}</p>${t.details ? `<p class="fc-details">${esc(t.details)}</p>` : ""}`;
+    back.innerHTML =
+      `<div class="fc-ko">${esc(t.ko)}</div>` +
+      `<p class="fc-def">${esc(t.definition)}</p>` +
+      (t.example ? `<p class="fc-example">💡 ${esc(t.example)}</p>` : "") +
+      (t.details ? `<p class="fc-details">${esc(t.details)}</p>` : "");
 
     front.hidden = flipped;
     back.hidden = !flipped;
@@ -262,38 +297,48 @@
     };
   }
 
-  function catName2(id) {
-    return id === "all" ? "전체" : catName(id);
-  }
-
   function nextFlash(markKnown) {
     if (flashIdx < flashDeck.length) {
       const t = flashDeck[flashIdx];
-      if (markKnown) {
-        known.add(t.id);
-        saveKnown();
-      } else {
-        known.delete(t.id);
-        saveKnown();
-      }
+      if (markKnown) known.add(t.id);
+      else known.delete(t.id);
+      saveKnown();
     }
     flashIdx++;
     flipped = false;
     renderFlash();
   }
 
-  // ---------- render root ----------
+  // ---------- view switching ----------
+  function setView(v) {
+    view = v;
+    $("#dictView").hidden = v !== "dict";
+    $("#flashView").hidden = v !== "flash";
+    $("#guideView").hidden = v !== "guide";
+    $("#searchRow").style.display = v === "guide" ? "none" : "";
+    $("#catNav").style.display = v === "guide" ? "none" : "";
+
+    const modeBtn = $("#modeToggle");
+    modeBtn.classList.toggle("active", v === "flash");
+    modeBtn.textContent = v === "flash" ? "📖 사전 모드" : "🎴 학습 모드";
+    const guideBtn = $("#guideToggle");
+    guideBtn.classList.toggle("active", v === "guide");
+
+    if (v === "flash") buildDeck();
+    if (v === "guide")
+      $("#statsBar").textContent = "AI 담당 학습 가이드";
+    render();
+  }
+
   function render() {
-    $("#dictView").hidden = flashMode;
-    $("#flashView").hidden = !flashMode;
-    if (flashMode) renderFlash();
-    else renderDict();
+    if (view === "dict") renderDict();
+    else if (view === "flash") renderFlash();
   }
 
   // ---------- events ----------
   $("#searchInput").addEventListener("input", (e) => {
     query = e.target.value.trim();
-    if (flashMode) toggleMode(false);
+    if (view !== "dict") setView("dict");
     render();
   });
 
@@ -302,16 +347,12 @@
     render();
   });
 
-  function toggleMode(on) {
-    flashMode = on;
-    const btn = $("#modeToggle");
-    btn.classList.toggle("active", flashMode);
-    btn.textContent = flashMode ? "📖 사전 모드" : "🎴 학습 모드";
-    if (flashMode) buildDeck();
-    render();
-  }
-
-  $("#modeToggle").addEventListener("click", () => toggleMode(!flashMode));
+  $("#modeToggle").addEventListener("click", () =>
+    setView(view === "flash" ? "dict" : "flash")
+  );
+  $("#guideToggle").addEventListener("click", () =>
+    setView(view === "guide" ? "dict" : "guide")
+  );
   $("#btnKnow").addEventListener("click", () => nextFlash(true));
   $("#btnDontKnow").addEventListener("click", () => nextFlash(false));
   $("#btnShuffle").addEventListener("click", () => {
@@ -319,9 +360,12 @@
     renderFlash();
   });
 
-  // keyboard shortcuts in flash mode
   document.addEventListener("keydown", (e) => {
-    if (!flashMode || e.target.tagName === "INPUT") return;
+    if (e.key === "Escape" && !overlay.hidden) {
+      closeModal();
+      return;
+    }
+    if (view !== "flash" || e.target.tagName === "INPUT") return;
     if (e.code === "Space") {
       e.preventDefault();
       flipped = !flipped;
@@ -349,5 +393,5 @@
 
   // ---------- init ----------
   renderCatNav();
-  render();
+  setView("dict");
 })();

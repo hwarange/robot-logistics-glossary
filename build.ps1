@@ -21,6 +21,8 @@ foreach ($catId in $categoryOrder) {
             ko         = $t.ko
             definition = $t.definition
             details    = $t.details
+            example    = $t.example
+            aiTip      = $t.aiTip
             sources    = @($t.sources | ForEach-Object { [ordered]@{ name = $_.name; url = $_.url } })
             related    = @($t.related)
         }

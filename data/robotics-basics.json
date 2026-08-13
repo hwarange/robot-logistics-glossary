@@ -8,6 +8,8 @@
       "ko": "로봇 운영체제 (ROS)",
       "definition": "로봇 소프트웨어를 만들 때 필요한 통신, 도구, 라이브러리를 모아 놓은 오픈소스 프레임워크입니다. 이름과 달리 Windows 같은 운영체제가 아니라, 로봇 프로그램들이 서로 데이터를 주고받게 해 주는 '미들웨어 + 개발 도구 모음'입니다.",
       "details": "로봇 기능을 '노드(node)'라는 작은 프로그램 단위로 쪼개고, 노드들이 '토픽(topic)'이라는 이름 붙은 채널로 메시지를 발행/구독(publish/subscribe)하며 협력합니다. 예를 들어 카메라 노드가 이미지를 발행하면 인식 노드가 그것을 구독해 처리하는 식입니다. 덕분에 센서 드라이버, 내비게이션, 시각화 같은 검증된 모듈을 조립하듯 재사용할 수 있어 사실상 로봇 개발의 표준이 되었습니다. Isaac Sim 기반 물류 로봇 프로젝트에서도 시뮬레이션 속 로봇을 실제 로봇과 같은 방식으로 제어하기 위해 ROS 인터페이스를 사용합니다.",
+      "example": "카메라 노드가 /camera/image_raw 토픽으로 이미지를 발행하면 YOLO 추론 노드가 이를 구독해 /detections 토픽으로 검출 결과를 내보내는 식으로, 작은 프로그램들이 토픽으로 연결되어 하나의 로봇 시스템을 이룹니다.",
+      "aiTip": "AI 담당은 ROS 내부를 구현할 필요 없이 '내 모델의 입력을 어느 토픽에서 받고 결과를 어느 토픽으로 내보낼지'라는 인터페이스 관점만 익히면 됩니다. 로봇팀과의 협업은 대부분 토픽 이름과 메시지 타입 합의에서 시작되므로, ros2 topic list / echo 명령으로 실제 오가는 데이터를 직접 확인하는 습관을 들이세요.",
       "sources": [
         { "name": "ROS 공식 사이트", "url": "https://www.ros.org/" },
         { "name": "Wikipedia - Robot Operating System", "url": "https://en.wikipedia.org/wiki/Robot_Operating_System" }
@@ -20,6 +22,8 @@
       "ko": "ROS 2 (2세대 로봇 운영체제)",
       "definition": "ROS 1의 한계(단일 마스터 서버 의존, 실시간성 부족, 보안 미비 등)를 해결하기 위해 처음부터 다시 설계한 차세대 ROS입니다. 현재 신규 로봇 프로젝트는 대부분 ROS 2를 사용합니다.",
       "details": "통신 계층을 산업 표준인 DDS 위에 올려 중앙 마스터 없이도 노드들이 서로를 자동으로 찾고(discovery), 통신 품질(QoS)을 세밀하게 설정할 수 있습니다. Linux뿐 아니라 Windows, macOS도 지원하고, 여러 로봇을 동시에 운용하는 멀티 로봇 시나리오에 훨씬 강합니다. 물류센터처럼 수십 대의 로봇이 함께 움직이는 환경을 시뮬레이션하는 우리 프로젝트에서는 ROS 2가 기본 선택지이며, NVIDIA Isaac Sim도 ROS 2 브리지를 공식 지원해 시뮬레이션 로봇에 Nav2 같은 ROS 2 패키지를 그대로 연결할 수 있습니다.",
+      "example": "서로 다른 터미널(심지어 다른 PC)에서 ros2 run demo_nodes_cpp talker와 ros2 run demo_nodes_py listener를 실행하면, 마스터 서버 설정 없이도 두 노드가 자동으로 서로를 찾아 메시지를 주고받습니다.",
+      "aiTip": "우리 프로젝트의 실질 표준이므로 인터넷 자료를 볼 때 ROS 1(roscore, rostopic) 예제인지 ROS 2(ros2 topic) 예제인지부터 구분하세요. AI 모델을 붙일 때는 rclpy로 파이썬 노드 하나 만들어 구독/발행하는 패턴만 익히면 충분하며, 이미지 같은 대용량 토픽은 QoS 설정(예: Reliable vs Best Effort)이 발행자와 안 맞으면 아예 수신이 안 되는 함정이 흔합니다.",
       "sources": [
         { "name": "ROS 2 공식 문서", "url": "https://docs.ros.org/en/rolling/index.html" },
         { "name": "ROS 2 Design", "url": "https://design.ros2.org/" }
@@ -32,6 +36,8 @@
       "ko": "데이터 분산 서비스 (DDS)",
       "definition": "분산 시스템에서 데이터를 발행/구독 방식으로 실시간 교환하기 위한 국제 표준(OMG 표준) 통신 미들웨어입니다. ROS 2의 노드 간 통신이 바로 이 DDS 위에서 동작합니다.",
       "details": "중앙 서버 없이 네트워크에 참여한 프로그램들이 서로를 자동으로 발견하고, '신뢰성 있게 전달할지 / 최신 데이터만 빠르게 보낼지' 같은 통신 품질(QoS)을 데이터 종류별로 지정할 수 있는 것이 핵심입니다. 원래 국방, 항공 등 고신뢰 실시간 시스템에서 쓰이던 기술이라 로봇처럼 센서 데이터가 쉴 새 없이 오가는 환경에 잘 맞습니다. ROS 2 사용자는 보통 DDS를 직접 다루지 않지만, '왜 ROS 2는 마스터 서버가 없는가', '왜 같은 네트워크의 노드가 자동으로 연결되는가'를 이해하려면 DDS 개념이 필요합니다.",
+      "example": "같은 Wi-Fi에 연결된 두 노트북에서 각각 ROS 2 노드를 켜면 IP 설정 없이 서로 토픽이 보이는 것이 DDS의 자동 발견(discovery)이고, 터미널에서 export ROS_DOMAIN_ID=5처럼 도메인 번호를 바꾸면 같은 네트워크 안에서도 팀별로 통신을 격리할 수 있습니다.",
+      "aiTip": "AI 담당이 DDS API를 직접 만질 일은 사실상 없습니다. 다만 '옆 팀 로봇의 토픽이 내 PC에 보인다'거나 '분명 발행 중인데 토픽이 안 보인다' 같은 문제의 원인이 대부분 ROS_DOMAIN_ID와 DDS discovery 설정이라는 것만 기억해도 디버깅 시간이 크게 줄어듭니다.",
       "sources": [
         { "name": "ROS on DDS (ROS 2 Design)", "url": "https://design.ros2.org/articles/ros_on_dds.html" },
         { "name": "Wikipedia - Data Distribution Service", "url": "https://en.wikipedia.org/wiki/Data_Distribution_Service" }
@@ -44,6 +50,8 @@
       "ko": "가제보 (Gazebo)",
       "definition": "ROS 생태계에서 가장 널리 쓰여 온 오픈소스 3D 로봇 시뮬레이터입니다. 물리 엔진으로 로봇의 움직임과 충돌을 계산하고, 가상 센서(카메라, LiDAR 등) 데이터를 만들어 줍니다.",
       "details": "실제 로봇 없이도 로봇의 주행, 센서, 제어 알고리즘을 컴퓨터 안에서 테스트할 수 있게 해 주며, ROS와의 연동이 매우 자연스러워 튜토리얼과 예제가 풍부합니다. 구버전(Gazebo Classic)과 새로 재작성된 신버전(구 Ignition, 현재 이름 Gazebo)이 있다는 점에 주의해야 합니다. 우리 프로젝트는 사실적인 렌더링과 GPU 가속, 대규모 물류 환경 재현에 강한 Isaac Sim을 쓰지만, Gazebo는 '로봇 시뮬레이터'의 기준점 같은 존재라 비교 대상으로 자주 언급됩니다.",
+      "example": "ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py 한 줄이면 가상 월드에 터틀봇이 스폰되고, 실제 로봇처럼 /scan(LiDAR)과 /odom(오도메트리) 토픽이 발행되기 시작합니다.",
+      "aiTip": "우리 시뮬레이터는 Isaac Sim이라 Gazebo를 직접 쓸 일은 적지만, Nav2와 SLAM 튜토리얼 대부분이 Gazebo 기준으로 작성되어 있어 예제를 읽을 줄은 알아야 합니다. 튜토리얼에서 Gazebo 부분만 Isaac Sim으로 바꾸고 ROS 2 쪽 설정(토픽, 파라미터)은 그대로 재사용하는 식으로 접근하세요.",
       "sources": [
         { "name": "Gazebo 공식 사이트", "url": "https://gazebosim.org/" }
       ],
@@ -55,6 +63,8 @@
       "ko": "무조코 (MuJoCo)",
       "definition": "접촉(contact)이 있는 다관절 물체의 동역학을 빠르고 정확하게 계산하는 데 특화된 물리 엔진 겸 시뮬레이터입니다. DeepMind(Google)가 인수해 오픈소스로 공개했습니다.",
       "details": "물리 계산이 매우 빠르고 안정적이어서 강화학습(RL) 연구의 표준 시뮬레이터로 자리 잡았습니다. 로봇 팔의 물체 조작(manipulation)이나 보행 로봇 학습처럼 접촉 물리가 중요한 연구에 특히 강합니다. 반면 사실적인 그래픽 렌더링이나 대규모 환경 구성은 Isaac Sim, Unity 쪽이 우세합니다. 물류 로봇 프로젝트에서는 직접 쓰지 않더라도, 강화학습 기반 제어 논문/코드를 참고할 때 MuJoCo 환경을 자주 만나게 됩니다.",
+      "example": "강화학습 라이브러리 Gymnasium의 HalfCheetah-v5, Ant-v5 같은 벤치마크 환경이 모두 MuJoCo로 구동되며, pip install mujoco 후 파이썬에서 MJCF(XML) 모델 파일을 로드해 시뮬레이션 스텝을 돌릴 수 있습니다.",
+      "aiTip": "RL 논문이나 조작(manipulation) 학습 코드를 참고할 때 만나는 이름 정도로 알아 두면 됩니다. MuJoCo는 MJCF라는 자체 포맷을 써서 URDF/USD 자산이 바로 호환되지 않는다는 점, 그리고 우리 프로젝트에서 학습이 필요하면 GPU 병렬화가 되는 Isaac 계열(Isaac Lab)이 더 자연스러운 선택이라는 점만 기억하세요.",
       "sources": [
         { "name": "MuJoCo 공식 문서", "url": "https://mujoco.readthedocs.io/en/stable/overview.html" },
         { "name": "MuJoCo GitHub", "url": "https://github.com/google-deepmind/mujoco" }
@@ -67,6 +77,8 @@
       "ko": "파이불릿 (PyBullet)",
       "definition": "오픈소스 물리 엔진 Bullet을 파이썬에서 쉽게 쓸 수 있게 만든 로봇/물리 시뮬레이션 라이브러리입니다. 설치가 간단하고 무료라서 연구와 프로토타이핑에 널리 쓰입니다.",
       "details": "pip 한 줄로 설치해 파이썬 스크립트 몇 줄로 URDF 로봇을 불러와 시뮬레이션할 수 있을 만큼 진입 장벽이 낮습니다. 강화학습 환경 제작, 로봇 팔 파지(grasping) 연구 등에 많이 사용되었습니다. 그래픽 품질과 대규모 씬 구성 능력은 제한적이어서, 사실적인 물류센터 환경이 필요한 우리 프로젝트에서는 Isaac Sim이 적합하지만, 알고리즘 아이디어를 가볍게 검증하는 용도로는 여전히 유용합니다.",
+      "example": "pip install pybullet 후 파이썬에서 p.loadURDF(\"r2d2.urdf\") 한 줄이면 GUI 창에 로봇이 나타나고, 몇 줄 더 쓰면 관절을 움직이거나 가상 카메라 이미지를 뽑을 수 있습니다.",
+      "aiTip": "본 파이프라인에는 쓰지 않지만, 파지점 계산이나 RL 아이디어를 10분 만에 검증하고 싶을 때 좋은 '스케치북'입니다. GPU 없이도 돌아가므로 Isaac Sim을 못 켜는 환경에서 로봇팀이 만든 URDF가 제대로 로드되는지 빠르게 확인하는 용도로도 쓸 수 있습니다.",
       "sources": [
         { "name": "PyBullet 공식 사이트", "url": "https://pybullet.org/" },
         { "name": "Bullet Physics GitHub", "url": "https://github.com/bulletphysics/bullet3" }
@@ -79,6 +91,8 @@
       "ko": "웹봇츠 (Webots)",
       "definition": "Cyberbotics가 개발한 오픈소스 데스크톱 로봇 시뮬레이터로, 다양한 상용 로봇 모델과 센서가 기본 내장되어 있어 교육과 연구에 많이 쓰입니다.",
       "details": "설치만 하면 로봇, 센서, 예제 환경이 한 번에 갖춰지는 '올인원' 성격이 강해 로봇 시뮬레이션 입문용으로 좋습니다. C, C++, Python, ROS 2 등 여러 방식으로 로봇 컨트롤러를 작성할 수 있습니다. Isaac Sim이나 Unity에 비해 그래픽 사실성은 떨어지지만 가볍고 안정적입니다. 이 용어집에서는 Gazebo, MuJoCo, PyBullet과 함께 '주요 로봇 시뮬레이터 비교' 맥락에서 알아 두면 됩니다.",
+      "example": "Webots를 설치하고 File > Open Sample World에서 e-puck 예제를 열면 별도 설정 없이 바로 로봇 시뮬레이션이 돌아가고, 내장 에디터에서 파이썬 컨트롤러 코드를 고쳐 즉시 재실행할 수 있습니다.",
+      "aiTip": "우리 프로젝트에서 직접 쓸 일은 거의 없으므로 '시뮬레이터 비교 표에 등장하는 이름' 수준이면 충분합니다. 발표나 문서에서 Isaac Sim 선정 이유를 설명할 때 Gazebo, Webots 대비 렌더링과 합성 데이터 생성 강점을 근거로 드는 정도로 활용하세요.",
       "sources": [
         { "name": "Webots 공식 사이트", "url": "https://cyberbotics.com/" },
         { "name": "Webots GitHub", "url": "https://github.com/cyberbotics/webots" }
@@ -91,6 +105,8 @@
       "ko": "유니티 (로보틱스 시뮬레이션 관점)",
       "definition": "원래 게임 엔진인 Unity를 로봇 시뮬레이션 플랫폼으로 활용하는 것을 말합니다. 뛰어난 3D 렌더링과 에디터를 이용해 사실적인 가상 환경에서 로봇과 센서를 시뮬레이션합니다.",
       "details": "Unity는 ROS와 메시지를 주고받는 커넥터, URDF 임포터 등을 묶은 'Unity Robotics Hub'를 공식 제공해 로봇 개발 파이프라인에 통합할 수 있습니다. 게임 엔진답게 합성 데이터(synthetic data) 생성, 사람/작업자까지 포함된 사실적 환경 연출에 강합니다. 물리 정밀도는 전문 물리 엔진보다 떨어질 수 있습니다. 우리 프로젝트의 Isaac Sim도 같은 계열(게임급 렌더링 + 로봇 시뮬레이션)의 접근이라, Unity는 가장 가까운 대안 기술로 이해하면 됩니다.",
+      "example": "Unity Robotics Hub의 ROS-TCP-Connector 패키지를 쓰면 Unity 씬 속 로봇이 ROS 2와 토픽을 주고받으며, 공식 Pick-and-Place 튜토리얼에서는 Niryo 로봇 팔 URDF를 임포트해 MoveIt으로 제어합니다.",
+      "aiTip": "직접 다루기보다 기술 선정 근거를 설명할 때 Isaac Sim의 비교 대상으로 알아 두면 좋습니다. Unity의 Perception 패키지는 합성 데이터 자동 라벨링으로 유명하므로, 학습 데이터 생성 아이디어가 필요할 때 Isaac Sim의 Replicator와 비교하며 참고할 가치가 있습니다.",
       "sources": [
         { "name": "Unity Robotics Hub (GitHub)", "url": "https://github.com/Unity-Technologies/Unity-Robotics-Hub" },
         { "name": "Unity 공식 사이트", "url": "https://unity.com/" }
@@ -103,6 +119,8 @@
       "ko": "언리얼 엔진 (로보틱스 시뮬레이션 관점)",
       "definition": "Epic Games의 게임 엔진 Unreal Engine을 로봇/자율주행 시뮬레이션에 활용하는 것을 말합니다. 포토리얼리스틱(실사급) 그래픽이 최대 강점입니다.",
       "details": "실사에 가까운 렌더링 덕분에 카메라 기반 인공지능(비전 AI)을 학습시키기 위한 합성 데이터 생성에 유리하며, 자율주행 시뮬레이터 CARLA, 드론 시뮬레이터 AirSim 등이 Unreal 기반으로 만들어졌습니다. 반면 로봇 특화 도구(ROS 연동, 로봇 모델 임포트)는 Unity나 Isaac Sim보다 손이 더 갑니다. '게임 엔진을 로봇 시뮬레이션에 쓰는 흐름'의 대표 사례로, Isaac Sim(Omniverse 기반)과 비교되는 위치에 있습니다.",
+      "example": "자율주행 시뮬레이터 CARLA를 실행하면 실사급 도시에서 가상 차량의 카메라와 LiDAR 데이터를 뽑아 학습에 쓸 수 있는데, 이 CARLA가 Unreal Engine 위에 만들어진 대표 사례입니다.",
+      "aiTip": "직접 다룰 일은 없고 'CARLA, AirSim = Unreal 기반'이라는 배경지식이면 충분합니다. 비전 AI용 합성 데이터셋 논문에서 Unreal 기반 렌더링이 자주 등장하므로, 데이터 출처를 파악할 때 이름을 알아보는 수준이면 됩니다.",
       "sources": [
         { "name": "Unreal Engine 공식 사이트", "url": "https://www.unrealengine.com/" },
         { "name": "CARLA Simulator", "url": "https://carla.org/" }
@@ -115,6 +133,8 @@
       "ko": "통합 로봇 기술 형식 (URDF)",
       "definition": "로봇의 구조(링크와 관절), 형상, 물리 속성을 기술하는 XML 파일 형식입니다. ROS에서 로봇 모델을 정의하는 표준 방법입니다.",
       "details": "로봇 몸체를 '링크(link, 강체 부품)'와 '조인트(joint, 관절)'의 트리 구조로 표현하고, 각 부품의 3D 메시, 질량, 관성, 충돌 형상을 지정합니다. 이 파일 하나로 RViz 시각화, 시뮬레이터 로딩, MoveIt 모션 플래닝이 모두 같은 로봇 모델을 공유하게 됩니다. Isaac Sim도 URDF 임포터를 제공하므로, 물류 로봇(AMR, 로봇 팔)의 URDF를 가져와 시뮬레이션 환경에 배치하는 것이 프로젝트의 출발점이 됩니다. 트리 구조만 허용해 폐루프 기구를 표현하기 어렵다는 한계가 있고, 이를 보완하는 형식이 SDF입니다.",
+      "example": "바퀴 2개와 2D LiDAR가 달린 AMR이라면 base_link 링크에 wheel_left/wheel_right를 continuous 조인트로, laser 링크를 fixed 조인트로 붙인 XML 파일 하나로 기술하고, 이 파일을 RViz와 Isaac Sim이 똑같이 읽어 들입니다.",
+      "aiTip": "URDF 작성은 로봇팀 몫이지만, AI 담당도 카메라와 LiDAR가 로봇의 어느 링크에 어떤 자세로 달렸는지 URDF에서 읽어낼 줄 알아야 인식 결과의 좌표를 올바르게 해석할 수 있습니다. 특히 URDF의 링크 이름이 그대로 TF 프레임 이름이 되어 내 인식 노드 코드(frame_id)에 등장한다는 점을 기억하세요.",
       "sources": [
         { "name": "ROS 2 URDF 튜토리얼", "url": "https://docs.ros.org/en/humble/Tutorials/Intermediate/URDF/URDF-Main.html" },
         { "name": "ROS Wiki - urdf", "url": "https://wiki.ros.org/urdf" }
@@ -127,6 +147,8 @@
       "ko": "시뮬레이션 기술 형식 (SDF)",
       "definition": "로봇뿐 아니라 조명, 지형, 물리 설정 등 시뮬레이션 '세계(world)' 전체를 기술할 수 있는 XML 형식입니다. Gazebo 시뮬레이터의 기본 포맷입니다.",
       "details": "URDF가 '로봇 한 대'의 구조 기술에 집중한다면, SDF는 여러 로봇과 물체, 센서, 물리 엔진 파라미터까지 포함한 환경 전체를 표현할 수 있고 폐루프 기구 같은 복잡한 구조도 지원합니다. Gazebo에서 물류창고 맵을 만들면 그것이 곧 SDF 파일입니다. Isaac Sim은 자체적으로 USD 포맷을 쓰지만, 'URDF = 로봇 기술, SDF = 시뮬레이션 세계 기술, USD = Isaac Sim의 씬 포맷'이라는 대비를 알아 두면 자료를 읽을 때 혼동이 없습니다.",
+      "example": "Gazebo에서 창고 월드를 만들면 warehouse.world 같은 SDF 파일이 생기고, 그 안에 조명, 바닥, 선반 모델과 물리 엔진 설정, 로봇 여러 대까지 <model> 태그로 함께 들어갑니다.",
+      "aiTip": "우리는 Isaac Sim(USD 포맷)을 쓰므로 SDF를 직접 편집할 일은 거의 없습니다. 'URDF = 로봇 한 대, SDF = Gazebo의 세계, USD = Isaac Sim의 씬'이라는 포맷 지도만 머리에 넣어 두면 튜토리얼과 로봇 자산 파일을 볼 때 헷갈리지 않습니다.",
       "sources": [
         { "name": "SDFormat 공식 사이트", "url": "http://sdformat.org/" },
         { "name": "Gazebo 공식 사이트", "url": "https://gazebosim.org/" }
@@ -139,6 +161,8 @@
       "ko": "좌표 변환 (TF)",
       "definition": "로봇의 여러 좌표계(맵, 로봇 본체, 센서, 바퀴 등) 사이의 위치·자세 관계를 시간에 따라 추적·관리하는 ROS의 좌표 변환 시스템입니다. 현재는 2세대인 tf2가 표준입니다.",
       "details": "로봇에는 'LiDAR가 본 장애물 위치'를 '맵 기준 좌표'로 바꾸는 식의 좌표 변환이 끊임없이 필요합니다. TF는 map → odom → base_link → 각 센서로 이어지는 좌표계 트리를 유지하며, 임의의 두 좌표계 사이 변환을 시점까지 고려해 계산해 줍니다. TF 트리가 끊기거나 잘못되면 내비게이션, SLAM이 전부 오동작하므로 ROS 디버깅에서 가장 자주 들여다보는 부분입니다. Isaac Sim에서 ROS 2 브리지를 켜면 시뮬레이션 로봇의 TF가 발행되어 Nav2, RViz가 이를 그대로 활용합니다.",
+      "example": "map → odom → base_link → laser로 이어지는 프레임 체인이 대표 예이며, ros2 run tf2_tools view_frames를 실행하면 현재 TF 트리 전체가 PDF 그림 파일로 저장되어 연결 상태를 한눈에 볼 수 있습니다.",
+      "aiTip": "AI 담당에게 TF는 '내 인식 결과가 어느 좌표계 기준인가'를 결정하는 필수 개념입니다. 카메라 프레임에서 검출한 물체 위치를 map 좌표로 바꿔 로봇팀에 넘겨야 하는 순간이 반드시 오는데, 이때 직접 행렬 계산을 짜지 말고 tf2의 lookup_transform을 쓰세요. '물체 위치가 이상하다'는 문제의 절반은 frame_id를 잘못 지정한 것입니다.",
       "sources": [
         { "name": "ROS 2 tf2 튜토리얼", "url": "https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Tf2-Main.html" },
         { "name": "ROS Wiki - tf2", "url": "https://wiki.ros.org/tf2" }
@@ -151,6 +175,8 @@
       "ko": "알비즈 (ROS 시각화 도구)",
       "definition": "ROS에서 오가는 데이터(로봇 모델, 센서 값, 지도, 경로 등)를 3D로 시각화해 주는 공식 도구입니다. 로봇이 '세상을 어떻게 인식하고 있는지'를 눈으로 확인할 수 있습니다.",
       "details": "카메라 영상, LiDAR 포인트클라우드, SLAM으로 만든 지도, Nav2가 계산한 경로를 한 화면에 겹쳐 볼 수 있어 개발과 디버깅에 필수적입니다. 시뮬레이터(Gazebo, Isaac Sim)가 '가상 세계 자체'를 보여 준다면, RViz는 '로봇의 머릿속(인식 결과)'을 보여 준다는 차이가 중요합니다. 우리 프로젝트에서도 Isaac Sim으로 물류창고를 돌리면서, 로봇이 만든 지도와 계획 경로는 RViz로 확인하는 식으로 두 화면을 함께 쓰게 됩니다.",
+      "example": "rviz2를 실행해 Map, LaserScan, Path 디스플레이를 추가하면 SLAM이 그린 지도 위에 LiDAR 점과 Nav2 경로가 겹쳐 보이고, 툴바의 '2D Goal Pose' 버튼으로 지도를 클릭해 로봇에게 목적지를 줄 수도 있습니다.",
+      "aiTip": "AI 담당의 필수 디버깅 도구입니다. 내 인식 노드의 검출 결과를 MarkerArray나 Image 토픽으로 함께 발행해 RViz에 겹쳐 보면 '모델이 틀렸는지, 좌표 변환이 틀렸는지'를 한눈에 구분할 수 있습니다. Isaac Sim 화면만 보지 말고 항상 RViz를 옆에 띄워 로봇의 인식 상태를 확인하는 습관을 들이세요.",
       "sources": [
         { "name": "RViz GitHub (ros2/rviz)", "url": "https://github.com/ros2/rviz" },
         { "name": "ROS Wiki - rviz", "url": "https://wiki.ros.org/rviz" }
@@ -163,6 +189,8 @@
       "ko": "내브투 (ROS 2 내비게이션 스택)",
       "definition": "ROS 2의 표준 자율주행(내비게이션) 프레임워크입니다. 지도 위에서 목적지를 지정하면 위치 추정, 경로 계획, 장애물 회피, 속도 제어까지 한 번에 처리해 로봇을 이동시킵니다.",
       "details": "AMCL(위치 추정), 플래너(전역 경로 계획), 컨트롤러(지역 경로 추종), 코스트맵(장애물 지도), 복구 동작(recovery) 등의 모듈을 행동 트리(behavior tree)로 조합한 구조라 필요한 부분만 교체할 수 있습니다. 물류센터의 AMR(자율이동로봇)이 선반 사이를 오가며 물건을 나르는 시나리오가 정확히 Nav2의 역할입니다. Isaac Sim은 Nav2 연동 튜토리얼을 공식 제공하므로, 시뮬레이션 창고에서 Nav2로 로봇을 목적지까지 자율주행시키는 것이 우리 프로젝트의 핵심 파이프라인입니다.",
+      "example": "ros2 launch nav2_bringup bringup_launch.py map:=warehouse.yaml으로 Nav2를 띄운 뒤 RViz에서 'Nav2 Goal'로 출고장 지점을 찍으면, AMR이 전역 경로를 그리고 선반 사이를 지나 장애물을 피해 그 지점까지 스스로 이동합니다.",
+      "aiTip": "Nav2 내부 알고리즘을 구현할 필요는 없고, '목표를 주면 알아서 간다'는 NavigateToPose 액션 인터페이스만 이해하면 됩니다. AI 담당의 접점은 인식 결과로 목적지를 정해 goal을 보내는 부분과, 카메라로 검출한 장애물을 코스트맵에 반영하는 부분입니다. 파라미터 YAML이 방대하므로 처음엔 기본값으로 시작하고 튜닝은 로봇팀과 함께 하세요.",
       "sources": [
         { "name": "Nav2 공식 문서", "url": "https://docs.nav2.org/" }
       ],
@@ -174,6 +202,8 @@
       "ko": "무브잇 (로봇 팔 모션 플래닝 프레임워크)",
       "definition": "로봇 팔(매니퓰레이터)의 동작 계획을 담당하는 ROS의 표준 프레임워크입니다. '이 물체를 집어라'라고 하면 팔의 각 관절을 어떻게 움직여야 하는지, 충돌 없이 계산해 줍니다.",
       "details": "역기구학(IK, 손끝 위치로부터 관절 각도 계산), 충돌 검사, 모션 플래닝 알고리즘(OMPL 등)을 통합해 제공합니다. Nav2가 '바퀴로 이동하는' 내비게이션을 담당한다면, MoveIt은 '팔로 조작하는' 매니퓰레이션을 담당한다고 대비해 이해하면 됩니다. 물류 시뮬레이션에서 선반의 상자를 집어 컨베이어에 올리는 피킹(picking) 로봇 팔을 구현할 때 MoveIt(ROS 2용은 MoveIt 2)을 사용하며, Isaac Sim의 로봇 팔과 연동하는 예제도 존재합니다.",
+      "example": "MoveIt 2 API로 '그리퍼를 (x, y, z) 위치로 이동'이라는 목표를 주면 6축 팔의 관절 궤적을 충돌 없이 계산해 주며, RViz의 MotionPlanning 플러그인에서 팔 끝을 마우스로 끌어다 놓고 Plan & Execute 버튼으로 바로 테스트할 수 있습니다.",
+      "aiTip": "AI 담당의 역할은 비전으로 '어느 상자를 어느 지점에서 집을지'(파지 좌표와 자세)를 계산해 MoveIt에 넘기는 것까지이고, 관절 궤적 계산은 MoveIt과 로봇팀에 맡기면 됩니다. 넘기는 좌표가 어느 TF 프레임 기준인지, 그리퍼 접근 방향은 어떻게 표현할지를 로봇팀과 합의하는 것이 협업의 핵심 포인트입니다.",
       "sources": [
         { "name": "MoveIt 공식 문서", "url": "https://moveit.picknik.ai/" }
       ],
@@ -185,6 +215,8 @@
       "ko": "슬램 (동시적 위치추정 및 지도작성)",
       "definition": "로봇이 처음 가 보는 공간에서 지도를 만들면서(Mapping) 동시에 그 지도 안에서 자기 위치를 추정하는(Localization) 기술입니다. '지도가 있어야 위치를 알고, 위치를 알아야 지도를 그린다'는 닭-달걀 문제를 함께 푸는 것이 핵심입니다.",
       "details": "센서(LiDAR, 카메라)와 오도메트리 데이터를 결합해 확률적으로 지도와 위치를 동시에 갱신합니다. 관계를 정리하면, Mapping은 지도 만들기, Localization은 '이미 있는 지도'에서 위치 찾기, SLAM은 지도가 없는 상태에서 둘을 동시에 하는 것입니다. 실무에서는 보통 SLAM으로 창고 지도를 한 번 만들어 저장한 뒤, 운영 시에는 그 지도 위에서 AMCL 같은 Localization만 수행합니다. 우리 프로젝트에서도 Isaac Sim의 가상 물류창고를 로봇이 돌아다니며 SLAM(예: slam_toolbox)으로 지도를 생성하고, 그 지도를 Nav2에 넘겨 자율주행에 사용합니다.",
+      "example": "Isaac Sim 창고에서 로봇을 키보드 텔레옵으로 한 바퀴 돌리며 ros2 launch slam_toolbox online_async_launch.py를 켜 두면 RViz에 지도가 실시간으로 그려지고, 완성되면 map_saver로 warehouse.pgm/yaml 파일로 저장합니다.",
+      "aiTip": "SLAM 알고리즘을 직접 구현할 일은 없고 slam_toolbox 같은 기성 패키지를 '지도 생성 도구'로 쓰면 됩니다. 다만 SLAM 품질이 곧 지도 품질이고, 지도가 틀어지면 그 위의 모든 인식·주행 기능이 함께 흔들리므로, 벽이 이중으로 그려지거나 복도가 휘는 등의 지도 이상을 알아보는 눈은 필요합니다.",
       "sources": [
         { "name": "Wikipedia - Simultaneous localization and mapping", "url": "https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping" },
         { "name": "Nav2 공식 문서", "url": "https://docs.nav2.org/" }
@@ -197,6 +229,8 @@
       "ko": "비주얼 슬램 (영상 기반 SLAM)",
       "definition": "LiDAR 대신 카메라 영상을 주 센서로 사용하는 SLAM입니다. 연속된 이미지에서 특징점을 추적해 카메라(로봇)의 움직임과 주변 3D 구조를 동시에 추정합니다.",
       "details": "카메라는 LiDAR보다 훨씬 저렴하고 색상·질감 정보까지 얻을 수 있지만, 조명 변화나 특징 없는 벽면(흰 벽 등)에 취약합니다. 단안(mono), 스테레오, RGB-D 카메라 기반 방식이 있으며 ORB-SLAM 계열이 대표적인 연구입니다. NVIDIA는 GPU 가속 Visual SLAM인 Isaac ROS Visual SLAM(cuVSLAM)을 제공하므로, Isaac Sim의 가상 카메라 데이터로 vSLAM을 실험하기 좋습니다. 창고처럼 기둥·선반이 반복되는 환경에서는 LiDAR SLAM과의 장단점 비교가 중요한 설계 포인트입니다.",
+      "example": "Isaac ROS Visual SLAM(cuVSLAM)에 스테레오 카메라 토픽을 넣으면 GPU 가속으로 카메라 궤적과 특징점 지도가 실시간 추정되며, ORB-SLAM3 데모 영상에서 화면 위 초록 점(특징점)들이 프레임마다 추적되는 모습이 전형적인 동작 예입니다.",
+      "aiTip": "카메라 기반이라 AI 담당의 비전 지식과 가장 가까운 SLAM이지만, 직접 구현 대상이 아니라 'LiDAR SLAM을 대신하거나 보완할 수 있는 선택지'로 이해하면 됩니다. 흰 벽, 반복 패턴, 급격한 조명 변화에서 잘 깨진다는 실패 조건을 알고 있어야 시뮬레이션 실험을 설계할 때 함정을 피할 수 있습니다.",
       "sources": [
         { "name": "Isaac ROS Visual SLAM (NVIDIA)", "url": "https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_visual_slam/index.html" },
         { "name": "Wikipedia - Simultaneous localization and mapping", "url": "https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping" }
@@ -209,6 +243,8 @@
       "ko": "라이다 슬램 (LiDAR 기반 SLAM)",
       "definition": "LiDAR 센서의 거리 측정(스캔) 데이터를 주 센서로 사용하는 SLAM입니다. 연속된 스캔을 정합(scan matching)해 로봇의 이동량을 계산하고 지도를 만듭니다.",
       "details": "LiDAR는 조명과 무관하게 정확한 거리를 재기 때문에 실내 로봇에서 가장 안정적인 SLAM 방식으로 꼽히며, 결과물로 흑백 점유 격자 지도(occupancy grid map)가 만들어져 Nav2에 바로 쓸 수 있습니다. ROS 2에서는 2D LiDAR SLAM 패키지인 slam_toolbox가 사실상 표준이고, 3D LiDAR용으로는 LIO 계열 알고리즘이 있습니다. 우리 물류 시뮬레이션에서도 AMR에 가상 2D LiDAR를 달아 slam_toolbox로 창고 지도를 만드는 것이 가장 일반적인 첫 단계입니다. 유리벽이나 긴 복도처럼 특징이 부족한 곳에서는 오차가 커질 수 있어 Visual SLAM이나 센서 융합으로 보완합니다.",
+      "example": "AMR에 2D LiDAR를 달고 slam_toolbox를 실행하면 /scan 토픽의 스캔 정합만으로 창고의 점유 격자 지도가 만들어져 warehouse.pgm 파일로 저장되는 것이 가장 흔한 사용 예입니다.",
+      "aiTip": "우리 프로젝트에서 지도 생성의 기본 경로이므로, 어떤 입력(/scan, /odom, TF)이 필요하고 무엇(점유 격자 지도, map→odom 변환)이 나오는지 입출력 계약만 확실히 이해하면 됩니다. 알고리즘 내부는 몰라도 되지만, 유리벽이나 특징 없는 긴 복도에서 지도가 밀리는 현상은 알아 두어야 그 오차를 AI 모듈 문제로 오인하지 않습니다.",
       "sources": [
         { "name": "slam_toolbox GitHub", "url": "https://github.com/SteveMacenski/slam_toolbox" },
         { "name": "Wikipedia - Simultaneous localization and mapping", "url": "https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping" }
@@ -221,6 +257,8 @@
       "ko": "적응형 몬테카를로 위치추정 (AMCL)",
       "definition": "'이미 만들어진 지도' 위에서 로봇의 현재 위치를 확률적으로 추정하는 대표 알고리즘입니다. 지도 곳곳에 로봇 위치 후보(파티클)를 뿌려 놓고, LiDAR 관측과 잘 맞는 후보만 살아남게 해 위치를 좁혀 갑니다.",
       "details": "파티클 필터 기반이라 초기 위치가 불확실해도 점차 수렴하며, '적응형(Adaptive)'은 불확실성에 따라 파티클 개수를 자동 조절한다는 뜻입니다. SLAM이 지도 작성 단계의 기술이라면, AMCL은 완성된 지도로 운영하는 단계의 Localization 기술이라는 대비가 중요합니다. Nav2에 기본 포함되어 있어, 우리 프로젝트에서도 SLAM으로 만든 창고 지도를 불러온 뒤 AMCL이 로봇 위치를 추적하고 그 위에서 경로 계획이 이뤄집니다. RViz에서 파티클 구름이 로봇 주변으로 모여드는 모습으로 동작을 확인할 수 있습니다.",
+      "example": "Nav2를 켠 뒤 RViz에서 '2D Pose Estimate'로 로봇의 대략적 초기 위치를 찍어 주면, 주변에 흩어져 있던 파티클(작은 화살표 구름)이 로봇이 주행하는 동안 점점 한 점으로 모여드는 것이 AMCL의 동작 모습입니다.",
+      "aiTip": "직접 구현할 일은 없고 Nav2에 포함된 것을 그대로 쓰면 됩니다. 실전 포인트는 두 가지입니다. 시작할 때 초기 위치를 잡아 줘야 한다는 것, 그리고 위치추정이 튀면(파티클이 흩어지면) 그 이후의 모든 인식·주행 결과가 함께 틀어지므로 데모가 이상할 때 가장 먼저 의심할 지점이라는 것입니다.",
       "sources": [
         { "name": "Nav2 - AMCL 설정 문서", "url": "https://docs.nav2.org/configuration/packages/configuring-amcl.html" },
         { "name": "Wikipedia - Monte Carlo localization", "url": "https://en.wikipedia.org/wiki/Monte_Carlo_localization" }
@@ -233,6 +271,8 @@
       "ko": "오도메트리 (주행 거리 측정)",
       "definition": "바퀴 회전량이나 센서 데이터를 누적해 '출발점 기준으로 로봇이 얼마나 이동했는지'를 추정하는 것입니다. 로봇 위치 추정의 가장 기본 재료입니다.",
       "details": "바퀴 엔코더 기반이 기본이지만 바퀴가 미끄러지면 오차가 생기고, 이 오차는 시간이 지날수록 누적(drift)됩니다. 그래서 IMU를 섞은 관성 오도메트리, 카메라를 쓰는 비주얼 오도메트리, LiDAR 오도메트리 등으로 보완하며, 최종적으로는 AMCL이나 SLAM이 지도 관측으로 누적 오차를 바로잡습니다. ROS에서는 odom 좌표계와 nav_msgs/Odometry 메시지로 다뤄지며, Isaac Sim의 로봇도 ROS 2 브리지를 통해 오도메트리를 발행해 Nav2가 사용합니다.",
+      "example": "로봇을 정확히 1m 전진시켰는데 /odom 토픽의 위치는 0.97m로 찍히고, 10분쯤 주행하면 실제 위치와 수십 cm 벌어져 있는 것이 전형적인 오도메트리 드리프트 사례입니다.",
+      "aiTip": "'출발점 기준 상대 위치이고 시간이 갈수록 오차가 쌓인다'는 특성만 정확히 이해하면 됩니다. odom 좌표는 연속적이지만 드리프트가 있고 map 좌표는 정확하지만 보정 순간 점프할 수 있다는 차이가 있어서, 인식 결과를 어느 프레임 기준으로 기록할지 로봇팀과 정할 때 이 개념이 그대로 등장합니다.",
       "sources": [
         { "name": "Wikipedia - Odometry", "url": "https://en.wikipedia.org/wiki/Odometry" },
         { "name": "Nav2 - 초기 설정 가이드", "url": "https://docs.nav2.org/setup_guides/index.html" }
@@ -245,6 +285,8 @@
       "ko": "위치추정 (로컬라이제이션)",
       "definition": "로봇이 주어진 지도 안에서 '나는 지금 어디에 있고 어느 방향을 보고 있는가'를 알아내는 기술입니다. 자율주행의 대전제가 되는 능력입니다.",
       "details": "오도메트리만으로는 오차가 누적되므로, LiDAR 스캔을 지도와 대조하는 AMCL 같은 알고리즘으로 위치를 계속 보정합니다. 개념 구분이 중요합니다. Mapping은 지도를 만드는 것, Localization은 이미 있는 지도에서 내 위치를 찾는 것, SLAM은 지도 없이 둘을 동시에 하는 것입니다. 물류센터 운영 단계에서는 지도가 이미 있으므로 Localization이 상시 동작하는 핵심 기능이며, 위치추정이 틀어지면 로봇이 엉뚱한 선반으로 가는 사고로 직결됩니다.",
+      "example": "AMR이 재부팅된 뒤 저장된 창고 지도 위에서 AMCL로 자기 위치를 다시 찾아내고, 그때부터 '3번 선반 앞 (x=12.3, y=4.5)' 같은 지도 좌표로 이동 명령을 받을 수 있게 되는 것이 Localization의 실제 모습입니다.",
+      "aiTip": "알고리즘보다 'Mapping은 지도 생산, Localization은 지도 소비, SLAM은 동시 수행'이라는 구분을 정확히 쓰는 것이 먼저입니다. 내 인식 모듈이 로봇 위치를 입력으로 쓰는 순간 Localization 품질이 내 모듈 성능의 상한이 되므로, 인식 성능을 평가할 때 위치추정 오차를 분리해서 볼 수 있어야 합니다.",
       "sources": [
         { "name": "Wikipedia - Robot navigation", "url": "https://en.wikipedia.org/wiki/Robot_navigation" },
         { "name": "Nav2 공식 문서", "url": "https://docs.nav2.org/" }
@@ -257,6 +299,8 @@
       "ko": "지도작성 (매핑)",
       "definition": "로봇이 센서로 주변 환경을 관측해 컴퓨터가 이해할 수 있는 지도를 만드는 것입니다. 실내 로봇에서는 '갈 수 있는 곳/막힌 곳'을 격자로 표현한 점유 격자 지도(occupancy grid map)가 대표적입니다.",
       "details": "점유 격자 지도는 공간을 작은 칸으로 나눠 각 칸이 비었는지(흰색), 막혔는지(검은색), 미확인인지(회색)를 확률로 기록합니다. Localization이 '지도를 소비'한다면 Mapping은 '지도를 생산'하는 관계이고, 이 둘을 동시에 하는 것이 SLAM입니다. 우리 프로젝트에서는 Isaac Sim 창고를 로봇이 한 바퀴 돌며 지도를 만들어 파일(pgm+yaml)로 저장하고, 이후 Nav2가 이 지도를 불러와 경로 계획의 바탕으로 씁니다. Isaac Sim은 씬에서 직접 점유 지도를 뽑아내는 Occupancy Map 생성 도구도 제공합니다.",
+      "example": "SLAM 주행이 끝난 뒤 ros2 run nav2_map_server map_saver_cli -f warehouse를 실행하면 warehouse.pgm(흑백 격자 이미지)과 warehouse.yaml(해상도, 원점 정보) 두 파일이 저장되고, Nav2가 이 쌍을 불러와 사용합니다.",
+      "aiTip": "지도가 pgm+yaml 파일 쌍이라는 점, 그리고 yaml의 해상도(m/pixel)와 원점(origin)을 알아야 지도 픽셀 좌표와 실제 미터 좌표를 서로 변환할 수 있다는 점이 실전 포인트입니다. 선반 위치를 지도 위에 표시하거나 물류 대시보드를 만들 때 이 좌표 변환 코드를 AI 담당이 직접 짜게 되는 경우가 많습니다.",
       "sources": [
         { "name": "Wikipedia - Occupancy grid mapping", "url": "https://en.wikipedia.org/wiki/Occupancy_grid_mapping" },
         { "name": "slam_toolbox GitHub", "url": "https://github.com/SteveMacenski/slam_toolbox" }
@@ -269,6 +313,8 @@
       "ko": "내비게이션 (자율주행)",
       "definition": "로봇이 현재 위치에서 목표 지점까지 장애물을 피해 스스로 이동하는 능력 전체를 가리키는 상위 개념입니다. 위치추정, 경로 계획, 장애물 회피, 모터 제어가 모두 포함됩니다.",
       "details": "일반적인 파이프라인은 '지도 + Localization으로 내 위치 파악 → 전역 경로 계획(Path Planning) → 주행 중 지역 장애물 회피 → 속도 명령 출력'의 반복입니다. ROS 2에서는 이 전 과정을 Nav2가 담당합니다. 물류 로봇 시뮬레이션의 핵심 데모가 바로 이것으로, '3번 선반으로 가서 물건을 받아 출고장으로 이동'하는 작업 지시가 내비게이션 목표(goal)의 연속으로 변환됩니다. 여러 로봇의 경로가 겹치는 다중 로봇 내비게이션은 물류 도메인의 대표적인 심화 주제입니다.",
+      "example": "'3번 선반에서 상자를 받아 출고장으로 이동'이라는 작업 지시가 NavigateToPose goal 두 번(선반 좌표 → 출고장 좌표)으로 변환되어 AMR이 차례로 자율주행하는 것이 물류 시나리오의 내비게이션입니다.",
+      "aiTip": "AI 담당에게 내비게이션은 '좌표를 주면 이동해 주는 서비스'라는 상위 인터페이스로 이해하면 충분합니다. 실제 접점은 주문이나 인식 결과를 goal 좌표 시퀀스로 바꾸는 작업 할당 로직 쪽이며, 여러 로봇의 경로가 겹치는 다중 로봇 조율은 AI·최적화 관점에서 기여할 수 있는 심화 주제입니다.",
       "sources": [
         { "name": "Nav2 공식 문서", "url": "https://docs.nav2.org/" },
         { "name": "Wikipedia - Robot navigation", "url": "https://en.wikipedia.org/wiki/Robot_navigation" }
@@ -281,6 +327,8 @@
       "ko": "경로 계획",
       "definition": "지도 위에서 출발점부터 목표점까지 '어떤 경로로 갈지'를 계산하는 기술입니다. 장애물을 피하면서 가급적 짧고 안전한 길을 찾습니다.",
       "details": "격자 지도에서 A*, Dijkstra 같은 그래프 탐색으로 푸는 것이 기본이고, Nav2에서는 전역 플래너(global planner)가 이 역할을 합니다. Motion Planning과의 차이가 중요합니다. Path Planning은 주로 '기하학적인 길 찾기'(2D 지도 위의 선)를 뜻하고, Motion Planning은 로봇의 관절·동역학·시간까지 고려해 '실제로 실행 가능한 움직임'을 만드는 더 넓은 문제입니다. 물류창고처럼 통로가 규칙적인 환경에서는 경로 계획이 비교적 쉽지만, 여러 로봇의 경로 충돌을 조정하는 문제(MAPF)가 추가 과제로 등장합니다.",
+      "example": "격자 지도에서 A* 알고리즘이 출발 칸부터 목표 칸까지 장애물 칸을 우회하는 최단 경로를 찾는 것이 교과서적 예이고, Nav2에서는 전역 플래너가 계산한 경로가 RViz 지도 위에 한 줄의 선으로 그려집니다.",
+      "aiTip": "A*와 Dijkstra는 알고리즘 기초로 원리를 이해해 두면 좋지만, 실제 계산은 Nav2가 대신 해 주므로 직접 구현 대상은 아닙니다. AI 담당이 기여할 수 있는 지점은 여러 AMR의 경로 충돌을 조정하는 MAPF(다중 에이전트 경로 계획)나 방문 순서 최적화처럼 플래너 '위'에서 도는 로직입니다.",
       "sources": [
         { "name": "Wikipedia - Motion planning", "url": "https://en.wikipedia.org/wiki/Motion_planning" },
         { "name": "Nav2 - 개념 문서", "url": "https://docs.nav2.org/concepts/index.html" }
@@ -293,6 +341,8 @@
       "ko": "모션 플래닝 (동작 계획)",
       "definition": "로봇의 관절 구조, 물리적 제약, 충돌 가능성까지 고려해 시작 상태에서 목표 상태까지 '실행 가능한 움직임'을 계산하는 기술입니다. 로봇 팔 제어에서 특히 핵심입니다.",
       "details": "로봇 팔은 관절이 6~7개라 탐색 공간(configuration space)이 고차원이어서, RRT나 PRM 같은 샘플링 기반 알고리즘으로 충돌 없는 관절 궤적을 찾습니다. Path Planning이 '지도 위의 2D 길 찾기'에 가깝다면, Motion Planning은 차원이 높고 로봇 본체의 형상·동역학까지 다루는 일반화된 문제입니다. ROS에서는 MoveIt이 이 기능을 제공합니다. 물류 시뮬레이션에서 로봇 팔이 선반 구조물에 부딪히지 않고 상자를 집어 올리는 동작을 만들 때 필요한 기술입니다.",
+      "example": "MoveIt에서 RRT 계열 플래너가 6축 로봇 팔이 선반 기둥에 부딪히지 않으면서 상자까지 도달하는 관절 궤적을 수 초 안에 샘플링으로 찾아내는 것이 대표적인 예입니다.",
+      "aiTip": "'관절 공간의 고차원 탐색 문제이며 2D 길 찾기인 Path Planning과는 다른 문제'라는 구분만 잡으면 되고, 구현은 MoveIt에 맡기면 됩니다. AI 담당의 실제 접점은 비전으로 파지 자세 후보를 만들어 주는 입력 단이며, '내가 준 목표 좌표가 팔이 닿지 않는 위치여서 플래닝이 계속 실패'하는 상황이 흔한 협업 이슈입니다.",
       "sources": [
         { "name": "Wikipedia - Motion planning", "url": "https://en.wikipedia.org/wiki/Motion_planning" },
         { "name": "MoveIt 공식 문서", "url": "https://moveit.picknik.ai/" }
@@ -305,6 +355,8 @@
       "ko": "충돌 회피 / 장애물 회피",
       "definition": "로봇이 사람, 다른 로봇, 물체와 부딪히지 않도록 실시간으로 움직임을 조정하는 기술입니다. 두 용어는 거의 같은 뜻으로 쓰이지만 뉘앙스가 약간 다릅니다.",
       "details": "Obstacle Avoidance는 주로 이동 로봇이 '경로상의 장애물을 피해 우회하는 것'을 가리키고, Collision Avoidance는 로봇 팔의 자기 충돌이나 로봇 간 충돌 방지까지 포함해 '어떤 충돌이든 막는 것'을 뜻하는 더 넓은 표현으로 쓰이는 경향이 있습니다. Nav2에서는 코스트맵(costmap)이 센서로 감지한 장애물 주변에 '비용'을 부여하고, 지역 컨트롤러(DWB, MPPI 등)가 비용이 낮은 궤적을 골라 회피를 수행합니다. 사람 작업자와 로봇이 섞여 다니는 물류센터 시나리오에서는 갑자기 나타나는 동적 장애물 회피가 안전의 핵심이며, Isaac Sim에서 사람·지게차 등을 배치해 이를 테스트할 수 있습니다.",
+      "example": "AMR이 계획된 경로로 주행하던 중 통로에 지게차가 나타나면 LiDAR가 이를 감지해 코스트맵에 비용이 칠해지고, 지역 컨트롤러가 그 옆을 우회하는 궤적으로 즉시 갈아타는 것이 장애물 회피의 실제 동작입니다.",
+      "aiTip": "기본 회피는 Nav2 코스트맵이 처리하므로 직접 구현 대상이 아니지만, LiDAR가 못 보는 것(바닥의 낮은 상자, 유리 등)을 카메라 AI로 검출해 코스트맵에 반영해 주는 것이 AI 담당의 대표적인 기여 지점입니다. 검출 지연이 크면 회피가 늦어져 충돌로 이어지므로 인식 파이프라인의 실시간성이 중요합니다.",
       "sources": [
         { "name": "Nav2 - Costmap 2D 설정 문서", "url": "https://docs.nav2.org/configuration/packages/configuring-costmaps.html" },
         { "name": "Wikipedia - Obstacle avoidance", "url": "https://en.wikipedia.org/wiki/Obstacle_avoidance" }
@@ -317,6 +369,8 @@
       "ko": "센서 융합",
       "definition": "여러 센서의 데이터를 결합해 하나의 센서보다 더 정확하고 신뢰성 있는 추정을 얻는 기술입니다. 각 센서의 약점을 다른 센서가 보완하게 만드는 것이 핵심입니다.",
       "details": "대표적인 예가 바퀴 오도메트리(미끄러지면 부정확)와 IMU(짧은 시간엔 정확하지만 드리프트 발생)를 칼만 필터(EKF)로 융합해 안정적인 위치·자세 추정을 얻는 것입니다. ROS에서는 robot_localization 패키지가 이 역할의 표준 도구입니다. 자율주행 차가 LiDAR + 카메라 + 레이더를 융합하는 것도 같은 원리입니다. 우리 물류 로봇에서도 오도메트리 + IMU 융합 결과를 Nav2와 SLAM의 입력으로 넣어 위치추정 품질을 높입니다.",
+      "example": "robot_localization 패키지의 EKF 노드에 바퀴 오도메트리(/odom)와 IMU(/imu) 토픽을 입력으로 넣으면 융합된 odometry/filtered 토픽이 출력되는 것이 ROS의 교과서적인 센서 융합 구성입니다.",
+      "aiTip": "칼만 필터 수식을 몰라도 robot_localization 설정 파일로 해결되는 영역이라 직접 구현할 필요는 없습니다. 다만 '단일 센서를 맹신하지 말고 약점은 다른 센서로 보완한다'는 사고방식은 카메라+LiDAR 융합 검출처럼 AI 인식 설계에도 그대로 적용되며, 융합할 입력들의 타임스탬프 동기화가 어긋나면 결과가 망가진다는 함정을 기억하세요.",
       "sources": [
         { "name": "Wikipedia - Sensor fusion", "url": "https://en.wikipedia.org/wiki/Sensor_fusion" },
         { "name": "robot_localization GitHub", "url": "https://github.com/cra-ros-pkg/robot_localization" }
@@ -329,6 +383,8 @@
       "ko": "관성 측정 장치 (IMU)",
       "definition": "가속도계와 자이로스코프(각속도계)를 묶어 물체의 가속도와 회전 속도를 측정하는 센서입니다. 스마트폰에도 들어 있는 흔한 센서로, 로봇의 기울기와 회전을 파악하는 데 씁니다.",
       "details": "매우 빠른 주기(수백 Hz)로 자세 변화를 감지할 수 있지만, 측정값을 누적해 위치를 계산하면 오차가 빠르게 쌓이는(드리프트) 약점이 있습니다. 그래서 단독으로 쓰기보다 바퀴 오도메트리, LiDAR, 카메라와 융합해 사용하며, Visual-Inertial SLAM처럼 SLAM의 보조 센서로도 필수적입니다. 지자기 센서까지 포함한 9축 IMU도 있습니다. Isaac Sim은 가상 IMU 센서를 제공하므로 시뮬레이션 로봇에도 실제와 같은 센서 구성을 재현할 수 있습니다.",
+      "example": "로봇이 제자리에서 90도 회전하면 IMU의 자이로가 각속도를 수백 Hz로 측정해 sensor_msgs/Imu 타입의 /imu 토픽으로 발행하고, 이 값이 EKF 센서 융합의 입력으로 들어갑니다.",
+      "aiTip": "IMU 원시 데이터를 직접 처리할 일은 드물고 '빠르지만 누적하면 드리프트'라는 특성만 이해하면 됩니다. Visual-Inertial SLAM이나 오도메트리 융합 자료에 항상 등장하는 센서이며, 시뮬레이션에서 IMU 노이즈 파라미터를 0으로 두면 현실보다 지나치게 좋은 결과가 나오는 sim-to-real 함정이 있다는 점을 알아 두세요.",
       "sources": [
         { "name": "Wikipedia - Inertial measurement unit", "url": "https://en.wikipedia.org/wiki/Inertial_measurement_unit" }
       ],
@@ -340,6 +396,8 @@
       "ko": "라이다 (레이저 거리 측정 센서)",
       "definition": "레이저를 쏘아 반사되어 돌아오는 시간으로 주변 물체까지의 거리를 정밀하게 재는 센서입니다. 회전하며 사방을 스캔해 주변 환경의 '점 지도'를 만듭니다.",
       "details": "한 평면만 스캔하는 2D LiDAR와 여러 층을 스캔해 3D 포인트클라우드를 만드는 3D LiDAR가 있으며, 실내 물류 로봇에는 저렴하고 가벼운 2D LiDAR가 널리 쓰입니다. 조명과 무관하게 센티미터급 정확도를 내기 때문에 SLAM, 위치추정, 장애물 감지의 주력 센서입니다. 카메라보다 비싸고 색상 정보가 없다는 것이 단점입니다. Isaac Sim은 레이 트레이싱 기반의 가상 LiDAR(RTX Lidar)를 제공해, 실제 센서 없이도 LiDAR 기반 SLAM과 Nav2 파이프라인 전체를 시뮬레이션할 수 있습니다.",
+      "example": "2D LiDAR가 10Hz로 회전하며 360개 방향의 거리를 재서 /scan(sensor_msgs/LaserScan) 토픽으로 발행하면 RViz에 로봇 주변 벽과 선반 윤곽이 점들로 그려지며, Isaac Sim에서는 RTX Lidar 센서를 로봇에 붙여 같은 토픽을 만들 수 있습니다.",
+      "aiTip": "하드웨어 스펙보다 데이터 형식(LaserScan의 ranges 배열, 3D면 PointCloud2)을 다룰 줄 아는 것이 AI 담당의 실전 역량입니다. 카메라 검출 결과에 LiDAR 거리 정보를 결합하면 '무엇이 어디에 있는지'가 완성되므로 융합 인식의 재료로 자주 쓰게 되며, 시뮬레이션 LiDAR에는 유리나 반사 표면 같은 현실의 골칫거리가 빠져 있다는 점도 기억하세요.",
       "sources": [
         { "name": "Wikipedia - Lidar", "url": "https://en.wikipedia.org/wiki/Lidar" }
       ],
@@ -351,6 +409,8 @@
       "ko": "RGB-D 카메라 / 깊이 카메라",
       "definition": "일반 컬러(RGB) 영상과 함께 각 픽셀까지의 거리(Depth)를 동시에 측정하는 카메라입니다. '색깔 있는 3D 사진'을 찍는 센서라고 이해하면 됩니다.",
       "details": "스테레오 방식(두 카메라의 시차 이용), 구조광 방식, ToF(빛의 왕복 시간) 방식 등이 있으며 Intel RealSense, Microsoft Kinect가 대표 제품입니다. 색상과 3D 형상을 함께 얻을 수 있어 물체 인식 + 파지 위치 계산이 동시에 필요한 로봇 팔 피킹 작업에 특히 유용하고, RGB-D SLAM의 입력으로도 쓰입니다. 측정 거리가 수 미터로 짧고 직사광선에 약해 실내용에 적합합니다. 물류 시뮬레이션에서는 로봇 팔이 상자를 인식해 집는 장면에 가상 RGB-D 카메라를 사용하며, Isaac Sim에서 RGB와 깊이 영상을 함께 렌더링해 ROS 2 토픽으로 발행할 수 있습니다.",
+      "example": "Intel RealSense D435를 로봇 팔 위에 달면 /camera/color/image_raw(컬러)와 /camera/depth/image_rect_raw(깊이) 토픽이 함께 나오고, YOLO로 상자를 검출한 픽셀의 깊이 값을 읽어 3D 파지 좌표를 바로 계산할 수 있습니다.",
+      "aiTip": "AI 담당과 가장 밀접한 센서입니다. '검출은 RGB에서, 3D 위치는 같은 픽셀의 depth에서'라는 패턴과, 픽셀을 3D 좌표로 바꾸려면 카메라 내부 파라미터(camera_info 토픽의 intrinsics)가 필요하다는 것까지는 직접 다뤄야 합니다. depth 영상에는 측정 실패로 생긴 구멍이 흔하므로 한 픽셀 값 대신 주변 영역의 중앙값을 쓰는 것이 흔한 실전 요령입니다.",
       "sources": [
         { "name": "RealSense 공식 사이트", "url": "https://www.realsense.com/" },
         { "name": "Wikipedia - Range imaging", "url": "https://en.wikipedia.org/wiki/Range_imaging" }
