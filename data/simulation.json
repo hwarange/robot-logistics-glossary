@@ -1,0 +1,239 @@
+{
+  "category": "simulation",
+  "categoryKo": "로봇 시뮬레이션",
+  "terms": [
+    {
+      "id": "robot-simulation",
+      "term": "Robot Simulation",
+      "ko": "로봇 시뮬레이션",
+      "definition": "실제 로봇을 만들거나 움직이기 전에, 컴퓨터 안의 가상 환경에서 로봇의 구조·센서·동작을 재현하여 테스트하는 기술입니다. 비용과 위험 없이 로봇 소프트웨어를 개발·검증할 수 있게 해줍니다.",
+      "details": "가상 3D 공간에 로봇 모델(관절, 바퀴, 센서 등)을 배치하고 물리 법칙과 센서 동작을 흉내 내어, 실제 하드웨어 없이도 주행·제어·인식 알고리즘을 돌려볼 수 있습니다. 실제 로봇은 비싸고 고장·충돌 위험이 있지만 시뮬레이션에서는 수백 번 실패해도 비용이 들지 않으며, 시간을 빠르게 돌리거나 상황을 마음대로 재현할 수 있습니다. 우리 프로젝트에서는 NVIDIA Isaac Sim이 이 역할을 담당하여, 쿠팡식 풀필먼트 센터의 물류 로봇을 가상 창고에서 개발·검증합니다.",
+      "sources": [
+        { "name": "Wikipedia - Robotics simulator", "url": "https://en.wikipedia.org/wiki/Robotics_simulator" },
+        { "name": "NVIDIA Isaac Sim Documentation", "url": "https://docs.isaacsim.omniverse.nvidia.com/5.0.0/index.html" }
+      ],
+      "related": ["Isaac Sim", "Physics Simulation", "Digital Twin Simulation", "Sim-to-Real"]
+    },
+    {
+      "id": "physics-simulation",
+      "term": "Physics Simulation",
+      "ko": "물리 시뮬레이션",
+      "definition": "중력, 마찰, 충돌, 관성 같은 실제 물리 법칙을 수학적으로 계산하여 가상 세계의 물체가 현실처럼 움직이게 하는 시뮬레이션입니다.",
+      "details": "물리 엔진이 아주 짧은 시간 간격(예: 1/60초)마다 모든 물체의 힘·속도·위치를 다시 계산하는 방식으로 동작하며, 이 덕분에 로봇이 박스를 밀면 박스가 미끄러지고, 팔로 잡으면 무게가 느껴지는 듯한 상호작용이 재현됩니다. 이산사건 시뮬레이션(DES)이 '주문 도착, 피킹 완료' 같은 사건 단위로 시간을 건너뛰며 시스템 흐름을 보는 것과 달리, 물리 시뮬레이션은 연속적인 시간 위에서 물체의 움직임 자체를 정밀하게 계산한다는 차이가 있습니다. Isaac Sim은 NVIDIA PhysX 엔진을 사용해 물류 로봇의 주행, 박스 적재, 충돌을 물리적으로 정확하게 재현합니다.",
+      "sources": [
+        { "name": "Wikipedia - Physics engine", "url": "https://en.wikipedia.org/wiki/Physics_engine" },
+        { "name": "NVIDIA PhysX (GitHub)", "url": "https://github.com/NVIDIA-Omniverse/PhysX" }
+      ],
+      "related": ["Robot Simulation", "Discrete Event Simulation (DES)", "Isaac Sim"]
+    },
+    {
+      "id": "des",
+      "term": "DES (Discrete Event Simulation)",
+      "ko": "이산사건 시뮬레이션",
+      "definition": "시스템을 '주문 도착', '피킹 완료', '로봇 출발' 같은 개별 사건(event)의 나열로 보고, 사건이 일어나는 시점만 골라 시간을 건너뛰며 계산하는 시뮬레이션 방식입니다.",
+      "details": "사건과 사건 사이에는 아무 일도 없다고 가정하고 시간을 점프하기 때문에, 하루치 창고 운영이나 수만 건의 주문 처리를 몇 초 만에 시뮬레이션할 수 있을 만큼 빠릅니다. 반면 물리 시뮬레이션은 매 순간의 움직임을 연속적으로 계산하므로 정밀하지만 느립니다. 즉 DES는 '창고 전체의 처리량·대기시간·병목'처럼 시스템 수준의 흐름을 분석할 때, 물리 시뮬레이션은 '로봇 한 대가 실제로 어떻게 움직이는가'를 볼 때 적합합니다. 물류 프로젝트에서는 로봇 대수 산정이나 주문 처리량 분석에 DES적 관점이, 로봇 제어 검증에 Isaac Sim의 물리 시뮬레이션이 쓰입니다.",
+      "sources": [
+        { "name": "Wikipedia - Discrete-event simulation", "url": "https://en.wikipedia.org/wiki/Discrete-event_simulation" }
+      ],
+      "related": ["Physics Simulation", "Warehouse Simulation", "Agent-Based Simulation (ABS)"]
+    },
+    {
+      "id": "abs",
+      "term": "ABS (Agent-Based Simulation)",
+      "ko": "에이전트 기반 시뮬레이션",
+      "definition": "시스템을 위에서 하나로 기술하는 대신, 개별 행위자(에이전트)마다 자신만의 규칙과 행동을 부여하고 이들이 상호작용한 결과로 전체 시스템의 움직임이 나타나게 하는 시뮬레이션 방식입니다.",
+      "details": "예를 들어 로봇마다 '가장 가까운 선반으로 이동', '다른 로봇이 오면 양보' 같은 간단한 규칙을 주면, 이들이 얽히면서 정체나 효율 저하 같은 전체 수준의 현상(창발, emergence)이 저절로 드러납니다. 수식 하나로 표현하기 어려운 복잡한 시스템, 특히 수십~수백 대의 로봇이 각자 판단하며 움직이는 창고를 분석하기에 적합합니다. 물류 로봇 시뮬레이션에서 로봇 한 대 한 대를 독립적인 에이전트로 모델링하면, 로봇 대수·경로 규칙을 바꿨을 때 전체 처리량이 어떻게 변하는지 실험할 수 있습니다.",
+      "sources": [
+        { "name": "Wikipedia - Agent-based model", "url": "https://en.wikipedia.org/wiki/Agent-based_model" }
+      ],
+      "related": ["Multi-Agent Simulation", "Discrete Event Simulation (DES)", "Warehouse Simulation"]
+    },
+    {
+      "id": "multi-agent-simulation",
+      "term": "Multi-Agent Simulation",
+      "ko": "멀티 에이전트 시뮬레이션",
+      "definition": "여러 개의 자율적인 에이전트(로봇, 사람, 차량 등)가 같은 환경 안에서 동시에 행동하고 서로 영향을 주고받는 상황을 재현하는 시뮬레이션입니다.",
+      "details": "에이전트 기반 시뮬레이션(ABS)과 거의 같은 개념이지만, 특히 에이전트 간의 협력·경쟁·충돌 회피 같은 상호작용에 초점을 둡니다. 로봇 물류 창고는 수십 대의 이송 로봇이 좁은 통로를 공유하는 대표적인 멀티 에이전트 시스템으로, 교차로 양보 규칙이나 다중 로봇 경로 계획(MAPF) 알고리즘을 검증하려면 반드시 여러 로봇을 동시에 돌려봐야 합니다. Isaac Sim에서 여러 로봇을 한 창고 씬에 배치해 교착(deadlock)이나 정체가 발생하는지 확인하는 것이 이 시뮬레이션에 해당합니다.",
+      "sources": [
+        { "name": "Wikipedia - Multi-agent system", "url": "https://en.wikipedia.org/wiki/Multi-agent_system" }
+      ],
+      "related": ["Agent-Based Simulation (ABS)", "Traffic Simulation", "Warehouse Simulation"]
+    },
+    {
+      "id": "warehouse-simulation",
+      "term": "Warehouse Simulation",
+      "ko": "창고 시뮬레이션",
+      "definition": "창고의 레이아웃, 재고 배치, 작업자·로봇의 동선, 주문 처리 과정을 가상으로 재현하여 운영 효율을 분석·개선하는 시뮬레이션입니다.",
+      "details": "선반 배치를 바꾸면 피킹 시간이 얼마나 줄어드는지, 로봇을 10대에서 20대로 늘리면 처리량이 실제로 2배가 되는지 같은 질문에 실제 창고를 건드리지 않고 답할 수 있습니다. 전통적으로는 DES 기반 도구(AnyLogic, FlexSim 등)로 처리량·병목을 분석해 왔고, 최근에는 Isaac Sim 같은 물리 기반 3D 시뮬레이터로 로봇 동작까지 정밀하게 재현하는 방향으로 발전하고 있습니다. 우리 프로젝트의 핵심 무대가 바로 이 가상 풀필먼트 센터(창고)입니다.",
+      "sources": [
+        { "name": "AnyLogic - Warehouse Simulation Software", "url": "https://www.anylogic.com/warehouse-operations/" },
+        { "name": "NVIDIA Isaac Sim Documentation", "url": "https://docs.isaacsim.omniverse.nvidia.com/5.0.0/index.html" }
+      ],
+      "related": ["Logistics Simulation", "Discrete Event Simulation (DES)", "Digital Twin Simulation", "AMR"]
+    },
+    {
+      "id": "logistics-simulation",
+      "term": "Logistics Simulation",
+      "ko": "물류 시뮬레이션",
+      "definition": "상품이 입고부터 보관, 피킹, 포장, 출고, 배송까지 이동하는 물류 전체 흐름을 가상으로 재현하여 병목을 찾고 최적의 운영 방안을 검증하는 시뮬레이션입니다.",
+      "details": "창고 시뮬레이션이 건물 하나의 내부 운영에 집중한다면, 물류 시뮬레이션은 공급망·운송·배송 네트워크까지 포함하는 더 넓은 개념입니다. 주문량이 2배로 폭증하는 이벤트 상황, 특정 구역 로봇 고장 같은 시나리오를 미리 돌려보고 대응책을 설계할 수 있어, 실제 시스템 투자 전 의사결정 도구로 널리 쓰입니다. 쿠팡식 풀필먼트 센터 프로젝트에서는 '주문 발생 → 로봇 피킹 → 분류 → 출고'로 이어지는 흐름 전체를 시뮬레이션 대상으로 삼습니다.",
+      "sources": [
+        { "name": "Wikipedia - Logistics", "url": "https://en.wikipedia.org/wiki/Logistics" },
+        { "name": "AnyLogic - Supply Chain Simulation Software", "url": "https://www.anylogic.com/supply-chains/" }
+      ],
+      "related": ["Warehouse Simulation", "Discrete Event Simulation (DES)", "Digital Twin Simulation"]
+    },
+    {
+      "id": "traffic-simulation",
+      "term": "Traffic Simulation",
+      "ko": "교통 시뮬레이션",
+      "definition": "도로 위 차량이나 통로 위 로봇 같은 이동체들의 흐름을 재현하여 정체, 충돌, 흐름 효율을 분석하는 시뮬레이션입니다.",
+      "details": "원래 도시 도로망의 차량 흐름을 분석하는 분야(대표 도구: SUMO)에서 발전했지만, 그 개념은 창고 내부에도 그대로 적용됩니다. 수십 대의 이송 로봇이 좁은 통로와 교차점을 공유하는 창고는 사실상 작은 도시 교통망과 같아서, 어느 통로가 막히는지, 교차로 우선순위 규칙이 적절한지를 교통 시뮬레이션 관점으로 분석할 수 있습니다. 로봇 물류 프로젝트에서는 로봇 대수를 늘렸을 때 특정 구역에 정체가 생기는 지점을 찾아 레이아웃이나 경로 규칙을 개선하는 데 활용됩니다.",
+      "sources": [
+        { "name": "Wikipedia - Traffic simulation", "url": "https://en.wikipedia.org/wiki/Traffic_simulation" },
+        { "name": "SUMO (Simulation of Urban MObility) Documentation", "url": "https://sumo.dlr.de/docs/" }
+      ],
+      "related": ["Multi-Agent Simulation", "Warehouse Simulation", "Fleet Management"]
+    },
+    {
+      "id": "monte-carlo-simulation",
+      "term": "Monte Carlo Simulation",
+      "ko": "몬테카를로 시뮬레이션",
+      "definition": "무작위(random) 값을 수천~수만 번 뽑아 시뮬레이션을 반복 실행하고, 그 결과의 분포를 통계적으로 분석하여 불확실한 상황의 결과를 예측하는 기법입니다.",
+      "details": "현실의 주문 도착 시각, 로봇 고장, 작업 소요 시간은 매번 달라지는 확률적 요소이므로, 한 번의 시뮬레이션 결과만 보면 우연에 속을 수 있습니다. 몬테카를로 방식은 이런 확률 변수를 무작위로 바꿔가며 시뮬레이션을 대량 반복해 '평균 처리량은 얼마이고, 최악의 경우 어디까지 나빠지는가'라는 분포 기반의 답을 줍니다. 물류 프로젝트에서는 '로봇 15대로 피크 시간 주문을 95% 확률로 제시간에 처리할 수 있는가' 같은 질문에 답하거나, 도메인 랜덤화처럼 무작위 변형을 만드는 기반 아이디어로 쓰입니다.",
+      "sources": [
+        { "name": "Wikipedia - Monte Carlo method", "url": "https://en.wikipedia.org/wiki/Monte_Carlo_method" }
+      ],
+      "related": ["Discrete Event Simulation (DES)", "Domain Randomization", "Scenario Generation"]
+    },
+    {
+      "id": "digital-twin-simulation",
+      "term": "Digital Twin Simulation",
+      "ko": "디지털 트윈 시뮬레이션",
+      "definition": "실제 창고나 공장 같은 물리 시스템을 가상 공간에 똑같이 복제하고, 실제 시스템의 데이터와 연동하여 현재 상태를 반영하고 미래를 예측하는 시뮬레이션입니다.",
+      "details": "일반 시뮬레이션이 가상의 상황을 실험하는 것이라면, 디지털 트윈은 실제 시스템과 데이터로 연결되어 '지금 실제 창고의 상태'를 거울처럼 비추고, 그 위에서 가상 실험(what-if)을 돌린다는 점이 다릅니다. 예를 들어 실제 창고에 로봇을 추가 투입하기 전에 트윈에서 먼저 시험해 효과를 확인할 수 있습니다. NVIDIA Omniverse/Isaac Sim은 산업용 디지털 트윈 구축의 대표 플랫폼으로, 우리 프로젝트의 가상 풀필먼트 센터도 실제 물류 센터의 디지털 트윈을 지향하는 구조입니다.",
+      "sources": [
+        { "name": "Wikipedia - Digital twin", "url": "https://en.wikipedia.org/wiki/Digital_twin" },
+        { "name": "NVIDIA Omniverse", "url": "https://www.nvidia.com/en-us/omniverse/" }
+      ],
+      "related": ["Isaac Sim", "Warehouse Simulation", "Real-to-Sim", "Robot Simulation"]
+    },
+    {
+      "id": "hil",
+      "term": "HIL (Hardware-in-the-Loop)",
+      "ko": "하드웨어 인 더 루프",
+      "definition": "실제 하드웨어(로봇 제어기, 임베디드 보드 등)를 시뮬레이션 루프에 직접 연결하여, 하드웨어는 진짜를 쓰고 주변 환경만 가상으로 대체해 테스트하는 방법입니다.",
+      "details": "예를 들어 로봇의 실제 제어 보드를 컴퓨터에 연결하고, 보드가 받는 센서 신호와 모터 반응은 시뮬레이터가 만들어 주면, 실제 로봇 몸체 없이도 진짜 제어기를 검증할 수 있습니다. SIL(Software-in-the-Loop)이 하드웨어 없이 소프트웨어만 PC 위에서 시뮬레이터와 연결해 테스트하는 것과 달리, HIL은 실제 하드웨어의 타이밍·전기적 특성·실시간 성능까지 함께 검증한다는 점이 핵심 차이입니다. 개발 순서상 보통 SIL로 로직을 먼저 검증한 뒤 HIL로 넘어가며, Isaac Sim도 Jetson 같은 실제 보드와 연결하는 HIL 워크플로를 지원합니다.",
+      "sources": [
+        { "name": "Wikipedia - Hardware-in-the-loop simulation", "url": "https://en.wikipedia.org/wiki/Hardware-in-the-loop_simulation" },
+        { "name": "MathWorks - What Is Hardware-in-the-Loop (HIL)?", "url": "https://www.mathworks.com/discovery/hardware-in-the-loop-hil.html" }
+      ],
+      "related": ["Software-in-the-Loop (SIL)", "Robot Simulation", "Sim-to-Real"]
+    },
+    {
+      "id": "sil",
+      "term": "SIL (Software-in-the-Loop)",
+      "ko": "소프트웨어 인 더 루프",
+      "definition": "실제 하드웨어 없이, 로봇에 올라갈 소프트웨어(제어·자율주행 코드)를 그대로 시뮬레이터와 연결하여 PC 환경에서 테스트하는 방법입니다.",
+      "details": "실제 로봇에서 돌아갈 코드와 동일한 코드를 시뮬레이션 환경에 연결해 실행하므로, 하드웨어를 구하기 전이나 하드웨어가 부족할 때도 소프트웨어 로직을 충분히 검증할 수 있습니다. HIL이 실제 제어 하드웨어를 연결해 실시간 특성까지 검증하는 것과 달리, SIL은 전부 소프트웨어로만 구성되어 저렴하고 빠르게 반복할 수 있는 대신 하드웨어 고유의 타이밍 문제는 잡아내지 못합니다. 우리 프로젝트에서 ROS 2 기반 로봇 제어 코드를 Isaac Sim의 가상 로봇에 연결해 돌리는 것이 전형적인 SIL 구성입니다.",
+      "sources": [
+        { "name": "MathWorks - Software-in-the-Loop Simulation", "url": "https://www.mathworks.com/help/ecoder/software-in-the-loop-sil-simulation.html" },
+        { "name": "MathWorks - What are MIL, SIL, PIL, and HIL?", "url": "https://www.mathworks.com/matlabcentral/answers/440277-what-are-mil-sil-pil-and-hil-and-how-do-they-integrate-with-the-model-based-design-approach" }
+      ],
+      "related": ["Hardware-in-the-Loop (HIL)", "ROS 2", "Robot Simulation"]
+    },
+    {
+      "id": "sim-to-real",
+      "term": "Sim-to-Real (Simulation-to-Reality Transfer)",
+      "ko": "심투리얼 (시뮬레이션-현실 전이)",
+      "definition": "시뮬레이션에서 학습·개발한 로봇의 능력(제어 정책, 인식 모델 등)을 실제 로봇에 옮겨서 현실에서도 동작하게 만드는 기술과 과정을 말합니다.",
+      "details": "시뮬레이션은 안전하고 빠르지만 현실과 완전히 같지는 않아서, 가상에서 잘 되던 로봇이 실물에서는 실패하는 '현실 격차(reality gap)' 문제가 생깁니다. 이를 줄이기 위해 물리 파라미터를 정밀하게 맞추거나, 도메인 랜덤화로 다양한 조건에서 학습시키거나, 실제 데이터로 미세 조정하는 방법이 쓰입니다. Isaac Sim 기반 프로젝트의 궁극적 흐름도 '가상 창고에서 검증한 주행·피킹 알고리즘을 실제 로봇에 이식'하는 Sim-to-Real이며, 시뮬레이션의 존재 이유가 바로 이 전이에 있습니다.",
+      "sources": [
+        { "name": "Zhao et al., Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey (arXiv)", "url": "https://arxiv.org/abs/2009.13303" }
+      ],
+      "related": ["Domain Randomization", "Real-to-Sim", "Reinforcement Learning", "Reality Gap"]
+    },
+    {
+      "id": "real-to-sim",
+      "term": "Real-to-Sim (Reality-to-Simulation)",
+      "ko": "리얼투심 (현실-시뮬레이션 변환)",
+      "definition": "실제 환경을 스캔·측정한 데이터(사진, 3D 스캔, 센서 로그 등)를 바탕으로 그 환경을 시뮬레이션 안에 정확히 재구성하는 기술입니다.",
+      "details": "Sim-to-Real이 '가상에서 배운 것을 현실로' 옮기는 방향이라면, Real-to-Sim은 반대로 '현실을 가상으로' 가져오는 방향입니다. 실제 창고의 도면·스캔 데이터로 가상 창고를 만들면 시뮬레이션과 현실의 차이가 줄어들어 Sim-to-Real 성공률도 높아지므로, 두 기술은 짝을 이루어 순환(Real-to-Sim-to-Real)합니다. 최근에는 3D 가우시안 스플래팅이나 NeRF로 실제 공간을 사진처럼 재구성하는 연구가 활발하며, 실제 물류 센터를 본뜬 디지털 트윈을 만드는 첫 단계가 바로 Real-to-Sim입니다.",
+      "sources": [
+        { "name": "RoboGSim: A Real2Sim2Real Robotic Gaussian Splatting Simulator (arXiv)", "url": "https://arxiv.org/abs/2411.11839" }
+      ],
+      "related": ["Sim-to-Real", "Digital Twin Simulation", "Synthetic Data"]
+    },
+    {
+      "id": "domain-randomization",
+      "term": "Domain Randomization",
+      "ko": "도메인 랜덤화",
+      "definition": "시뮬레이션의 조명, 색상, 질감, 물체 위치, 물리 파라미터 등을 의도적으로 무작위로 바꿔가며 학습 데이터를 만들어, AI 모델이 어떤 환경에서도 잘 동작하도록 만드는 기법입니다.",
+      "details": "핵심 아이디어는 '시뮬레이션을 현실과 똑같이 만들기 어렵다면, 오히려 극단적으로 다양하게 만들어서 현실이 그 다양성 중 하나로 보이게 하자'는 것입니다. 예를 들어 박스의 색·크기·조명을 수천 가지로 바꿔 학습한 인식 모델은 실제 창고의 낯선 박스도 잘 인식하게 되어, Sim-to-Real 격차를 줄이는 대표적 방법으로 자리잡았습니다. Isaac Sim의 Replicator는 이런 랜덤화를 코드 몇 줄로 자동화해 주며, 물류 로봇의 박스 인식 모델 학습에 직접 활용할 수 있습니다.",
+      "sources": [
+        { "name": "Tobin et al., Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World (arXiv)", "url": "https://arxiv.org/abs/1703.06907" },
+        { "name": "NVIDIA Omniverse Replicator Documentation", "url": "https://docs.omniverse.nvidia.com/extensions/latest/ext_replicator.html" }
+      ],
+      "related": ["Sim-to-Real", "Synthetic Data", "Monte Carlo Simulation"]
+    },
+    {
+      "id": "synthetic-data",
+      "term": "Synthetic Data",
+      "ko": "합성 데이터",
+      "definition": "현실에서 수집한 것이 아니라 시뮬레이션이나 생성 알고리즘으로 인공적으로 만들어낸 데이터로, 주로 AI 모델 학습용으로 사용됩니다.",
+      "details": "실제 창고에서 박스 사진 수만 장을 찍고 일일이 라벨을 붙이려면 막대한 시간과 비용이 들지만, 시뮬레이션에서는 렌더링과 동시에 정답 라벨(바운딩 박스, 세그멘테이션, 깊이 등)이 자동으로 생성되므로 완벽히 라벨링된 데이터를 무한히 만들 수 있습니다. 희귀한 상황(박스 낙하, 로봇 충돌 직전)도 마음껏 만들 수 있다는 것이 큰 장점입니다. Isaac Sim의 Replicator 확장이 바로 이 합성 데이터 생성(SDG) 도구로, 물류 프로젝트에서 박스·선반·로봇 인식 모델을 학습시킬 데이터를 가상 창고에서 뽑아낼 수 있습니다.",
+      "sources": [
+        { "name": "Wikipedia - Synthetic data", "url": "https://en.wikipedia.org/wiki/Synthetic_data" },
+        { "name": "NVIDIA Omniverse Replicator Documentation", "url": "https://docs.omniverse.nvidia.com/extensions/latest/ext_replicator.html" }
+      ],
+      "related": ["Domain Randomization", "Sim-to-Real", "Computer Vision", "Isaac Sim"]
+    },
+    {
+      "id": "scenario-generation",
+      "term": "Scenario Generation",
+      "ko": "시나리오 생성",
+      "definition": "시뮬레이션에서 테스트할 다양한 상황(시나리오)—예: 주문 폭주, 로봇 고장, 통로 장애물—을 체계적 또는 자동으로 만들어내는 기술입니다.",
+      "details": "사람이 손으로 몇 가지 상황만 만들면 흔한 경우만 테스트하게 되므로, 파라미터 조합·무작위 샘플링·적대적(adversarial) 생성 등으로 드물지만 위험한 코너 케이스까지 자동으로 만들어내는 것이 핵심입니다. 자율주행 분야에서 안전 검증을 위해 크게 발전한 기법으로, 물류 로봇에도 그대로 적용됩니다. 우리 프로젝트에서는 주문량 패턴, 로봇 대수, 장애물 배치를 바꾼 여러 시나리오를 생성해 시스템이 어디까지 버티는지 검증하는 데 쓰이며, 도메인 랜덤화가 '외형'을 흔든다면 시나리오 생성은 '상황과 사건'을 흔든다고 볼 수 있습니다.",
+      "sources": [
+        { "name": "Ding et al., A Survey on Safety-Critical Driving Scenario Generation (arXiv)", "url": "https://arxiv.org/abs/2202.02215" }
+      ],
+      "related": ["Domain Randomization", "Monte Carlo Simulation", "Synthetic Data"]
+    },
+    {
+      "id": "parallel-simulation",
+      "term": "Parallel Simulation",
+      "ko": "병렬 시뮬레이션",
+      "definition": "하나의 시뮬레이션을 여러 개의 복사본으로 만들어 GPU나 멀티코어 CPU에서 동시에 실행함으로써, 학습이나 실험 속도를 수백~수천 배 높이는 기법입니다.",
+      "details": "강화학습으로 로봇을 학습시키려면 수백만 번의 시행착오가 필요한데, 환경 하나를 순서대로 돌리면 몇 달이 걸릴 일을 GPU 위에 수천 개의 환경을 병렬로 띄우면 몇 시간으로 줄일 수 있습니다. NVIDIA Isaac Gym이 물리 계산과 학습을 모두 GPU에서 처리하는 대규모 병렬 시뮬레이션을 대중화했고, 그 후속인 Isaac Lab이 Isaac Sim 위에서 같은 방식을 제공합니다. 물류 프로젝트에서 로봇 주행 정책을 강화학습으로 훈련할 때, 4x L40S 같은 GPU 서버에서 수천 개의 가상 창고를 동시에 돌리는 것이 이 기법입니다.",
+      "sources": [
+        { "name": "Makoviychuk et al., Isaac Gym: High Performance GPU-Based Physics Simulation For Robot Learning (arXiv)", "url": "https://arxiv.org/abs/2108.10470" },
+        { "name": "Isaac Lab Documentation", "url": "https://isaac-sim.github.io/IsaacLab/main/index.html" }
+      ],
+      "related": ["Distributed Simulation", "Large-Scale Simulation", "Reinforcement Learning", "Isaac Lab"]
+    },
+    {
+      "id": "distributed-simulation",
+      "term": "Distributed Simulation",
+      "ko": "분산 시뮬레이션",
+      "definition": "하나의 큰 시뮬레이션을 여러 대의 컴퓨터(또는 여러 프로세스)에 나누어 실행하고, 네트워크로 서로 동기화하며 전체를 하나처럼 돌리는 방식입니다.",
+      "details": "병렬 시뮬레이션이 주로 한 대의 GPU/서버 안에서 같은 환경을 복제해 돌리는 것이라면, 분산 시뮬레이션은 여러 머신에 걸쳐 하나의 시뮬레이션 세계를 분담하거나 서로 다른 시뮬레이터를 연동(co-simulation)하는 것에 가깝습니다. 시뮬레이터 간 시간 동기화와 데이터 교환이 핵심 난제로, 군사·항공 분야에서 IEEE 표준(HLA)까지 만들어졌습니다. 물류 프로젝트에서는 물리 시뮬레이터(Isaac Sim)와 주문 관리 시스템(WMS) 시뮬레이터를 별도 프로세스로 나누어 연동하는 구조가 분산 시뮬레이션의 예가 될 수 있습니다.",
+      "sources": [
+        { "name": "Wikipedia - High Level Architecture", "url": "https://en.wikipedia.org/wiki/High_Level_Architecture" },
+        { "name": "ScienceDirect Topics - Distributed Simulation", "url": "https://www.sciencedirect.com/topics/computer-science/distributed-simulation" }
+      ],
+      "related": ["Parallel Simulation", "Large-Scale Simulation", "Digital Twin Simulation"]
+    },
+    {
+      "id": "large-scale-simulation",
+      "term": "Large-Scale Simulation",
+      "ko": "대규모 시뮬레이션",
+      "definition": "수백~수천 대의 로봇, 거대한 환경, 또는 수천 개의 병렬 환경처럼 규모가 매우 큰 시스템을 다루는 시뮬레이션을 통칭합니다.",
+      "details": "규모가 커지면 물리 연산량, 렌더링, 메모리, 환경 간 동기화가 모두 병목이 되므로, GPU 가속 물리 엔진, 병렬·분산 실행, 세부 수준 조절(LOD) 같은 기술이 총동원됩니다. 실제 풀필먼트 센터는 축구장 몇 개 크기에 로봇 수백 대가 움직이는 공간이므로, 이를 그럴듯하게 재현하려면 대규모 시뮬레이션 기술이 필수입니다. Isaac Sim은 RTX 렌더링과 PhysX GPU 가속으로 산업 규모의 씬을 지원하며, 학습 목적이라면 Isaac Lab의 수천 개 병렬 환경을 활용해 규모 문제를 정면 돌파할 수 있습니다.",
+      "sources": [
+        { "name": "Wikipedia - Computer simulation", "url": "https://en.wikipedia.org/wiki/Computer_simulation" },
+        { "name": "Makoviychuk et al., Isaac Gym: High Performance GPU-Based Physics Simulation For Robot Learning (arXiv)", "url": "https://arxiv.org/abs/2108.10470" }
+      ],
+      "related": ["Parallel Simulation", "Distributed Simulation", "Warehouse Simulation", "Isaac Sim"]
+    }
+  ]
+}

@@ -1,0 +1,308 @@
+{
+  "category": "frontier",
+  "categoryKo": "최신 로봇 AI",
+  "terms": [
+    {
+      "id": "foundation-model",
+      "term": "Foundation Model",
+      "ko": "파운데이션 모델 (기반 모델)",
+      "definition": "인터넷 규모의 방대한 데이터로 미리 학습해 두고, 다양한 하위 작업에 맞게 조금만 조정(파인튜닝)해서 쓰는 범용 AI 모델입니다. GPT나 Gemini 같은 대형 언어 모델이 대표적인 예입니다.",
+      "details": "2021년 스탠퍼드 대학 연구진이 'On the Opportunities and Risks of Foundation Models' 논문에서 처음 정립한 용어로, '작업마다 모델을 새로 만드는' 기존 방식에서 '하나의 거대 모델을 여러 작업에 재활용하는' 패러다임 전환을 뜻합니다. 언어(LLM)에서 시작해 이미지, 그리고 로봇 제어까지 확장되고 있습니다. 물류 로봇 관점에서는, 상자 종류나 작업 절차가 바뀔 때마다 처음부터 다시 학습시키지 않아도 되는 범용 두뇌의 출발점이 되는 개념입니다.",
+      "sources": [
+        {
+          "name": "On the Opportunities and Risks of Foundation Models (arXiv)",
+          "url": "https://arxiv.org/abs/2108.07258"
+        }
+      ],
+      "related": ["Robotics Foundation Model", "VLM (Vision-Language Model)", "World Model"]
+    },
+    {
+      "id": "robotics-foundation-model",
+      "term": "Robotics Foundation Model",
+      "ko": "로봇 파운데이션 모델",
+      "definition": "파운데이션 모델의 개념을 로봇에 적용한 것으로, 여러 종류의 로봇과 작업 데이터를 한꺼번에 학습해 다양한 로봇 몸체(embodiment)와 작업에 두루 쓸 수 있는 범용 로봇 두뇌 모델입니다.",
+      "details": "기존 로봇 AI는 '특정 로봇 + 특정 작업' 전용으로 만들어져 환경이 조금만 바뀌어도 못 쓰게 되는 것이 한계였습니다. 로봇 파운데이션 모델은 대규모·다종 로봇 데이터로 학습해 새 작업에는 소량의 시연 데이터만으로 적응하는 것을 목표로 하며, RT-X, OpenVLA, π0, GR00T N1 등이 이 흐름의 대표 주자입니다. 물류 창고처럼 상품·선반·작업이 계속 바뀌는 환경에서 로봇을 일일이 재프로그래밍하지 않아도 되게 하는 것이 핵심 가치입니다. CMU 등 연구진의 2023년 서베이 논문이 이 분야의 지형도를 잘 정리하고 있습니다.",
+      "sources": [
+        {
+          "name": "Toward General-Purpose Robots via Foundation Models: A Survey and Meta-Analysis (arXiv)",
+          "url": "https://arxiv.org/abs/2312.08782"
+        },
+        {
+          "name": "서베이 프로젝트 페이지",
+          "url": "https://robotics-fm-survey.github.io/"
+        }
+      ],
+      "related": ["Foundation Model", "VLA (Vision-Language-Action Model)", "RT-X", "GR00T N1"]
+    },
+    {
+      "id": "vlm",
+      "term": "VLM (Vision-Language Model)",
+      "ko": "시각-언어 모델",
+      "definition": "이미지(시각)와 텍스트(언어)를 함께 이해하는 AI 모델입니다. 사진을 보여주고 '이 상자 안에 뭐가 있어?'라고 물으면 답할 수 있습니다.",
+      "details": "CLIP(2021, OpenAI)이 이미지와 텍스트를 같은 의미 공간에 연결하며 문을 열었고, 이후 GPT-4V, Gemini, PaliGemma 등으로 발전했습니다. 인터넷의 방대한 이미지-텍스트 데이터로 학습하기 때문에 '컨베이어 벨트', '파손된 상자' 같은 개념을 별도 학습 없이도 알아봅니다. 로봇 분야에서 VLM은 그 자체로는 '보고 말할' 수만 있고 '움직일' 수는 없는데, 여기에 행동(Action) 출력을 붙인 것이 바로 VLA입니다. 즉 VLM은 최신 로봇 AI(VLA)의 사전학습된 두뇌 역할을 합니다.",
+      "sources": [
+        {
+          "name": "An Introduction to Vision-Language Modeling (Meta, arXiv)",
+          "url": "https://arxiv.org/abs/2405.17247"
+        },
+        {
+          "name": "CLIP: Learning Transferable Visual Models From Natural Language Supervision (arXiv)",
+          "url": "https://arxiv.org/abs/2103.00020"
+        }
+      ],
+      "related": ["VLA (Vision-Language-Action Model)", "Foundation Model", "RT-2"]
+    },
+    {
+      "id": "vla",
+      "term": "VLA (Vision-Language-Action Model)",
+      "ko": "시각-언어-행동 모델",
+      "definition": "카메라 영상(Vision)과 자연어 명령(Language)을 입력받아 로봇의 실제 동작(Action)을 직접 출력하는 모델입니다. '빨간 상자를 선반에 올려줘'라고 말하면 로봇 팔의 움직임이 바로 나옵니다.",
+      "details": "VLM에 행동 출력 능력을 추가한 것으로, 2023년 구글 딥마인드의 RT-2가 이 개념을 대중화했습니다. 인터넷 지식(VLM의 상식)과 로봇 시연 데이터를 함께 학습하므로, 한 번도 본 적 없는 물건이나 지시에도 일반화할 수 있다는 것이 핵심입니다. RT-2, OpenVLA, π0, GR00T N1, Gemini Robotics가 모두 VLA 계열이며, 현재 로봇 파운데이션 모델의 주류 아키텍처입니다. 물류 시뮬레이션 관점에서는 '피킹·적재 로직을 코드로 짜는' 대신 '자연어로 지시하고 모델이 동작을 생성하는' 방식으로의 전환을 의미합니다.",
+      "sources": [
+        {
+          "name": "RT-2: Vision-Language-Action Models (arXiv)",
+          "url": "https://arxiv.org/abs/2307.15818"
+        },
+        {
+          "name": "OpenVLA 프로젝트 페이지",
+          "url": "https://openvla.github.io/"
+        }
+      ],
+      "related": ["VLM (Vision-Language Model)", "RT-2", "OpenVLA", "π0 (Pi-Zero, Physical Intelligence)"]
+    },
+    {
+      "id": "large-behavior-model",
+      "term": "LBM (Large Behavior Model)",
+      "ko": "대형 행동 모델",
+      "definition": "대형 언어 모델(LLM)이 방대한 텍스트로 언어를 배우듯, 방대한 로봇 시연 데이터로 '행동'을 배우는 대규모 로봇 조작 모델입니다.",
+      "details": "토요타 연구소(TRI, Toyota Research Institute)가 주도하는 개념으로, 디퓨전 정책(Diffusion Policy)을 대규모 멀티태스크 데이터로 확장한 것입니다. 2025년 논문 'A Careful Examination of Large Behavior Models'에서 약 1,700시간의 로봇 데이터로 학습한 LBM이 단일 작업 전용 모델보다 적은 데이터로 새 작업을 배우고 성능도 더 좋다는 것을 엄밀한 실험으로 보였습니다. '사전학습이 로봇 행동에도 통한다'는 것을 통계적으로 입증했다는 점이 의의이며, 물류처럼 작업 종류가 많은 현장에서 작업별 개별 학습 비용을 크게 줄일 수 있음을 시사합니다.",
+      "sources": [
+        {
+          "name": "A Careful Examination of Large Behavior Models for Multitask Dexterous Manipulation (arXiv)",
+          "url": "https://arxiv.org/abs/2507.05331"
+        },
+        {
+          "name": "TRI Large Behavior Models",
+          "url": "https://www.tri.global/our-work/large-behavior-models"
+        }
+      ],
+      "related": ["Diffusion Policy", "VLA (Vision-Language-Action Model)", "Robotics Foundation Model"]
+    },
+    {
+      "id": "world-model",
+      "term": "World Model",
+      "ko": "월드 모델 (세계 모델)",
+      "definition": "AI가 머릿속에 세상의 작동 방식을 압축해 담아 두고, '이렇게 행동하면 다음에 무슨 일이 일어날지'를 내부적으로 예측(시뮬레이션)하는 모델입니다.",
+      "details": "2018년 David Ha와 Jürgen Schmidhuber의 'World Models' 논문이 현대적 개념을 정립했으며, 에이전트가 실제 환경 대신 자신이 학습한 '꿈속 시뮬레이션'에서 연습할 수 있음을 보였습니다. 로봇이 행동의 결과를 미리 상상해 볼 수 있으면 실제 시행착오(충돌, 파손)를 크게 줄일 수 있습니다. 물류 로봇에서는 '이 경로로 가면 다른 로봇과 부딪히겠다', '이렇게 집으면 상자가 떨어지겠다'를 사전에 예측하는 능력에 해당하며, Isaac Sim 같은 외부 시뮬레이터를 모델 내부에 학습으로 담는 것이라고 이해하면 쉽습니다.",
+      "sources": [
+        {
+          "name": "World Models (Ha & Schmidhuber, arXiv)",
+          "url": "https://arxiv.org/abs/1803.10122"
+        },
+        {
+          "name": "World Models 인터랙티브 논문 페이지",
+          "url": "https://worldmodels.github.io/"
+        }
+      ],
+      "related": ["Generative World Model", "Foundation Model"]
+    },
+    {
+      "id": "generative-world-model",
+      "term": "Generative World Model",
+      "ko": "생성형 월드 모델",
+      "definition": "생성형 AI(비디오 생성 등)의 기술로 '물리 법칙에 맞는 가상 세계 영상'을 만들어 내는 월드 모델입니다. 로봇 학습에 필요한 훈련 데이터를 무한히 합성하는 데 쓰입니다.",
+      "details": "2025년 NVIDIA가 발표한 Cosmos가 대표적으로, 2,000만 시간 분량의 영상으로 학습한 월드 파운데이션 모델(WFM)을 통해 로봇·자율주행용 합성 데이터를 생성합니다. 실제 로봇 데이터 수집은 비싸고 느린데, 생성형 월드 모델은 다양한 조명·배치·상황의 데이터를 대량으로 만들어 이 병목을 해소합니다. Isaac Sim 같은 시뮬레이터와 결합해 'Sim-to-Real' 격차를 줄이는 데도 활용되므로, 우리 프로젝트(물류 시뮬레이션)와 직접 맞닿아 있는 개념입니다. 구글 딥마인드의 Genie 시리즈도 같은 흐름의 모델입니다.",
+      "sources": [
+        {
+          "name": "Cosmos World Foundation Model Platform for Physical AI (arXiv)",
+          "url": "https://arxiv.org/abs/2501.03575"
+        },
+        {
+          "name": "NVIDIA Cosmos 개발자 페이지",
+          "url": "https://developer.nvidia.com/cosmos"
+        }
+      ],
+      "related": ["World Model", "Foundation Model", "GR00T N1"]
+    },
+    {
+      "id": "diffusion-policy",
+      "term": "Diffusion Policy",
+      "ko": "디퓨전 정책",
+      "definition": "이미지 생성 AI(Stable Diffusion 등)에 쓰이는 확산(diffusion) 기법으로 로봇의 행동을 생성하는 방법입니다. 노이즈에서 시작해 점차 다듬어 가며 자연스러운 동작 궤적을 만들어 냅니다.",
+      "details": "2023년 컬럼비아 대학, TRI, MIT 연구진이 발표했으며, 기존 방법 대비 평균 46.9%의 성능 향상을 보여 로봇 모방학습의 표준 기법 중 하나가 되었습니다. 핵심 장점은 '같은 상황에서 여러 가지 올바른 동작이 가능한' 다중 모드(multimodal) 상황을 잘 다룬다는 것입니다. 예를 들어 상자를 왼쪽으로 돌려 집어도 되고 오른쪽으로 돌려 집어도 될 때, 기존 모델은 둘을 어중간하게 평균 내 실패하지만 디퓨전 정책은 하나를 명확히 선택합니다. TRI의 Large Behavior Model과 π0(유사한 flow matching 사용) 등 최신 모델들의 행동 생성부 기반이 되었습니다.",
+      "sources": [
+        {
+          "name": "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion (arXiv)",
+          "url": "https://arxiv.org/abs/2303.04137"
+        },
+        {
+          "name": "Diffusion Policy 프로젝트 페이지",
+          "url": "https://diffusion-policy.cs.columbia.edu/"
+        }
+      ],
+      "related": ["ACT (Action Chunking Transformer)", "LBM (Large Behavior Model)", "π0 (Pi-Zero, Physical Intelligence)"]
+    },
+    {
+      "id": "act",
+      "term": "ACT (Action Chunking Transformer)",
+      "ko": "액션 청킹 트랜스포머",
+      "definition": "로봇 동작을 한 스텝씩 예측하는 대신 여러 스텝을 묶음(chunk)으로 한꺼번에 예측하는 트랜스포머 기반 모방학습 기법입니다. 저렴한 하드웨어로도 정밀한 조작을 가능하게 했습니다.",
+      "details": "2023년 스탠퍼드(당시 UC 버클리 포함) 연구진이 저가형 양팔 원격조작 시스템 ALOHA와 함께 발표했습니다. 한 스텝씩 예측하면 작은 오차가 계속 누적되는데, 행동을 청크 단위로 예측하면 이 누적 오차가 줄어 지퍼백 열기 같은 정밀 작업도 성공합니다. '액션 청킹' 아이디어는 이후 π0, GR00T N1 등 대부분의 VLA 모델이 채택한 표준 설계가 되었습니다. 물류 로봇의 정밀 피킹(집기) 동작 학습에 직접 응용될 수 있는 기법입니다.",
+      "sources": [
+        {
+          "name": "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware (arXiv)",
+          "url": "https://arxiv.org/abs/2304.13705"
+        },
+        {
+          "name": "ALOHA 프로젝트 페이지",
+          "url": "https://tonyzhaozh.github.io/aloha/"
+        }
+      ],
+      "related": ["Diffusion Policy", "π0 (Pi-Zero, Physical Intelligence)", "GR00T N1"]
+    },
+    {
+      "id": "rt-1",
+      "term": "RT-1 (Robotics Transformer 1)",
+      "ko": "로보틱스 트랜스포머 1",
+      "definition": "구글이 2022년 발표한, 대규모 실제 로봇 데이터로 학습한 트랜스포머 기반 로봇 제어 모델입니다. '로봇에도 대규모 데이터 + 트랜스포머 공식이 통한다'는 것을 처음 크게 입증했습니다.",
+      "details": "구글 로보틱스(현 구글 딥마인드)가 13대의 로봇으로 17개월간 수집한 13만 개 에피소드, 700여 개 작업 데이터로 학습했으며, 카메라 영상과 자연어 지시를 받아 이산화(discretize)된 로봇 행동 토큰을 출력합니다. 새로운 작업·물체·환경에 대한 일반화 성능이 기존 기법보다 훨씬 뛰어나, 이후 RT-2, RT-X로 이어지는 '로보틱스 트랜스포머 계보'의 출발점이 되었습니다. 주방 사무실 환경의 집기·이동·배치 작업을 다뤘는데, 이는 물류 창고의 피킹·적재와 본질적으로 같은 유형의 작업입니다.",
+      "sources": [
+        {
+          "name": "RT-1: Robotics Transformer for Real-World Control at Scale (arXiv)",
+          "url": "https://arxiv.org/abs/2212.06817"
+        },
+        {
+          "name": "RT-1 프로젝트 페이지",
+          "url": "https://robotics-transformer1.github.io/"
+        }
+      ],
+      "related": ["RT-2", "RT-X", "VLA (Vision-Language-Action Model)"]
+    },
+    {
+      "id": "rt-2",
+      "term": "RT-2 (Robotics Transformer 2)",
+      "ko": "로보틱스 트랜스포머 2",
+      "definition": "구글 딥마인드가 2023년 발표한 최초의 대표적 VLA 모델로, 인터넷 규모로 학습된 시각-언어 모델(VLM)을 로봇 행동까지 출력하도록 확장한 것입니다.",
+      "details": "RT-1이 '로봇 데이터만'으로 학습했다면, RT-2는 웹의 이미지-텍스트 지식과 로봇 데이터를 함께 학습(co-fine-tuning)해 로봇 행동을 텍스트 토큰처럼 출력합니다. 그 결과 '멸종된 동물 인형을 집어줘'처럼 로봇 데이터에 없던 개념도 웹 지식으로 추론해 수행하는 창발적 일반화를 보였습니다. VLM에서 VLA로 넘어가는 전환점을 만든 모델로, 이후 OpenVLA, π0, Gemini Robotics 등이 모두 이 접근을 따릅니다. 물류 관점에서는 '신상품이라 학습 데이터에 없는 물건'도 상식으로 다룰 수 있는 가능성을 연 것입니다.",
+      "sources": [
+        {
+          "name": "RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control (arXiv)",
+          "url": "https://arxiv.org/abs/2307.15818"
+        },
+        {
+          "name": "RT-2 프로젝트 페이지",
+          "url": "https://robotics-transformer2.github.io/"
+        }
+      ],
+      "related": ["RT-1", "RT-X", "VLA (Vision-Language-Action Model)", "VLM (Vision-Language Model)"]
+    },
+    {
+      "id": "rt-x",
+      "term": "RT-X (Robotics Transformer X / Open X-Embodiment)",
+      "ko": "로보틱스 트랜스포머 X (오픈 X-임보디먼트)",
+      "definition": "전 세계 연구실들이 서로 다른 로봇의 데이터를 하나로 모은 초대형 공개 데이터셋(Open X-Embodiment)과, 그것으로 학습한 범용 로봇 모델(RT-X)입니다.",
+      "details": "2023년 구글 딥마인드 주도로 세계 34개 연구실이 60개 데이터셋(22종 로봇, 100만 개 이상 궤적)을 모아 만들었으며, 여기서 학습한 RT-1-X와 RT-2-X는 단일 로봇 데이터로 학습한 모델보다 성능이 향상되는 '긍정적 전이(positive transfer)'를 입증했습니다. 즉 다른 종류의 로봇 경험이 내 로봇에게도 도움이 된다는 것으로, '로봇계의 ImageNet'에 비유됩니다. RT-1→RT-2→RT-X로 이어지는 계보의 완결점이자, OpenVLA 등 후속 공개 모델들의 학습 데이터 기반이 되었습니다.",
+      "sources": [
+        {
+          "name": "Open X-Embodiment: Robotic Learning Datasets and RT-X Models (arXiv)",
+          "url": "https://arxiv.org/abs/2310.08864"
+        },
+        {
+          "name": "Open X-Embodiment 프로젝트 페이지",
+          "url": "https://robotics-transformer-x.github.io/"
+        }
+      ],
+      "related": ["RT-1", "RT-2", "OpenVLA", "Robotics Foundation Model"]
+    },
+    {
+      "id": "openvla",
+      "term": "OpenVLA (Open Vision-Language-Action Model)",
+      "ko": "오픈VLA",
+      "definition": "2024년 스탠퍼드 주도로 공개된 오픈소스 VLA 모델입니다. 누구나 모델 가중치를 내려받아 자기 로봇에 맞게 파인튜닝할 수 있습니다.",
+      "details": "스탠퍼드, UC 버클리, 구글 딥마인드, TRI 등이 참여했으며, 7B(70억) 파라미터 모델을 Open X-Embodiment의 97만 개 로봇 시연으로 학습했습니다. 폐쇄형이던 RT-2-X(55B)보다 7배 작으면서도 벤치마크에서 더 높은 성공률을 기록해, '공개 모델로도 최고 수준 로봇 제어가 가능하다'를 보여줬습니다. 소비자용 GPU에서 LoRA로 파인튜닝할 수 있어 연구실·스타트업의 VLA 실험 표준 출발점이 되었습니다. 우리처럼 자체 물류 시나리오에 로봇 AI를 적용해 보려는 팀이 실제로 만져 볼 수 있는 대표적 모델입니다.",
+      "sources": [
+        {
+          "name": "OpenVLA: An Open-Source Vision-Language-Action Model (arXiv)",
+          "url": "https://arxiv.org/abs/2406.09246"
+        },
+        {
+          "name": "OpenVLA 프로젝트 페이지",
+          "url": "https://openvla.github.io/"
+        }
+      ],
+      "related": ["VLA (Vision-Language-Action Model)", "RT-X", "π0 (Pi-Zero, Physical Intelligence)"]
+    },
+    {
+      "id": "pi0",
+      "term": "π0 (Pi-Zero, Physical Intelligence)",
+      "ko": "파이제로 (π0)",
+      "definition": "로봇 파운데이션 모델 스타트업 Physical Intelligence가 2024년 발표한 범용 로봇 정책(generalist policy)입니다. 빨래 개기, 테이블 정리 같은 길고 섬세한 작업을 하나의 모델로 수행합니다.",
+      "details": "사전학습된 VLM(PaliGemma)에 flow matching(디퓨전과 유사한 기법) 기반 행동 생성부를 결합한 VLA로, 7종의 로봇 플랫폼에서 약 1만 시간의 조작 데이터로 학습했습니다. 초당 최대 50회의 연속적인 행동 청크를 출력해 기존 VLA보다 훨씬 부드럽고 민첩한 제어가 가능합니다. 2025년 코드와 가중치가 openpi로 공개되어 1~20시간 분량의 데이터만으로 새 로봇·작업에 파인튜닝할 수 있으며, 이후 π0.5 등 후속 모델로 발전 중입니다. 상자 포장·분류처럼 손재주가 필요한 물류 작업 자동화의 최전선을 보여주는 모델입니다.",
+      "sources": [
+        {
+          "name": "π0: A Vision-Language-Action Flow Model for General Robot Control (arXiv)",
+          "url": "https://arxiv.org/abs/2410.24164"
+        },
+        {
+          "name": "Physical Intelligence π0 블로그",
+          "url": "https://www.physicalintelligence.company/blog/pi0"
+        }
+      ],
+      "related": ["VLA (Vision-Language-Action Model)", "Diffusion Policy", "ACT (Action Chunking Transformer)", "OpenVLA"]
+    },
+    {
+      "id": "gr00t-n1",
+      "term": "GR00T N1 (NVIDIA Isaac GR00T N1)",
+      "ko": "그루트 N1",
+      "definition": "NVIDIA가 2025년 공개한 휴머노이드 로봇용 오픈 파운데이션 모델입니다. 세계 최초의 '개방형 휴머노이드 로봇 파운데이션 모델'을 표방합니다.",
+      "details": "인간의 사고 방식을 본뜬 이중 시스템 구조가 특징으로, 시각-언어 모듈(System 2)이 상황을 이해·계획하고 디퓨전 트랜스포머(System 1)가 실시간으로 부드러운 동작을 생성합니다. 실제 로봇 궤적, 사람 동작 영상, 그리고 Isaac Sim 등에서 만든 합성 데이터를 섞어 학습했다는 점에서 '시뮬레이션으로 로봇을 키우는' NVIDIA 전략의 집약체입니다. 모델과 학습 데이터가 공개되어 있고 Isaac Sim/Isaac Lab 생태계와 바로 연동되므로, Isaac Sim 기반 물류 시뮬레이션 프로젝트에서 가장 직접적으로 활용을 검토할 수 있는 모델입니다. 이후 GR00T N1.5 등 후속 버전으로 업데이트되고 있습니다.",
+      "sources": [
+        {
+          "name": "GR00T N1: An Open Foundation Model for Generalist Humanoid Robots (arXiv)",
+          "url": "https://arxiv.org/abs/2503.14734"
+        },
+        {
+          "name": "NVIDIA Isaac GR00T 개발자 페이지",
+          "url": "https://developer.nvidia.com/isaac/gr00t"
+        }
+      ],
+      "related": ["VLA (Vision-Language-Action Model)", "Diffusion Policy", "Generative World Model", "Robotics Foundation Model"]
+    },
+    {
+      "id": "gemini-robotics",
+      "term": "Gemini Robotics",
+      "ko": "제미나이 로보틱스",
+      "definition": "구글 딥마인드가 2025년 공개한, Gemini 대형 멀티모달 모델을 기반으로 한 로봇용 VLA 모델 패밀리입니다. Gemini의 언어·시각 지능을 로봇의 물리적 행동으로 연결합니다.",
+      "details": "직접 로봇을 제어하는 VLA 모델(Gemini Robotics)과, 공간 이해·작업 계획에 특화된 임보디드 추론 모델(Gemini Robotics-ER)의 조합으로 출발했으며, 이후 로봇 하드웨어 위에서 직접 실행되는 On-Device 버전과 에이전트형 추론을 강화한 1.5 버전 등으로 확장되었습니다. RT-1/RT-2 계보를 잇는 구글 딥마인드의 차세대 로봇 AI로, '최신 프론티어 LLM을 그대로 로봇 두뇌로 쓰는' 흐름을 보여줍니다. 종이접기, 지퍼백 밀봉 같은 섬세한 작업까지 시연했으며, 물류에서는 복잡한 지시 이해와 다단계 작업 계획 능력이 특히 의미가 있습니다.",
+      "sources": [
+        {
+          "name": "Gemini Robotics 공식 페이지 (Google DeepMind)",
+          "url": "https://deepmind.google/models/gemini-robotics/"
+        },
+        {
+          "name": "Gemini Robotics 발표 블로그",
+          "url": "https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/"
+        }
+      ],
+      "related": ["VLA (Vision-Language-Action Model)", "RT-2", "Foundation Model"]
+    },
+    {
+      "id": "robocat",
+      "term": "RoboCat",
+      "ko": "로보캣",
+      "definition": "구글 딥마인드가 2023년 발표한 자가 개선(self-improving) 로봇 에이전트입니다. 스스로 연습 데이터를 만들어 자기 자신을 더 똑똑하게 재학습시킵니다.",
+      "details": "멀티모달 모델 Gato를 기반으로 하며, 하나의 모델이 여러 종류의 로봇 팔에서 253개 조작 작업을 수행합니다. 핵심은 자가 개선 루프입니다. 새 작업의 시연을 100~1,000개만 받아 파인튜닝한 뒤, 그 모델이 스스로 약 1만 번 연습해 만든 데이터를 다시 학습 데이터에 합쳐 더 나은 버전을 만드는 과정을 반복합니다. 사람의 데이터 수집 부담을 줄이는 이 아이디어는 이후 로봇 파운데이션 모델들의 데이터 플라이휠(flywheel) 전략에 영향을 주었습니다. 물류 로봇이 현장에서 스스로 경험을 쌓아 성능을 올리는 미래상을 미리 보여준 연구입니다.",
+      "sources": [
+        {
+          "name": "RoboCat: A Self-Improving Robotic Agent (DeepMind 블로그)",
+          "url": "https://deepmind.google/blog/robocat-a-self-improving-robotic-agent/"
+        },
+        {
+          "name": "RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation (arXiv)",
+          "url": "https://arxiv.org/abs/2306.11706"
+        }
+      ],
+      "related": ["Robotics Foundation Model", "RT-X", "Foundation Model"]
+    }
+  ]
+}

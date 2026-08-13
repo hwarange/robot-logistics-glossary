@@ -1,0 +1,203 @@
+{
+  "category": "multiagent",
+  "categoryKo": "멀티에이전트",
+  "terms": [
+    {
+      "id": "mas",
+      "term": "Multi-Agent System (MAS, 다중 에이전트 시스템)",
+      "ko": "다중 에이전트 시스템",
+      "definition": "여러 개의 자율적인 소프트웨어 개체(에이전트)가 서로 상호작용하며 하나의 큰 문제를 함께 해결하는 시스템입니다. 각 에이전트는 스스로 판단하고 행동하지만, 전체적으로는 공동의 목표를 향해 움직입니다.",
+      "details": "핵심 아이디어는 '한 개의 똑똑한 중앙 프로그램' 대신 '여러 개의 단순한 자율 개체'로 복잡한 문제를 푸는 것입니다. 에이전트는 로봇일 수도 있고, 스케줄러나 교통 관제 모듈 같은 순수 소프트웨어일 수도 있습니다. 물류센터 시뮬레이션에서는 수십 대의 로봇 각각이 하나의 에이전트가 되어 '어떤 주문을 누가 처리할지', '교차로에서 누가 먼저 지나갈지'를 상호작용으로 결정하는 구조 전체가 MAS입니다. 멀티에이전트 분야의 이론(협상, 합의, 경매 등)이 다중 로봇 제어의 기반이 됩니다.",
+      "sources": [
+        {"name": "Wikipedia - Multi-agent system", "url": "https://en.wikipedia.org/wiki/Multi-agent_system"}
+      ],
+      "related": ["Multi-Robot System (MRS)", "Coordination", "Multi-Agent Planning", "Negotiation"]
+    },
+    {
+      "id": "mrs",
+      "term": "Multi-Robot System (MRS, 다중 로봇 시스템)",
+      "ko": "다중 로봇 시스템",
+      "definition": "여러 대의 로봇이 하나의 팀처럼 함께 작업을 수행하는 시스템입니다. 다중 에이전트 시스템(MAS)의 개념을 물리적인 로봇에 적용한 것이라고 볼 수 있습니다.",
+      "details": "로봇 한 대로는 불가능하거나 오래 걸리는 일을 여러 대가 나눠서 병렬로 처리하고, 일부 로봇이 고장 나도 나머지가 일을 이어받을 수 있다는 것이 장점입니다. 소프트웨어 에이전트와 달리 실제 공간에서 움직이므로 충돌 회피, 배터리, 통신 지연 같은 물리적 제약이 추가됩니다. 쿠팡식 물류센터에서 수십 대의 운반 로봇이 동시에 선반을 나르는 것이 대표적인 MRS이며, '어떤 로봇에게 어떤 작업을 줄 것인가'라는 다중 로봇 작업 할당(MRTA, Multi-Robot Task Allocation) 문제가 핵심 연구 주제입니다.",
+      "sources": [
+        {"name": "Gerkey & Matarić, \"A Formal Analysis and Taxonomy of Task Allocation in Multi-Robot Systems\" (IJRR 2004)", "url": "https://journals.sagepub.com/doi/10.1177/0278364904045564"},
+        {"name": "Wikipedia - Multi-agent system", "url": "https://en.wikipedia.org/wiki/Multi-agent_system"}
+      ],
+      "related": ["Multi-Agent System (MAS)", "Swarm Robotics", "Auction-Based Allocation", "Cooperative Robotics"]
+    },
+    {
+      "id": "swarm-intelligence",
+      "term": "Swarm Intelligence (군집 지능)",
+      "ko": "군집 지능",
+      "definition": "개미 떼나 새 떼처럼, 단순한 개체들이 간단한 규칙에 따라 상호작용할 때 집단 전체에서 지능적인 행동이 저절로 나타나는 현상 또는 이를 활용한 인공지능 기법입니다.",
+      "details": "중앙 지휘자가 없어도 개체들이 이웃과의 국소적(local) 상호작용만으로 길 찾기, 먹이 운반 같은 복잡한 집단 행동을 만들어내는 것이 핵심입니다. 개미 군집 최적화(ACO), 입자 군집 최적화(PSO) 같은 최적화 알고리즘도 여기서 나왔습니다. 물류센터 관점에서는 각 로봇이 '혼잡한 통로는 피한다' 같은 단순 규칙만 따라도 전체 교통 흐름이 자연스럽게 분산되는 식의 설계에 이 아이디어가 쓰입니다. 개별 개체는 단순하지만 집단은 유연하고 고장에 강하다는 것이 매력입니다.",
+      "sources": [
+        {"name": "Wikipedia - Swarm intelligence", "url": "https://en.wikipedia.org/wiki/Swarm_intelligence"}
+      ],
+      "related": ["Swarm Robotics", "Decentralized Control", "Multi-Agent System (MAS)"]
+    },
+    {
+      "id": "swarm-robotics",
+      "term": "Swarm Robotics (군집 로봇공학)",
+      "ko": "군집 로봇공학",
+      "definition": "군집 지능의 원리를 로봇에 적용하여, 다수의 비교적 단순하고 저렴한 로봇이 중앙 통제 없이 집단 행동으로 임무를 수행하도록 하는 로봇공학 분야입니다.",
+      "details": "일반적인 다중 로봇 시스템(MRS)과 달리, 군집 로봇공학은 '아주 많은 수(수십~수천 대)', '개체의 단순함', '완전한 분산 제어'를 강조합니다. 각 로봇은 주변 로봇과 환경 정보만 이용해 행동하므로, 로봇을 추가하거나 일부가 고장 나도 시스템이 자연스럽게 적응합니다(확장성과 강건성). 물류센터 시뮬레이션에서 로봇 대수를 수백 대로 늘리는 것을 고려한다면, 중앙 서버가 모든 로봇을 일일이 지휘하는 방식 대신 군집 로봇 방식의 규칙 기반 분산 설계가 대안이 됩니다.",
+      "sources": [
+        {"name": "Wikipedia - Swarm robotics", "url": "https://en.wikipedia.org/wiki/Swarm_robotics"}
+      ],
+      "related": ["Swarm Intelligence", "Multi-Robot System (MRS)", "Decentralized Control"]
+    },
+    {
+      "id": "cooperative-robotics",
+      "term": "Cooperative Robotics (협력 로봇공학)",
+      "ko": "협력 로봇공학 (로봇 간 협력)",
+      "definition": "여러 대의 로봇이 서로 힘을 합쳐 공동의 목표를 달성하도록 만드는 기술 분야입니다. 여기서 협력의 주체는 로봇과 로봇입니다.",
+      "details": "무거운 물체를 두 대가 함께 운반하거나, 한 로봇이 탐색하고 다른 로봇이 운반하는 식의 역할 분담이 대표적인 예입니다. 주의할 점은 Collaborative Robotics(협동 로봇, cobot)와의 구별인데, Cooperative는 '로봇-로봇 간 협력'을, Collaborative는 주로 '인간-로봇 간 협업'을 가리키는 용어로 쓰입니다. 물류센터 시뮬레이션에서 수십 대 로봇이 작업을 나누고 경로를 양보하며 전체 처리량을 높이는 것이 바로 협력 로봇공학의 문제 설정입니다.",
+      "sources": [
+        {"name": "Cao, Fukunaga & Kahng, \"Cooperative Mobile Robotics: Antecedents and Directions\" (Autonomous Robots, 1997)", "url": "https://link.springer.com/article/10.1023/A:1008855018923"}
+      ],
+      "related": ["Collaborative Robotics", "Cooperation", "Multi-Robot System (MRS)", "Coordination"]
+    },
+    {
+      "id": "collaborative-robotics",
+      "term": "Collaborative Robotics (협동 로봇공학)",
+      "ko": "협동 로봇공학 (인간-로봇 협업, 코봇)",
+      "definition": "안전 울타리 없이 사람 바로 옆에서 함께 일할 수 있도록 설계된 로봇(코봇, cobot)과 그 기술을 다루는 분야입니다. 핵심은 로봇과 인간의 협업입니다.",
+      "details": "전통적인 산업용 로봇은 사람이 접근하지 못하게 격리해서 운용하지만, 코봇은 힘 제한, 충돌 감지, 부드러운 동작 등을 통해 사람과 같은 공간에서 안전하게 작업합니다. Cooperative Robotics(로봇-로봇 협력)와 이름이 비슷해 혼동하기 쉬운데, Collaborative는 관례적으로 '인간-로봇' 관계를 지칭합니다. 물류센터 맥락에서는 로봇이 선반을 사람 작업자(피커) 앞까지 가져다주고 사람이 상품을 집는 구역처럼, 사람과 로봇이 공존하는 공정을 설계할 때 이 개념과 안전 기준이 중요해집니다.",
+      "sources": [
+        {"name": "Wikipedia - Cobot", "url": "https://en.wikipedia.org/wiki/Cobot"}
+      ],
+      "related": ["Cooperative Robotics", "Multi-Robot System (MRS)"]
+    },
+    {
+      "id": "centralized-control",
+      "term": "Centralized Control (중앙집중식 제어)",
+      "ko": "중앙집중식 제어",
+      "definition": "하나의 중앙 컴퓨터(서버)가 모든 로봇의 상태를 파악하고, 각 로봇에게 무엇을 할지 직접 지시하는 제어 방식입니다.",
+      "details": "중앙이 전체 정보를 모두 알고 있으므로 이론적으로 가장 좋은(전역 최적) 결정을 내릴 수 있고, 구현과 디버깅도 직관적입니다. 대신 로봇 수가 늘어나면 중앙의 계산량과 통신량이 폭증하고, 중앙 서버가 죽으면 전체 시스템이 멈추는 단일 장애점(single point of failure) 문제가 있습니다. 실제 아마존/쿠팡식 물류센터는 관제 서버가 로봇들의 경로와 작업을 지휘하는 중앙집중식에 가깝게 운영되는 경우가 많으며, 수십 대 규모의 시뮬레이션에서는 충분히 현실적인 선택입니다. 분산식(Decentralized/Distributed)과의 대비가 이 분야의 기본 설계 축입니다.",
+      "sources": [
+        {"name": "Cao, Fukunaga & Kahng, \"Cooperative Mobile Robotics: Antecedents and Directions\" (Autonomous Robots, 1997)", "url": "https://link.springer.com/article/10.1023/A:1008855018923"},
+        {"name": "Wikipedia - Multi-agent system", "url": "https://en.wikipedia.org/wiki/Multi-agent_system"}
+      ],
+      "related": ["Decentralized Control", "Distributed Control", "Hierarchical Control"]
+    },
+    {
+      "id": "decentralized-control",
+      "term": "Decentralized Control (탈중앙 제어)",
+      "ko": "탈중앙(분권형) 제어",
+      "definition": "중앙 지휘자 없이 각 로봇이 자신이 가진 정보(주로 주변 로봇과 환경 관측)만으로 스스로 판단하고 행동하는 제어 방식입니다.",
+      "details": "중앙집중식의 정반대 개념으로, 단일 장애점이 없고 로봇 수를 늘려도 중앙 병목이 생기지 않아 확장성이 좋습니다. 대신 각 로봇이 부분 정보만 갖고 결정하므로 전체적으로는 최적이 아닌 결과가 나올 수 있고, 로봇 간 충돌이나 작업 중복을 막기 위한 별도의 조정(coordination) 메커니즘이 필요합니다. Distributed Control과 거의 같은 의미로 혼용되지만, 굳이 구분하면 Decentralized는 '중앙 권한의 부재'를, Distributed는 '계산과 정보가 여러 노드에 나뉘어 협력적으로 처리됨'을 강조하는 뉘앙스입니다. 군집 로봇공학이 이 방식의 대표 사례입니다.",
+      "sources": [
+        {"name": "Wikipedia - Decentralised system", "url": "https://en.wikipedia.org/wiki/Decentralised_system"},
+        {"name": "Cao, Fukunaga & Kahng, \"Cooperative Mobile Robotics: Antecedents and Directions\" (Autonomous Robots, 1997)", "url": "https://link.springer.com/article/10.1023/A:1008855018923"}
+      ],
+      "related": ["Centralized Control", "Distributed Control", "Swarm Robotics", "Consensus"]
+    },
+    {
+      "id": "distributed-control",
+      "term": "Distributed Control (분산 제어)",
+      "ko": "분산 제어",
+      "definition": "제어에 필요한 계산과 의사결정을 하나의 중앙이 아니라 여러 로봇(노드)에 나누어 수행하되, 노드끼리 통신하며 협력적으로 전체 목표를 달성하는 제어 방식입니다.",
+      "details": "탈중앙 제어(Decentralized)와 사실상 같은 부류로 묶이며 문헌에서도 자주 혼용되지만, Distributed는 '일은 나눠서 하되 서로 정보를 주고받으며 함께 푼다'는 협력적 계산 측면을 강조합니다. 예를 들어 로봇들이 서로 위치 정보를 교환하며 합의(consensus) 알고리즘으로 대형을 맞추거나 교통 흐름을 조율하는 것이 분산 제어입니다. 중앙집중식(전체 정보·중앙 결정)과 순수 탈중앙식(국소 정보·독립 결정)의 사이에서, 통신을 통해 부분 정보를 공유하는 절충 지점으로 이해하면 됩니다. 참고로 공정 산업에서 말하는 DCS(Distributed Control System)는 같은 이름의 다른 개념(제어기를 물리적으로 분산 배치한 플랜트 제어 시스템)이니 혼동하지 않도록 주의해야 합니다.",
+      "sources": [
+        {"name": "Wikipedia - Consensus dynamics", "url": "https://en.wikipedia.org/wiki/Consensus_dynamics"},
+        {"name": "Wikipedia - Distributed control system", "url": "https://en.wikipedia.org/wiki/Distributed_control_system"}
+      ],
+      "related": ["Decentralized Control", "Centralized Control", "Consensus", "Coordination"]
+    },
+    {
+      "id": "hierarchical-control",
+      "term": "Hierarchical Control (계층적 제어)",
+      "ko": "계층적 제어",
+      "definition": "제어를 여러 층(계층)으로 나누어, 상위 계층은 큰 그림의 계획을 세우고 하위 계층은 세부 실행을 담당하게 하는 제어 구조입니다.",
+      "details": "중앙집중식과 분산식의 절충안으로, 예를 들어 최상위 관제가 주문을 구역별로 배분하면, 구역 관리자(중간 계층)가 담당 로봇들에게 작업을 나누고, 각 로봇(하위 계층)은 자기 경로 주행과 장애물 회피를 스스로 처리하는 식입니다. 상위로 갈수록 넓은 범위를 느린 주기로, 하위로 갈수록 좁은 범위를 빠른 주기로 다루는 것이 특징입니다. 수십 대 규모의 물류센터 시뮬레이션에서는 '전역 작업 할당은 중앙에서, 실시간 충돌 회피는 로봇 개별로' 나누는 계층 설계가 현실적이고 흔한 선택입니다.",
+      "sources": [
+        {"name": "Wikipedia - Hierarchical control system", "url": "https://en.wikipedia.org/wiki/Hierarchical_control_system"}
+      ],
+      "related": ["Centralized Control", "Decentralized Control", "Distributed Control"]
+    },
+    {
+      "id": "consensus",
+      "term": "Consensus (합의)",
+      "ko": "합의",
+      "definition": "여러 에이전트(로봇)가 각자 다른 정보나 의견에서 출발해, 서로 통신을 주고받으며 하나의 공통된 값이나 결정에 도달하는 것을 말합니다.",
+      "details": "분산 시스템의 핵심 문제로, 중앙 심판 없이도 '모두가 같은 답을 갖게 만드는' 알고리즘을 다룹니다. 로봇공학에서는 이웃 로봇과 값을 반복적으로 평균 내며 수렴시키는 합의 프로토콜(consensus/agreement dynamics)이 대형 유지, 집결 지점 결정, 시계 동기화 등에 쓰입니다. 물류센터 시뮬레이션에서는 예를 들어 여러 로봇이 '어떤 통로가 막혔는지'에 대한 인식을 일치시키거나, 분산 방식으로 작업 담당자를 확정할 때 합의 개념이 필요합니다. 분산 컴퓨팅 분야의 합의(장애가 있어도 값을 일치시키는 문제)와 제어 이론의 합의(상태 값의 수렴)는 같은 이름의 밀접한 두 갈래입니다.",
+      "sources": [
+        {"name": "Wikipedia - Consensus dynamics", "url": "https://en.wikipedia.org/wiki/Consensus_dynamics"},
+        {"name": "Wikipedia - Consensus (computer science)", "url": "https://en.wikipedia.org/wiki/Consensus_(computer_science)"}
+      ],
+      "related": ["Distributed Control", "Coordination", "Decentralized Control"]
+    },
+    {
+      "id": "coordination",
+      "term": "Coordination (조정)",
+      "ko": "조정",
+      "definition": "여러 로봇의 행동이 서로 방해되지 않고 잘 맞물리도록 순서, 시간, 공간을 조율하는 것입니다. '누가, 언제, 어디서, 무엇을' 하는지를 정리하는 활동이라고 보면 됩니다.",
+      "details": "협력(cooperation)이 '함께 목표를 이루려는 의지와 행위'라면, 조정(coordination)은 그것이 실제로 충돌 없이 굴러가게 만드는 '교통정리'에 해당합니다. 좁은 통로에서 두 로봇이 마주쳤을 때 누가 양보할지, 같은 선반을 두 로봇이 동시에 가지러 가지 않게 하는 것이 모두 조정 문제입니다. 다중 로봇 경로 계획(MAPF), 작업 할당, 교차로 우선순위 규칙 등이 물류센터 시뮬레이션에서 조정을 구현하는 구체적 수단이며, 조정 방식이 중앙집중식이냐 분산식이냐가 시스템 아키텍처를 결정짓습니다.",
+      "sources": [
+        {"name": "Wikipedia - Multi-agent system", "url": "https://en.wikipedia.org/wiki/Multi-agent_system"},
+        {"name": "Dias et al., \"Market-Based Multirobot Coordination: A Survey and Analysis\" (Proceedings of the IEEE, 2006)", "url": "https://doi.org/10.1109/JPROC.2006.876939"}
+      ],
+      "related": ["Cooperation", "Consensus", "Multi-Agent Planning", "Market-Based Allocation"]
+    },
+    {
+      "id": "cooperation",
+      "term": "Cooperation (협력)",
+      "ko": "협력",
+      "definition": "여러 로봇이 공동의 목표를 위해 서로 도우며 함께 일하는 것입니다. 혼자서는 못 하거나 비효율적인 일을 여럿이 힘을 합쳐 해내는 관계를 뜻합니다.",
+      "details": "조정(coordination)이 '서로 방해하지 않게 맞추는 것'이라면, 협력은 한 단계 나아가 '서로의 성과를 적극적으로 높여주는 것'입니다. 예를 들어 배터리가 부족한 로봇의 남은 작업을 다른 로봇이 넘겨받거나, 두 로봇이 대형 화물을 함께 운반하는 것이 협력입니다. 로봇-로봇 협력을 다루는 분야가 Cooperative Robotics이고, 인간-로봇 협업은 Collaborative(cobot) 쪽 용어를 쓴다는 점을 기억해 두면 문헌을 읽을 때 혼동이 줄어듭니다. 물류센터 시뮬레이션의 성능 지표(총 처리량, 평균 배송 시간)는 결국 로봇들의 협력 수준을 측정하는 셈입니다.",
+      "sources": [
+        {"name": "Cao, Fukunaga & Kahng, \"Cooperative Mobile Robotics: Antecedents and Directions\" (Autonomous Robots, 1997)", "url": "https://link.springer.com/article/10.1023/A:1008855018923"},
+        {"name": "Wikipedia - Cooperation", "url": "https://en.wikipedia.org/wiki/Cooperation"}
+      ],
+      "related": ["Coordination", "Cooperative Robotics", "Collaborative Robotics", "Negotiation"]
+    },
+    {
+      "id": "negotiation",
+      "term": "Negotiation (협상)",
+      "ko": "협상",
+      "definition": "에이전트(로봇)들이 서로 제안을 주고받으며 작업 분담, 자원 사용, 우선순위 같은 이해가 엇갈리는 문제의 합의점을 찾는 과정입니다.",
+      "details": "멀티에이전트 시스템에서 협상은 사람 간 흥정처럼, 각 에이전트가 자신의 상황(위치, 배터리, 현재 작업량)을 반영한 제안을 교환하며 모두가 받아들일 만한 결론에 도달하는 메커니즘입니다. 고전적인 예가 Contract Net Protocol(계약망 프로토콜)로, 관리자 역할 에이전트가 작업을 공고하면 다른 에이전트들이 입찰 제안을 보내고 가장 좋은 제안자에게 작업을 '계약'하는 방식입니다. 물류센터에서는 '이 선반 운반 작업을 누가 맡을까'를 로봇끼리 제안-응답으로 정하는 것이 협상이며, 경매 기반 할당은 이 협상을 정형화한 대표적 형태입니다.",
+      "sources": [
+        {"name": "Wikipedia - Contract Net Protocol", "url": "https://en.wikipedia.org/wiki/Contract_Net_Protocol"},
+        {"name": "Wikipedia - Multi-agent system", "url": "https://en.wikipedia.org/wiki/Multi-agent_system"}
+      ],
+      "related": ["Auction-Based Allocation", "Market-Based Allocation", "Cooperation", "Coordination"]
+    },
+    {
+      "id": "auction-based-allocation",
+      "term": "Auction-Based Allocation (경매 기반 할당)",
+      "ko": "경매 기반 (작업) 할당",
+      "definition": "새 작업이 생기면 로봇들이 경매처럼 입찰(bid)을 제출하고, 가장 좋은 조건(예: 가장 가까운 거리, 가장 낮은 비용)을 제시한 로봇에게 그 작업을 배정하는 방식입니다.",
+      "details": "각 로봇은 '내가 이 작업을 하면 비용이 얼마인가'(이동 거리, 예상 시간, 배터리 등)를 계산해 입찰가로 제출하고, 경매인(중앙 서버 또는 작업을 낸 로봇)이 최저 비용 입찰자를 낙찰시킵니다. 계산이 로봇별로 분산되어 확장성이 좋고, 통신도 입찰 메시지 정도로 가벼우며, 완전한 전역 최적은 아니어도 꽤 좋은 할당을 빠르게 얻습니다. 경매는 시장 기반 할당(market-based allocation)이라는 더 큰 틀의 가장 대표적인 구현 방식입니다. 물류센터 시뮬레이션에서 '새 주문이 뜨면 유휴 로봇들이 입찰해서 가장 가까운 로봇이 가져간다'는 로직이 바로 이것입니다.",
+      "sources": [
+        {"name": "Dias et al., \"Market-Based Multirobot Coordination: A Survey and Analysis\" (Proceedings of the IEEE, 2006)", "url": "https://doi.org/10.1109/JPROC.2006.876939"},
+        {"name": "Gerkey & Matarić, \"A Formal Analysis and Taxonomy of Task Allocation in Multi-Robot Systems\" (IJRR 2004)", "url": "https://journals.sagepub.com/doi/10.1177/0278364904045564"}
+      ],
+      "related": ["Market-Based Allocation", "Negotiation", "Multi-Robot System (MRS)", "Coordination"]
+    },
+    {
+      "id": "market-based-allocation",
+      "term": "Market-Based Allocation (시장 기반 할당)",
+      "ko": "시장 기반 (작업) 할당",
+      "definition": "경제학의 시장 원리(가격, 비용, 수익, 거래)를 빌려와 로봇들에게 작업과 자원을 배분하는 접근법의 총칭입니다. 각 로봇은 이익을 극대화하려는 '상인'처럼 행동합니다.",
+      "details": "작업에는 보상(가격)이, 수행에는 비용이 매겨지고, 로봇들은 '이익 = 보상 - 비용'이 큰 작업을 얻으려 경쟁하거나 이미 맡은 작업을 다른 로봇에게 재판매(re-auction)하기도 합니다. 개별 로봇의 이기적 선택이 모이면 시스템 전체의 효율이 자연스럽게 올라간다는 것이 핵심 아이디어입니다. 경매 기반 할당은 시장 기반 접근의 가장 대표적이고 널리 쓰이는 사례이며, 그 외에도 거래·가격 협상 등 다양한 시장 메커니즘이 포함됩니다. 중앙집중식(최적이지만 무겁다)과 완전 분산식(가볍지만 품질 보장이 약하다) 사이의 실용적인 절충으로 평가받아, 대규모 물류 로봇 작업 분배에 자주 거론됩니다.",
+      "sources": [
+        {"name": "Dias et al., \"Market-Based Multirobot Coordination: A Survey and Analysis\" (Proceedings of the IEEE, 2006)", "url": "https://doi.org/10.1109/JPROC.2006.876939"}
+      ],
+      "related": ["Auction-Based Allocation", "Negotiation", "Coordination", "Multi-Robot System (MRS)"]
+    },
+    {
+      "id": "multi-agent-planning",
+      "term": "Multi-Agent Planning (다중 에이전트 계획)",
+      "ko": "다중 에이전트 계획",
+      "definition": "여러 에이전트(로봇)의 행동 계획을 함께 세우는 것으로, 각자의 계획이 서로 충돌하지 않고 전체 목표에 기여하도록 만드는 인공지능 분야입니다.",
+      "details": "한 대의 로봇 계획과 달리, 다른 로봇들의 행동까지 고려해야 하므로 문제가 훨씬 어려워집니다. 모든 로봇의 계획을 한꺼번에 세우는 중앙집중식 계획과, 각자 계획을 세운 뒤 충돌 부분만 조율(계획 병합, 협상)하는 분산식 계획으로 나뉩니다. 물류센터에서 가장 유명한 하위 문제가 다중 에이전트 경로 탐색(MAPF, Multi-Agent Path Finding)으로, 수십 대 로봇이 좁은 통로 격자에서 서로 부딪히지 않는 경로들을 동시에 찾는 문제이며 아마존식 창고 로봇의 핵심 기술로 꼽힙니다. Isaac Sim 시뮬레이션에서 로봇들의 경로가 꼬여 교착(deadlock)이 생긴다면 바로 이 계획 문제를 풀어야 하는 상황입니다.",
+      "sources": [
+        {"name": "Wikipedia - Multi-agent planning", "url": "https://en.wikipedia.org/wiki/Multi-agent_planning"},
+        {"name": "Wikipedia - Multi-agent pathfinding", "url": "https://en.wikipedia.org/wiki/Multi-agent_pathfinding"}
+      ],
+      "related": ["Multi-Agent System (MAS)", "Coordination", "Auction-Based Allocation", "Consensus"]
+    }
+  ]
+}

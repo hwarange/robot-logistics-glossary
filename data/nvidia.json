@@ -1,0 +1,178 @@
+{
+  "category": "nvidia",
+  "categoryKo": "NVIDIA 생태계",
+  "terms": [
+    {
+      "id": "nvidia-isaac",
+      "term": "NVIDIA Isaac",
+      "ko": "엔비디아 아이작 (로봇 개발 플랫폼)",
+      "definition": "NVIDIA가 제공하는 AI 로봇 개발 플랫폼 전체를 가리키는 이름으로, 로봇의 시뮬레이션·학습·실제 구동에 필요한 도구들을 하나로 묶은 브랜드입니다.",
+      "details": "Isaac이라는 우산 아래에 시뮬레이터인 Isaac Sim, 강화학습 프레임워크인 Isaac Lab, 실제 로봇용 소프트웨어 패키지인 Isaac ROS, 로봇 파운데이션 모델인 Isaac GR00T 등이 포함됩니다. 즉 '가상에서 로봇을 만들어 훈련시키고, 실제 로봇에 옮겨 싣는' 전 과정을 커버하는 생태계입니다. 우리 프로젝트는 이 중 Isaac Sim을 중심으로 물류센터 로봇 시뮬레이션을 구축하므로, 다른 Isaac 제품들과의 역할 구분을 알아두면 문서를 읽을 때 혼동이 없습니다.",
+      "sources": [
+        {"name": "NVIDIA Isaac - AI Robot Development Platform", "url": "https://developer.nvidia.com/isaac"}
+      ],
+      "related": ["Isaac Sim", "Isaac Lab", "Isaac ROS", "GR00T"]
+    },
+    {
+      "id": "isaac-sim",
+      "term": "Isaac Sim",
+      "ko": "아이작 심 (로봇 시뮬레이터)",
+      "definition": "NVIDIA Omniverse 위에서 동작하는 로봇 전용 3D 시뮬레이터로, 물리 법칙이 적용되는 가상 공간에서 로봇을 만들고 테스트할 수 있는 프로그램입니다.",
+      "details": "실제 로봇과 물류센터를 만들기 전에 컴퓨터 안에서 로봇의 주행, 물건 집기, 센서(카메라·라이다) 동작을 사실적으로 재현해 볼 수 있습니다. Omniverse가 렌더링과 협업 기반을, OpenUSD가 3D 장면 데이터 형식을, PhysX가 물리 연산을 담당하는 3층 구조 위에 세워진 애플리케이션입니다. 2025년 SIGGRAPH에서 5.0 버전이 정식 공개되어 오픈소스화되었고 현재 5.x 버전대가 사용됩니다. 우리 프로젝트에서는 쿠팡식 물류센터 환경과 로봇을 이 안에 구축하는, 사실상 작업의 중심 무대입니다. Isaac Lab(강화학습용)이나 Isaac ROS(실제 로봇용)와 달리 '가상 세계 자체를 만들고 돌리는' 역할입니다.",
+      "sources": [
+        {"name": "Isaac Sim Documentation", "url": "https://docs.isaacsim.omniverse.nvidia.com/"},
+        {"name": "NVIDIA Isaac Sim 제품 페이지", "url": "https://developer.nvidia.com/isaac/sim"}
+      ],
+      "related": ["Omniverse", "OpenUSD", "PhysX", "Isaac Lab"]
+    },
+    {
+      "id": "isaac-lab",
+      "term": "Isaac Lab",
+      "ko": "아이작 랩 (로봇 학습 프레임워크)",
+      "definition": "Isaac Sim 위에서 동작하는 오픈소스 로봇 학습 프레임워크로, 강화학습·모방학습으로 로봇에게 동작을 '가르치는' 도구입니다.",
+      "details": "Isaac Sim이 가상 세계를 만드는 시뮬레이터라면, Isaac Lab은 그 위에서 수천 개의 로봇을 동시에(병렬로) 돌리며 시행착오를 통해 정책(policy)을 학습시키는 훈련장입니다. 예전의 Isaac Gym을 계승한 프레임워크로, GPU 병렬 시뮬레이션 덕분에 학습 속도가 매우 빠릅니다. 우리 프로젝트에서 로봇 팔의 파지(잡기)나 이동 로봇의 주행 정책을 강화학습으로 만들고 싶다면 Isaac Lab을 사용하게 되며, 학습에는 원격 L40S 서버 같은 고성능 GPU가 유리합니다.",
+      "sources": [
+        {"name": "Isaac Lab Documentation", "url": "https://isaac-sim.github.io/IsaacLab/"}
+      ],
+      "related": ["Isaac Sim", "Reinforcement Learning", "Sim-to-Real", "GR00T"]
+    },
+    {
+      "id": "isaac-ros",
+      "term": "Isaac ROS (Robot Operating System)",
+      "ko": "아이작 로스 (실제 로봇용 가속 패키지)",
+      "definition": "오픈소스 로봇 미들웨어인 ROS 2 위에 NVIDIA가 얹은 GPU 가속 패키지 모음으로, 실제 로봇의 인식·항법 기능을 빠르게 구현하게 해 줍니다.",
+      "details": "카메라 기반 인식, SLAM(위치 추정·지도 작성), 경로 계획 같은 로봇 핵심 기능을 CUDA로 가속한 ROS 2 패키지로 제공하며, 주로 Jetson 같은 실제 로봇 탑재 컴퓨터에서 돌아갑니다. Isaac Sim이 '가상 로봇'을, Isaac Lab이 '학습'을 담당한다면, Isaac ROS는 '실제 로봇에서 도는 소프트웨어'를 담당한다고 구분하면 됩니다. 우리 프로젝트에서는 Isaac Sim의 ROS 2 브리지를 통해 시뮬레이션 속 로봇을 ROS 2 노드로 제어하는 식으로 연결되며, 나중에 실물 로봇으로 확장할 때 그대로 이어 쓸 수 있습니다.",
+      "sources": [
+        {"name": "NVIDIA Isaac ROS 제품 페이지", "url": "https://developer.nvidia.com/isaac/ros"},
+        {"name": "Isaac ROS Documentation", "url": "https://nvidia-isaac-ros.github.io/"}
+      ],
+      "related": ["ROS 2", "Isaac Sim", "Jetson", "CUDA"]
+    },
+    {
+      "id": "omniverse",
+      "term": "Omniverse",
+      "ko": "옴니버스 (3D 시뮬레이션 플랫폼)",
+      "definition": "NVIDIA의 3D 시뮬레이션·협업 플랫폼으로, 사실적인 렌더링과 물리 시뮬레이션이 가능한 가상 세계를 만드는 공통 기반입니다.",
+      "details": "여러 3D 도구의 데이터를 OpenUSD 형식으로 모아 하나의 가상 세계(디지털 트윈)를 구성하고, RTX 렌더링으로 실사처럼 보여주는 플랫폼입니다. Isaac Sim은 바로 이 Omniverse 위에 만들어진 로봇 특화 애플리케이션이어서, Omniverse의 구조(USD 스테이지, 익스텐션 등)를 이해하면 Isaac Sim도 쉽게 이해됩니다. 즉 'Omniverse(플랫폼) + OpenUSD(데이터 형식) + PhysX(물리 엔진) = Isaac Sim의 기반'이라는 관계입니다. 물류센터 디지털 트윈을 만드는 우리 프로젝트에서는 이 기반 위에서 모든 장면이 구성됩니다.",
+      "sources": [
+        {"name": "NVIDIA Omniverse", "url": "https://www.nvidia.com/en-us/omniverse/"},
+        {"name": "Omniverse for Developers", "url": "https://developer.nvidia.com/omniverse"}
+      ],
+      "related": ["Isaac Sim", "OpenUSD", "PhysX", "Digital Twin"]
+    },
+    {
+      "id": "openusd",
+      "term": "OpenUSD (Universal Scene Description)",
+      "ko": "오픈USD (범용 장면 기술 형식)",
+      "definition": "픽사(Pixar)가 만들고 오픈소스화한 3D 장면 기술(description) 표준으로, 3D 세계의 물체·배치·재질 등을 파일로 표현하는 '3D계의 공용 언어'입니다.",
+      "details": "하나의 장면을 여러 레이어로 겹쳐 쓰고 여러 사람이 동시에 작업할 수 있는 것이 특징이며, .usd/.usda/.usdc/.usdz 확장자를 씁니다. Omniverse와 Isaac Sim은 모든 장면 데이터를 USD로 저장하므로, 우리가 만드는 물류센터 맵, 선반, 로봇 모델이 전부 USD 파일로 관리됩니다. 로봇 기술 파일(URDF 등)을 Isaac Sim으로 가져오면 USD로 변환되는 식입니다. 현재는 AOUSD(Alliance for OpenUSD)라는 표준화 단체가 스펙을 관리하며 사실상 산업 표준으로 자리 잡았습니다.",
+      "sources": [
+        {"name": "OpenUSD 공식 사이트", "url": "https://openusd.org/release/index.html"},
+        {"name": "NVIDIA OpenUSD 소개", "url": "https://www.nvidia.com/en-us/omniverse/usd/"}
+      ],
+      "related": ["Omniverse", "Isaac Sim", "URDF"]
+    },
+    {
+      "id": "physx",
+      "term": "PhysX",
+      "ko": "피직스 (물리 엔진)",
+      "definition": "NVIDIA의 오픈소스 물리 엔진으로, 중력·충돌·마찰 같은 물리 법칙을 컴퓨터로 계산해 가상 물체가 현실처럼 움직이게 합니다.",
+      "details": "원래 게임에서 많이 쓰이던 엔진이지만, Isaac Sim에서는 로봇 관절의 움직임, 바퀴와 바닥의 마찰, 상자를 집을 때의 접촉력 등을 계산하는 핵심 부품으로 들어가 있습니다. GPU 가속을 지원해 수천 개 환경을 병렬로 시뮬레이션할 수 있어 Isaac Lab의 대규모 강화학습도 가능해집니다. 시뮬레이션에서 로봇이 미끄러지거나 물체가 튕겨 나가는 등 이상 동작이 보이면 대개 PhysX 관련 파라미터(마찰 계수, 솔버 반복 횟수 등)를 조정하게 됩니다.",
+      "sources": [
+        {"name": "NVIDIA PhysX SDK", "url": "https://developer.nvidia.com/physx-sdk"}
+      ],
+      "related": ["Isaac Sim", "Omniverse", "Physics Simulation"]
+    },
+    {
+      "id": "cuda",
+      "term": "CUDA (Compute Unified Device Architecture)",
+      "ko": "쿠다 (GPU 병렬 컴퓨팅 플랫폼)",
+      "definition": "NVIDIA GPU로 그래픽 외의 일반 계산(딥러닝, 물리 연산 등)을 시킬 수 있게 해 주는 병렬 컴퓨팅 플랫폼이자 프로그래밍 모델입니다.",
+      "details": "GPU는 수천 개의 작은 코어로 같은 계산을 동시에 처리하는 데 강한데, CUDA는 이를 개발자가 활용할 수 있게 해 주는 기반 기술입니다. PyTorch 같은 딥러닝 프레임워크, Isaac Sim의 PhysX 물리 연산, Isaac ROS의 인식 가속이 모두 CUDA 위에서 돌아갑니다. 사실상 NVIDIA 생태계 전체의 최하층 토대라서, 환경 설정 시 'CUDA 버전과 드라이버 호환성'이 가장 흔한 문제로 등장합니다. 우리 프로젝트에서도 로컬 RTX 4070이든 원격 L40S 서버든 CUDA 환경 맞추기가 첫 관문입니다.",
+      "sources": [
+        {"name": "NVIDIA CUDA Zone", "url": "https://developer.nvidia.com/cuda-zone"}
+      ],
+      "related": ["TensorRT", "PhysX", "Jetson"]
+    },
+    {
+      "id": "tensorrt",
+      "term": "TensorRT",
+      "ko": "텐서RT (추론 최적화 엔진)",
+      "definition": "학습이 끝난 딥러닝 모델을 NVIDIA GPU에서 최대한 빠르게 실행(추론)되도록 최적화해 주는 라이브러리입니다.",
+      "details": "모델 학습은 PyTorch 등으로 하고, 실제 서비스나 로봇에 올릴 때는 TensorRT로 변환해 지연 시간을 줄이고 처리량을 높이는 것이 일반적인 흐름입니다. 양자화(FP16/INT8), 레이어 융합 같은 기법으로 같은 GPU에서도 몇 배 빠른 추론이 가능합니다. 로봇은 카메라 영상을 실시간으로 인식해야 하므로, Jetson에 올라가는 인식 모델이나 Isaac ROS의 AI 패키지들이 내부적으로 TensorRT를 사용합니다. 우리 프로젝트에서 물체 인식 모델을 시뮬레이션·실기기에 배포할 때 만나게 되는 도구입니다.",
+      "sources": [
+        {"name": "NVIDIA TensorRT", "url": "https://developer.nvidia.com/tensorrt"}
+      ],
+      "related": ["CUDA", "Jetson", "NIM"]
+    },
+    {
+      "id": "jetson",
+      "term": "Jetson",
+      "ko": "젯슨 (엣지 AI 컴퓨터)",
+      "definition": "로봇이나 드론에 직접 탑재하는 NVIDIA의 소형 AI 컴퓨터(엣지 디바이스) 제품군입니다.",
+      "details": "손바닥 크기의 보드에 GPU가 들어 있어, 클라우드 없이 로봇 본체에서 카메라 인식과 판단을 실시간으로 처리할 수 있습니다. Jetson Orin, 그리고 최신 세대인 Jetson Thor 등이 있으며, 로봇용으로는 'Jetson = 로봇의 두뇌 하드웨어'라고 이해하면 됩니다. Isaac ROS와 TensorRT가 주로 이 위에서 돌아갑니다. 우리 프로젝트는 시뮬레이션 중심이라 당장 필수는 아니지만, Isaac Sim에서 검증한 로봇 소프트웨어를 실물 로봇으로 옮길 때(Sim-to-Real) 배포 대상이 되는 하드웨어입니다.",
+      "sources": [
+        {"name": "NVIDIA Jetson - Embedded Computing", "url": "https://developer.nvidia.com/embedded-computing"},
+        {"name": "NVIDIA Autonomous Machines (Jetson)", "url": "https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/"}
+      ],
+      "related": ["Isaac ROS", "TensorRT", "Sim-to-Real"]
+    },
+    {
+      "id": "gr00t",
+      "term": "GR00T (Generalist Robot 00 Technology)",
+      "ko": "그루트 (범용 로봇 파운데이션 모델)",
+      "definition": "NVIDIA가 공개한 휴머노이드·범용 로봇용 파운데이션 모델 프로젝트로, 언어와 이미지를 입력받아 로봇의 동작을 생성하는 AI 모델(VLA)입니다.",
+      "details": "정식 명칭은 Isaac GR00T이며, '상자를 왼쪽 선반에 놓아 줘' 같은 지시를 이해하고 팔 동작으로 옮기는 비전-언어-행동(VLA) 모델 계열(N1, N1.5 이후 N1.6, N1.7 등으로 계속 업데이트)입니다. 오픈 모델로 공개되어 자기 로봇과 작업에 맞게 후속 학습(post-training)할 수 있고, 학습 데이터 생성에 Isaac Sim/Isaac Lab과 Cosmos가 함께 쓰입니다. 우리 프로젝트처럼 물류 상자 분류·적재(material handling)가 대표 활용 사례로 꼽히므로, 로봇 팔 조작에 AI를 붙이고 싶을 때 검토할 만한 선택지입니다.",
+      "sources": [
+        {"name": "NVIDIA Isaac GR00T", "url": "https://developer.nvidia.com/isaac/gr00t"},
+        {"name": "Isaac-GR00T GitHub", "url": "https://github.com/NVIDIA/Isaac-GR00T"}
+      ],
+      "related": ["Isaac Lab", "Cosmos", "Physical AI", "Foundation Model"]
+    },
+    {
+      "id": "cosmos",
+      "term": "Cosmos",
+      "ko": "코스모스 (월드 파운데이션 모델 플랫폼)",
+      "definition": "물리 세계의 영상을 이해하고 생성하는 '월드 파운데이션 모델(WFM)' 플랫폼으로, 로봇·자율주행 학습용 합성 영상 데이터를 대량 생성하는 데 쓰입니다.",
+      "details": "텍스트나 기존 영상을 입력하면 물리적으로 그럴듯한 미래 장면 영상을 생성(Cosmos Predict)하거나, 장면을 추론·평가(Cosmos Reason)할 수 있는 오픈 모델 모음입니다. Isaac Sim이 물리 엔진 기반의 정밀 시뮬레이션이라면, Cosmos는 생성형 AI로 다양한 상황(조명, 날씨, 돌발 상황)의 학습 데이터를 값싸게 불려 주는 보완재입니다. Isaac Sim 렌더링 결과를 Cosmos로 사실적으로 변환해 합성 데이터의 다양성을 높이는 워크플로도 NVIDIA가 공식 제공합니다. 우리 프로젝트에서는 인식 모델 학습 데이터를 늘리고 싶을 때 참고할 수 있는 기술입니다.",
+      "sources": [
+        {"name": "NVIDIA Cosmos for Developers", "url": "https://developer.nvidia.com/cosmos"},
+        {"name": "NVIDIA Cosmos 소개", "url": "https://www.nvidia.com/en-us/ai/cosmos/"}
+      ],
+      "related": ["Physical AI", "Synthetic Data", "GR00T", "Isaac Sim"]
+    },
+    {
+      "id": "nim",
+      "term": "NIM (NVIDIA Inference Microservices)",
+      "ko": "님 (추론 마이크로서비스)",
+      "definition": "AI 모델을 바로 쓸 수 있는 컨테이너(마이크로서비스) 형태로 포장해 제공하는 NVIDIA의 배포 방식으로, 복잡한 설정 없이 API로 모델을 호출하게 해 줍니다.",
+      "details": "LLM, 비전 모델, 로봇 관련 모델 등을 TensorRT 등으로 최적화한 뒤 도커 컨테이너로 묶어, 받아서 실행만 하면 표준 API(OpenAI 호환 등)로 쓸 수 있게 한 것입니다. '모델 설치와 최적화의 번거로움을 없앤 즉석 AI 서비스 패키지'라고 이해하면 됩니다. GR00T나 Cosmos 계열 모델도 NIM 형태로 제공되는 경우가 있어, 우리 프로젝트에서 시뮬레이션에 AI 기능(영상 인식, 언어 명령 해석 등)을 붙일 때 빠른 통합 수단이 될 수 있습니다.",
+      "sources": [
+        {"name": "NVIDIA NIM for Developers", "url": "https://developer.nvidia.com/nim"}
+      ],
+      "related": ["TensorRT", "GR00T", "Cosmos"]
+    },
+    {
+      "id": "physical-ai",
+      "term": "Physical AI",
+      "ko": "피지컬 AI (물리 세계 AI)",
+      "definition": "챗봇처럼 화면 속에만 있는 AI가 아니라, 로봇·자율주행차처럼 현실 물리 세계를 인식하고 그 안에서 행동하는 AI를 가리키는 개념입니다.",
+      "details": "NVIDIA가 '생성형 AI 다음 물결'로 내세우는 키워드로, 물리 법칙을 이해하고 실제 공간에서 지각-판단-행동을 수행하는 AI를 뜻합니다. 이를 위해 시뮬레이션(Isaac Sim/Omniverse)에서 훈련하고, 합성 데이터(Cosmos)로 배우고, 로봇 컴퓨터(Jetson)에서 실행하는 3단 구조(훈련-시뮬레이션-실행 컴퓨터)를 NVIDIA가 통째로 제공합니다. 물류센터에서 상자를 옮기는 로봇을 시뮬레이션으로 개발하는 우리 프로젝트가 바로 Physical AI의 전형적인 사례입니다.",
+      "sources": [
+        {"name": "What is Physical AI? | NVIDIA Glossary", "url": "https://www.nvidia.com/en-us/glossary/generative-physical-ai/"}
+      ],
+      "related": ["Embodied AI", "Cosmos", "Isaac Sim", "Digital Twin"]
+    },
+    {
+      "id": "embodied-ai",
+      "term": "Embodied AI",
+      "ko": "임바디드 AI (체화된 AI)",
+      "definition": "AI가 로봇 같은 물리적 '몸'을 가지고 센서로 세상을 지각하고 몸으로 행동하면서 지능을 발휘·학습한다는 개념입니다.",
+      "details": "학계에서 오래 쓰여 온 용어로, '지능은 몸을 통해 환경과 상호작용하며 형성된다'는 관점이 바탕에 있습니다. Physical AI와 거의 같은 의미로 혼용되지만, 굳이 구분하면 Physical AI는 '현실에서 무엇을 하는가(행동)'를, Embodied AI는 '몸이라는 형태가 지능을 어떻게 만드는가'를 강조합니다. 논문이나 연구 자료에서는 Embodied AI가, NVIDIA 마케팅·제품 문서에서는 Physical AI가 더 자주 등장하니 같은 분야를 가리키는 두 표현으로 알아두면 됩니다. 우리 프로젝트의 물류 로봇도 센서로 지각하고 구동부로 행동하는 Embodied AI의 한 예입니다.",
+      "sources": [
+        {"name": "What is Embodied AI? | NVIDIA Glossary", "url": "https://www.nvidia.com/en-us/glossary/embodied-ai/"}
+      ],
+      "related": ["Physical AI", "GR00T", "Sim-to-Real"]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>물류 로봇 시뮬레이션 용어사전</title>
+  <meta name="description" content="AIoT 로봇 물류 시뮬레이션 프로젝트를 위한 도메인 용어 학습 사전">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="title-block">
+        <h1>🤖 물류 로봇 시뮬레이션 용어사전</h1>
+        <p class="subtitle">AIoT 프로젝트 도메인 지식 학습 — 물류센터 · 로봇 · Isaac Sim · 멀티에이전트</p>
+      </div>
+      <div class="header-actions">
+        <button id="modeToggle" class="btn" title="플래시카드 학습 모드">🎴 학습 모드</button>
+        <button id="themeToggle" class="btn icon-btn" title="테마 전환">🌙</button>
+      </div>
+    </div>
+    <div class="header-inner search-row">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="search" id="searchInput" placeholder="용어 검색 (예: AMR, 강화학습, MAPF...)" autocomplete="off">
+      </div>
+      <label class="check-filter">
+        <input type="checkbox" id="hideKnown"> 암기한 용어 숨기기
+      </label>
+    </div>
+    <nav class="cat-nav" id="catNav"></nav>
+    <div class="stats-bar" id="statsBar"></div>
+  </header>
+
+  <main id="mainContent">
+    <section id="dictView" class="card-grid"></section>
+
+    <section id="flashView" class="flash-view" hidden>
+      <div class="flash-progress">
+        <div class="flash-progress-bar" id="flashProgressBar"></div>
+      </div>
+      <p class="flash-counter" id="flashCounter"></p>
+      <div class="flashcard" id="flashcard">
+        <div class="flash-face flash-front" id="flashFront"></div>
+        <div class="flash-face flash-back" id="flashBack" hidden></div>
+      </div>
+      <p class="flash-hint">카드를 클릭하면 뒤집힙니다</p>
+      <div class="flash-controls">
+        <button class="btn flash-btn no" id="btnDontKnow">🙅 아직 몰라요</button>
+        <button class="btn flash-btn yes" id="btnKnow">✅ 알아요</button>
+      </div>
+      <div class="flash-controls secondary">
+        <button class="btn" id="btnShuffle">🔀 다시 섞기</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>각 용어의 정의는 카드에 표기된 출처(공식 문서 · 위키피디아 · 논문)를 기반으로 정리했습니다.</p>
+    <p>AIoT 로봇 물류 시뮬레이션 팀 프로젝트 학습용 · 2026</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

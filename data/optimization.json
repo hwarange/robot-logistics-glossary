@@ -1,0 +1,197 @@
+{
+  "category": "optimization",
+  "categoryKo": "최적화 기초",
+  "terms": [
+    {
+      "id": "operations-research",
+      "term": "Operations Research (OR)",
+      "ko": "운용과학 (경영과학)",
+      "definition": "한정된 자원으로 최선의 의사결정을 내리기 위해 수학적 모델과 알고리즘을 활용하는 학문 분야입니다. \"어떻게 하면 가장 효율적으로 일을 처리할까\"를 수학으로 푸는 것이라고 보면 됩니다.",
+      "details": "2차 세계대전 때 군수 물자 배치 문제에서 출발했으며, 오늘날에는 물류·생산·스케줄링 등 산업 전반에서 쓰입니다. 선형계획법, 정수계획법, 조합 최적화 등이 모두 OR의 하위 도구입니다. 우리 프로젝트에서 \"어떤 로봇에게 어떤 주문을 맡기고 어떤 순서로 처리하게 할 것인가\"를 정하는 문제가 바로 전형적인 OR 문제입니다. Google OR-Tools라는 라이브러리 이름의 'OR'도 여기서 온 것입니다.",
+      "sources": [
+        { "name": "Wikipedia - Operations research", "url": "https://en.wikipedia.org/wiki/Operations_research" },
+        { "name": "Google OR-Tools", "url": "https://developers.google.com/optimization" }
+      ],
+      "related": ["Mathematical Optimization", "Combinatorial Optimization", "Linear Programming (LP)"]
+    },
+    {
+      "id": "combinatorial-optimization",
+      "term": "Combinatorial Optimization",
+      "ko": "조합 최적화",
+      "definition": "가능한 선택지(조합)가 유한하지만 엄청나게 많은 문제에서 가장 좋은 조합을 찾는 최적화 분야입니다. 예를 들어 로봇 10대에 주문 20개를 배정하는 경우의 수는 천문학적으로 많은데, 그중 최선을 찾는 것입니다.",
+      "details": "외판원 문제(TSP), 차량 경로 문제(VRP), 작업 할당 문제, 배낭 문제가 대표적인 조합 최적화 문제입니다. 선택지가 이산적(정수, 예/아니오)이라 미분 같은 연속 수학이 통하지 않고, 완전 탐색은 조합 폭발 때문에 불가능해서 정수계획법(IP), 제약 프로그래밍(CP), 메타휴리스틱 같은 기법으로 풉니다. 물류센터 로봇의 작업 할당, 픽업 순서 결정, 경로 배정은 모두 조합 최적화 문제로 모델링됩니다.",
+      "sources": [
+        { "name": "Wikipedia - Combinatorial optimization", "url": "https://en.wikipedia.org/wiki/Combinatorial_optimization" }
+      ],
+      "related": ["Integer Programming (IP)", "Constraint Programming (CP)", "Metaheuristic", "Operations Research (OR)"]
+    },
+    {
+      "id": "mathematical-optimization",
+      "term": "Mathematical Optimization",
+      "ko": "수리 최적화",
+      "definition": "목적 함수(최소화하거나 최대화하고 싶은 값)와 제약 조건(지켜야 할 규칙)을 수식으로 정의하고, 제약을 만족하면서 목적 함수를 가장 좋게 만드는 답을 찾는 것입니다.",
+      "details": "모든 최적화 기법의 공통 뼈대입니다. 예를 들어 \"모든 주문을 처리하되(제약), 로봇들의 총 이동 거리를 최소화하라(목적 함수)\" 같은 식으로 문제를 수식화합니다. 변수가 연속값이면 선형계획법(LP) 같은 연속 최적화, 정수·이산값이면 정수계획법(IP)이나 조합 최적화로 분류됩니다. 문제를 잘 수식화(모델링)하는 것이 솔버 선택보다 중요한 경우가 많습니다.",
+      "sources": [
+        { "name": "Wikipedia - Mathematical optimization", "url": "https://en.wikipedia.org/wiki/Mathematical_optimization" }
+      ],
+      "related": ["Linear Programming (LP)", "Integer Programming (IP)", "Combinatorial Optimization"]
+    },
+    {
+      "id": "linear-programming",
+      "term": "Linear Programming (LP)",
+      "ko": "선형계획법",
+      "definition": "목적 함수와 제약 조건이 모두 1차식(선형)이고 변수가 연속값(소수 허용)인 최적화 문제를 푸는 기법입니다. 가장 기본적이고 빠르게 풀리는 최적화 문제 유형입니다.",
+      "details": "심플렉스법이나 내부점법으로 큰 문제도 매우 빠르게 정확한 최적해를 구할 수 있습니다. 다만 변수가 소수를 허용하므로 \"로봇 2.7대를 배정\" 같은 답이 나올 수 있어, 로봇 대수나 작업 배정처럼 정수여야 하는 문제에는 그대로 쓰기 어렵습니다. 그래서 일부 변수를 정수로 강제한 것이 정수계획법(IP), 정수 변수와 연속 변수를 섞은 것이 혼합정수계획법(MILP)입니다. LP는 MILP를 풀 때 내부적으로 반복해서 풀리는 기초 엔진 역할도 합니다.",
+      "sources": [
+        { "name": "Wikipedia - Linear programming", "url": "https://en.wikipedia.org/wiki/Linear_programming" },
+        { "name": "Google OR-Tools - Linear Optimization", "url": "https://developers.google.com/optimization/lp" }
+      ],
+      "related": ["Mixed Integer Programming (MILP)", "Integer Programming (IP)", "Mathematical Optimization"]
+    },
+    {
+      "id": "milp",
+      "term": "Mixed Integer Programming (MILP, Mixed Integer Linear Programming)",
+      "ko": "혼합정수계획법",
+      "definition": "선형계획법(LP)에서 일부 변수는 정수(예: 로봇 대수, 배정 여부 0/1), 일부 변수는 연속값(예: 시간, 배터리 잔량)으로 섞어 놓은 최적화 문제입니다.",
+      "details": "LP는 모든 변수가 연속, IP는 모든 변수가 정수, MILP는 둘이 섞인 형태라는 관계입니다. 정수 제약이 들어가는 순간 문제가 훨씬 어려워져서(NP-hard), 분기한정법(branch and bound) 등으로 LP를 반복해서 풀며 정수해를 찾습니다. \"로봇 i가 주문 j를 맡는다(0/1 변수)\"와 \"작업 시작 시각(연속 변수)\"이 함께 등장하는 로봇 작업 할당·스케줄링 문제가 전형적인 MILP입니다. Google OR-Tools의 MIP 솔버(SCIP 등)나 CP-SAT으로 풀 수 있습니다.",
+      "sources": [
+        { "name": "Wikipedia - Integer programming", "url": "https://en.wikipedia.org/wiki/Integer_programming" },
+        { "name": "Google OR-Tools - Mixed-Integer Programming", "url": "https://developers.google.com/optimization/mip" }
+      ],
+      "related": ["Linear Programming (LP)", "Integer Programming (IP)", "CP-SAT"]
+    },
+    {
+      "id": "integer-programming",
+      "term": "Integer Programming (IP)",
+      "ko": "정수계획법",
+      "definition": "최적화 문제에서 변수들이 정수 값만 가질 수 있도록 제한한 수리 최적화 기법입니다. 특히 0 또는 1만 갖는 이진 변수는 \"한다/안 한다\" 같은 의사결정을 표현하는 데 쓰입니다.",
+      "details": "LP에 정수 조건을 추가한 것이 IP, 정수 변수와 연속 변수가 섞이면 MILP입니다. 정수 조건 때문에 해 공간이 이산적이 되어 LP처럼 빠르게 풀리지 않고 NP-hard가 되지만, 현대 솔버는 실용적인 크기의 문제를 잘 풉니다. \"로봇 3번이 선반 7번 픽업을 담당한다 = x(3,7)=1\"처럼 할당·선택·순서 결정을 자연스럽게 표현할 수 있어, 조합 최적화 문제를 푸는 표준 도구 중 하나입니다.",
+      "sources": [
+        { "name": "Wikipedia - Integer programming", "url": "https://en.wikipedia.org/wiki/Integer_programming" }
+      ],
+      "related": ["Linear Programming (LP)", "Mixed Integer Programming (MILP)", "Combinatorial Optimization"]
+    },
+    {
+      "id": "constraint-programming",
+      "term": "Constraint Programming (CP)",
+      "ko": "제약 프로그래밍",
+      "definition": "문제를 \"변수 + 만족해야 하는 제약 조건들\"로 선언하면, 솔버가 제약을 모두 만족하는 해(또는 그중 최적해)를 알아서 찾아주는 프로그래밍 패러다임입니다.",
+      "details": "수식(선형식)에 얽매이는 IP/MILP와 달리, \"이 작업들은 서로 겹치면 안 된다\", \"모든 값이 서로 달라야 한다(AllDifferent)\" 같은 논리적·조합적 제약을 직접 표현할 수 있어 스케줄링 문제에 특히 강합니다. 제약 전파(propagation)로 불가능한 후보를 잘라내며 탐색합니다. 로봇 작업 스케줄링처럼 \"충전소는 동시에 한 대만\", \"작업 A 후에 B\" 같은 규칙이 많은 문제에 적합하며, Google OR-Tools의 CP-SAT이 대표적인 CP 계열 솔버입니다.",
+      "sources": [
+        { "name": "Wikipedia - Constraint programming", "url": "https://en.wikipedia.org/wiki/Constraint_programming" },
+        { "name": "Google OR-Tools - Constraint Optimization", "url": "https://developers.google.com/optimization/cp" }
+      ],
+      "related": ["CP-SAT", "Integer Programming (IP)", "Combinatorial Optimization"]
+    },
+    {
+      "id": "cp-sat",
+      "term": "CP-SAT (Constraint Programming - Boolean Satisfiability Solver)",
+      "ko": "CP-SAT 솔버",
+      "definition": "Google OR-Tools에 포함된 무료 고성능 솔버로, 제약 프로그래밍(CP)과 SAT(불리언 충족 가능성) 기법을 결합해 정수 변수 기반의 조합 최적화·스케줄링 문제를 풉니다.",
+      "details": "국제 제약 솔버 대회에서 여러 해 우승할 만큼 성능이 검증되어 있고, Python 몇 줄로 모델을 만들 수 있어 실무 진입 장벽이 낮습니다. 변수는 정수만 지원하지만(시간을 초 단위 정수로 표현하는 식으로 우회), 할당·순서·간격(interval) 제약을 풍부하게 제공해 로봇 작업 할당과 스케줄링에 사실상 첫 번째로 시도해 볼 만한 도구입니다. 우리 프로젝트에서 \"어떤 로봇이 어떤 주문을 언제 처리할지\"를 CP-SAT 모델 하나로 풀 수 있습니다.",
+      "sources": [
+        { "name": "Google OR-Tools - CP-SAT Solver", "url": "https://developers.google.com/optimization/cp/cp_solver" }
+      ],
+      "related": ["Constraint Programming (CP)", "Mixed Integer Programming (MILP)", "Combinatorial Optimization"]
+    },
+    {
+      "id": "dynamic-programming",
+      "term": "Dynamic Programming (DP)",
+      "ko": "동적 계획법",
+      "definition": "큰 문제를 작은 부분 문제로 쪼개고, 부분 문제의 답을 저장(메모)해 재사용하면서 전체 최적해를 구하는 기법입니다. 알고리즘 코딩 테스트의 그 DP와 같은 개념입니다.",
+      "details": "\"전체 최적해는 부분 최적해로 구성된다\"는 최적 부분 구조가 성립할 때 사용할 수 있습니다. 최단 경로, 작은 규모의 TSP, 재고 관리 등에서 정확한 최적해를 보장하지만, 상태 수가 커지면(예: 방문할 지점이 수십 개) 메모리와 시간이 폭발해 대규모 물류 문제에는 그대로 쓰기 어렵습니다. 강화학습의 가치 함수 계산(벨만 방정식)도 DP에 뿌리를 두고 있어, 로봇 제어·경로 문제의 이론적 기반으로 자주 등장합니다.",
+      "sources": [
+        { "name": "Wikipedia - Dynamic programming", "url": "https://en.wikipedia.org/wiki/Dynamic_programming" }
+      ],
+      "related": ["Combinatorial Optimization", "Mathematical Optimization"]
+    },
+    {
+      "id": "stochastic-optimization",
+      "term": "Stochastic Optimization",
+      "ko": "확률적 최적화",
+      "definition": "불확실성(랜덤성)이 개입된 상황에서의 최적화를 다루는 분야입니다. 데이터 자체가 랜덤이거나(주문이 언제 들어올지 모름), 알고리즘이 의도적으로 랜덤성을 사용하는 경우를 모두 포함합니다.",
+      "details": "물류센터에서는 주문 도착 시각, 작업 소요 시간, 로봇 고장 등이 확률적으로 변하므로, 확정된 값 대신 기대값이나 최악의 경우를 고려해 최적화해야 할 때 필요합니다. 다른 한편으로 시뮬레이티드 어닐링이나 유전 알고리즘처럼 탐색에 랜덤성을 활용하는 알고리즘들도 확률적 최적화 기법으로 분류됩니다. 딥러닝의 SGD(확률적 경사하강법)도 이 범주에 속합니다.",
+      "sources": [
+        { "name": "Wikipedia - Stochastic optimization", "url": "https://en.wikipedia.org/wiki/Stochastic_optimization" }
+      ],
+      "related": ["Simulated Annealing", "Bayesian Optimization", "Metaheuristic"]
+    },
+    {
+      "id": "bayesian-optimization",
+      "term": "Bayesian Optimization",
+      "ko": "베이지안 최적화",
+      "definition": "한 번 평가하는 데 비용이 큰 함수(예: 시뮬레이션 1회, 모델 학습 1회)의 최적 입력값을, 최대한 적은 횟수의 시도로 찾아내는 기법입니다.",
+      "details": "지금까지의 시도 결과로 함수 모양을 확률적으로 추정(대개 가우시안 프로세스)하고, \"다음에 어디를 시도해 볼지\"를 똑똑하게 고르는 과정을 반복합니다. 머신러닝 하이퍼파라미터 튜닝의 표준 도구이며(Optuna 등 라이브러리), 우리 프로젝트에서는 Isaac Sim 시뮬레이션 1회가 오래 걸리므로 로봇 대수, 스케줄러 파라미터 같은 설정값을 적은 시뮬레이션 횟수로 튜닝할 때 유용합니다.",
+      "sources": [
+        { "name": "Wikipedia - Bayesian optimization", "url": "https://en.wikipedia.org/wiki/Bayesian_optimization" }
+      ],
+      "related": ["Stochastic Optimization", "Mathematical Optimization"]
+    },
+    {
+      "id": "evolutionary-algorithm",
+      "term": "Evolutionary Algorithm (EA)",
+      "ko": "진화 알고리즘",
+      "definition": "생물의 진화(선택, 교배, 돌연변이)를 흉내 내어, 해(솔루션) 후보들의 집단을 세대를 거듭하며 점점 좋은 방향으로 개선해 나가는 최적화 알고리즘의 총칭입니다.",
+      "details": "여러 후보 해를 동시에 유지하는 개체군(population) 기반 메타휴리스틱입니다. 좋은 해를 살아남게 하고(선택), 좋은 해끼리 섞고(교배), 가끔 무작위로 바꾸는(돌연변이) 과정을 반복합니다. 유전 알고리즘(GA)이 가장 유명한 진화 알고리즘이며, 그 외 진화 전략(ES), 유전 프로그래밍(GP) 등이 있습니다. 목적 함수가 미분 불가능하거나 시뮬레이션으로만 평가되는 문제에도 적용할 수 있는 것이 장점입니다.",
+      "sources": [
+        { "name": "Wikipedia - Evolutionary algorithm", "url": "https://en.wikipedia.org/wiki/Evolutionary_algorithm" }
+      ],
+      "related": ["Genetic Algorithm", "Metaheuristic", "Stochastic Optimization"]
+    },
+    {
+      "id": "genetic-algorithm",
+      "term": "Genetic Algorithm (GA)",
+      "ko": "유전 알고리즘",
+      "definition": "해를 유전자(염색체)처럼 표현하고, 우수한 해들을 선택·교배·돌연변이시키며 세대를 거듭해 더 좋은 해를 찾는 대표적인 진화 알고리즘입니다.",
+      "details": "예를 들어 \"주문 처리 순서\"를 하나의 염색체(순열)로 표현하고, 총 이동 거리가 짧은 순서들끼리 교배시켜 더 나은 순서를 만들어내는 식입니다. 최적해를 보장하지는 않지만, 문제 구조를 몰라도 적합도 함수(해가 얼마나 좋은지 점수 매기는 함수)만 정의하면 적용 가능해 범용성이 높습니다. 메타휴리스틱의 한 종류이며, 시뮬레이티드 어닐링·타부 서치와 함께 조합 최적화의 근사 해법으로 자주 비교됩니다. TSP/VRP 계열의 로봇 경로·순서 문제에 널리 쓰입니다.",
+      "sources": [
+        { "name": "Wikipedia - Genetic algorithm", "url": "https://en.wikipedia.org/wiki/Genetic_algorithm" }
+      ],
+      "related": ["Evolutionary Algorithm", "Metaheuristic", "Simulated Annealing", "Tabu Search"]
+    },
+    {
+      "id": "metaheuristic",
+      "term": "Metaheuristic",
+      "ko": "메타휴리스틱",
+      "definition": "특정 문제에 종속되지 않고 다양한 최적화 문제에 두루 적용할 수 있는 상위 수준의 탐색 전략입니다. 최적해를 수학적으로 보장하지는 않지만, 현실적인 시간 안에 충분히 좋은 해를 찾는 것이 목표입니다.",
+      "details": "유전 알고리즘(GA), 시뮬레이티드 어닐링(SA), 타부 서치(Tabu Search), 개미 군집 최적화(ACO) 등이 모두 메타휴리스틱이라는 우산 아래에 속합니다. 문제가 너무 커서 MILP/CP 솔버로 최적해를 구하기 어렵거나, 목적 함수가 시뮬레이션으로만 평가되는 경우에 실용적인 선택지입니다. 공통 원리는 \"좋은 해 주변을 파고드는 것(집중화)\"과 \"지역 최적에 갇히지 않게 멀리도 탐색하는 것(다양화)\"의 균형입니다. OR-Tools의 차량 경로(VRP) 솔버도 내부적으로 메타휴리스틱(가이디드 로컬 서치 등)을 사용합니다.",
+      "sources": [
+        { "name": "Wikipedia - Metaheuristic", "url": "https://en.wikipedia.org/wiki/Metaheuristic" }
+      ],
+      "related": ["Genetic Algorithm", "Simulated Annealing", "Tabu Search", "Local Search"]
+    },
+    {
+      "id": "simulated-annealing",
+      "term": "Simulated Annealing (SA)",
+      "ko": "시뮬레이티드 어닐링 (담금질 기법)",
+      "definition": "금속을 뜨겁게 달궜다가 천천히 식히는 담금질에서 착안한 메타휴리스틱으로, 처음에는 나쁜 해로의 이동도 과감히 허용하다가 점차 좋은 해만 받아들이며 수렴시키는 확률적 탐색 기법입니다.",
+      "details": "로컬 서치는 지역 최적해(주변보다는 좋지만 전체 최적은 아닌 해)에 갇히기 쉬운데, SA는 \"온도\"가 높을 때 일부러 나쁜 방향으로도 이동해 이 함정을 탈출합니다. 온도가 내려갈수록 나쁜 이동을 받아들일 확률이 줄어들어 결국 좋은 해 근처에 정착합니다. 구현이 간단해서 로봇 작업 순서나 경로 문제의 빠른 근사 해법으로 시도해 보기 좋으며, 메타휴리스틱 계열에서 GA, 타부 서치와 함께 대표 주자로 꼽힙니다.",
+      "sources": [
+        { "name": "Wikipedia - Simulated annealing", "url": "https://en.wikipedia.org/wiki/Simulated_annealing" }
+      ],
+      "related": ["Metaheuristic", "Local Search", "Tabu Search", "Genetic Algorithm"]
+    },
+    {
+      "id": "tabu-search",
+      "term": "Tabu Search",
+      "ko": "타부 서치 (금기 탐색)",
+      "definition": "최근에 방문했던 해(또는 되돌아가는 이동)를 \"금기(tabu) 리스트\"에 올려 일정 기간 재방문을 금지함으로써, 같은 곳을 맴돌지 않고 새로운 영역을 탐색하게 만드는 메타휴리스틱입니다.",
+      "details": "로컬 서치를 기반으로 하되, 개선이 없더라도 이웃 중 가장 좋은 해로 이동하고 방금 온 길로 되돌아가는 것을 금지하는 것이 핵심입니다. 이 단기 기억(금기 리스트) 덕분에 지역 최적해를 벗어날 수 있습니다. 차량 경로 문제(VRP)와 스케줄링 분야에서 오랫동안 좋은 성능을 보여 온 기법으로, 로봇 다중 경로 배정 같은 문제의 근사 해법으로 쓸 수 있습니다. GA, SA와 함께 메타휴리스틱의 대표적인 알고리즘입니다.",
+      "sources": [
+        { "name": "Wikipedia - Tabu search", "url": "https://en.wikipedia.org/wiki/Tabu_search" }
+      ],
+      "related": ["Metaheuristic", "Local Search", "Simulated Annealing"]
+    },
+    {
+      "id": "local-search",
+      "term": "Local Search",
+      "ko": "지역 탐색 (로컬 서치)",
+      "definition": "현재 해에서 조금씩 변형한 \"이웃 해\"들을 살펴보고, 더 좋은 이웃이 있으면 그쪽으로 이동하는 과정을 반복하는 가장 기본적인 탐색 기법입니다.",
+      "details": "예를 들어 주문 처리 순서에서 두 주문의 위치를 맞바꿔 보고(2-opt 같은 이웃 연산), 총 거리가 줄면 채택하는 식입니다. 단순하고 빠르지만 더 이상 개선되는 이웃이 없는 지역 최적해에 갇히는 것이 약점입니다. 이 약점을 보완하기 위해 시뮬레이티드 어닐링(나쁜 이동도 확률적으로 허용), 타부 서치(재방문 금지) 같은 메타휴리스틱이 로컬 서치 위에 만들어졌습니다. OR-Tools 라우팅 솔버의 해 개선 단계에서도 로컬 서치가 핵심으로 쓰입니다.",
+      "sources": [
+        { "name": "Wikipedia - Local search (optimization)", "url": "https://en.wikipedia.org/wiki/Local_search_(optimization)" }
+      ],
+      "related": ["Simulated Annealing", "Tabu Search", "Metaheuristic"]
+    }
+  ]
+}

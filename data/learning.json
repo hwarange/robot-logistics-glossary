@@ -1,0 +1,267 @@
+{
+  "category": "learning",
+  "categoryKo": "AI · 로봇 학습",
+  "terms": [
+    {
+      "id": "rl",
+      "term": "Reinforcement Learning (RL)",
+      "ko": "강화학습",
+      "definition": "에이전트(로봇)가 환경 속에서 행동을 시도하고, 그 결과로 받는 보상(reward)을 통해 좋은 행동을 스스로 배우는 학습 방식입니다. 정답 데이터를 주는 대신 '잘하면 점수를 주는' 방식으로 학습합니다.",
+      "details": "지도학습처럼 정답 라벨을 사람이 만들 필요가 없고, 시행착오를 반복하며 누적 보상을 최대화하는 정책(policy)을 찾습니다. 물류 로봇 시뮬레이션에서는 '목적지에 빨리 도착하면 +보상, 충돌하면 -보상' 같은 규칙만 정해주면 로봇이 주행·회피 전략을 스스로 익힙니다. Isaac Lab 같은 시뮬레이터에서 수천 개의 환경을 병렬로 돌려 학습 속도를 크게 높이는 것이 일반적입니다.",
+      "sources": [
+        { "name": "Sutton & Barto, Reinforcement Learning: An Introduction (2nd ed.)", "url": "http://incompleteideas.net/book/the-book-2nd.html" },
+        { "name": "OpenAI Spinning Up - Intro to RL", "url": "https://spinningup.openai.com/en/latest/spinningup/rl_intro.html" }
+      ],
+      "related": ["Deep Reinforcement Learning", "Policy Learning", "Actor-Critic", "PPO (Proximal Policy Optimization)"]
+    },
+    {
+      "id": "deep-rl",
+      "term": "Deep Reinforcement Learning (Deep RL)",
+      "ko": "심층 강화학습",
+      "definition": "강화학습에 딥러닝(신경망)을 결합한 것으로, 카메라 영상이나 수십 개의 센서 값처럼 복잡한 입력을 신경망이 처리하여 행동을 결정하게 하는 방법입니다.",
+      "details": "고전 강화학습은 상태(state)가 단순한 표 형태여야 했지만, 신경망을 정책이나 가치 함수로 쓰면 이미지·라이다·관절 각도 같은 고차원 입력도 다룰 수 있습니다. DQN이 아타리 게임을 사람 수준으로 플레이하며 유명해졌고, 오늘날 로봇 제어 학습은 대부분 심층 강화학습입니다. Isaac Lab에서 로봇 정책을 학습할 때 PPO 같은 심층 강화학습 알고리즘이 표준적으로 사용됩니다.",
+      "sources": [
+        { "name": "Mnih et al., Playing Atari with Deep Reinforcement Learning (arXiv)", "url": "https://arxiv.org/abs/1312.5602" },
+        { "name": "OpenAI Spinning Up", "url": "https://spinningup.openai.com/en/latest/" }
+      ],
+      "related": ["Reinforcement Learning (RL)", "DQN (Deep Q-Network)", "PPO (Proximal Policy Optimization)"]
+    },
+    {
+      "id": "marl",
+      "term": "Multi-Agent Reinforcement Learning (MARL)",
+      "ko": "다중 에이전트 강화학습",
+      "definition": "여러 에이전트(로봇)가 같은 환경에서 동시에 학습하는 강화학습입니다. 서로 협력하거나 경쟁하는 상황에서 각자의 행동이 다른 에이전트에게 영향을 주는 것이 핵심 차이입니다.",
+      "details": "물류센터처럼 수십 대의 로봇이 좁은 통로를 공유하는 환경이 대표적인 MARL 문제입니다. 다른 로봇도 계속 행동을 바꾸며 학습하므로 환경이 비정상적(non-stationary)으로 변해 단일 에이전트 RL보다 훨씬 어렵습니다. 이를 풀기 위해 '학습할 때는 전체 정보를 쓰고 실행할 때는 각자 관측만 쓰는' 중앙집중 학습-분산 실행(CTDE) 구조가 널리 쓰이며, MAPPO, QMIX, MADDPG가 대표 알고리즘입니다. 다중 로봇 협조(경로 양보, 작업 분담)를 학습으로 풀고 싶을 때 사용합니다.",
+      "sources": [
+        { "name": "Wikipedia - Multi-agent reinforcement learning", "url": "https://en.wikipedia.org/wiki/Multi-agent_reinforcement_learning" }
+      ],
+      "related": ["MAPPO", "QMIX", "MADDPG", "Reinforcement Learning (RL)"]
+    },
+    {
+      "id": "imitation-learning",
+      "term": "Imitation Learning",
+      "ko": "모방학습",
+      "definition": "보상 대신 전문가(사람 또는 잘 만든 프로그램)의 시연 데이터를 보고 그 행동을 따라 하도록 학습하는 방법입니다.",
+      "details": "보상 함수를 설계하기 어렵거나 시행착오가 위험한 작업에서 유용합니다. 예를 들어 사람이 조종한 로봇 주행 기록이나 기존 규칙 기반 제어기의 출력을 시연 데이터로 삼아 정책을 학습시킬 수 있습니다. 가장 단순한 형태가 행동 복제(Behavior Cloning)이고, 강화학습의 초기 정책을 만드는 워밍업 용도로도 자주 쓰입니다. 물류 로봇에서는 잘 동작하는 경로계획 알고리즘을 '교사'로 삼아 신경망 정책을 만드는 식으로 활용할 수 있습니다.",
+      "sources": [
+        { "name": "Wikipedia - Imitation learning", "url": "https://en.wikipedia.org/wiki/Imitation_learning" }
+      ],
+      "related": ["Behavior Cloning", "Offline RL", "Reinforcement Learning (RL)"]
+    },
+    {
+      "id": "behavior-cloning",
+      "term": "Behavior Cloning (BC)",
+      "ko": "행동 복제",
+      "definition": "모방학습의 가장 단순한 방법으로, 전문가의 (상태, 행동) 데이터를 모아 '이 상태에서는 이 행동'을 지도학습처럼 그대로 흉내 내게 학습시키는 것입니다.",
+      "details": "구현이 쉽고 빠르지만, 학습 데이터에 없던 상황에 빠지면 오류가 누적되어 점점 더 이상한 상태로 벗어나는 분포 이동(distribution shift) 문제가 약점입니다. 그래서 짧은 작업이나 강화학습의 초기화(사전학습) 용도로 많이 씁니다. 물류 로봇 시뮬레이션에서는 기존 제어기의 주행 로그로 BC를 먼저 하고, 이후 RL로 미세조정하는 파이프라인이 실용적입니다.",
+      "sources": [
+        { "name": "Wikipedia - Imitation learning", "url": "https://en.wikipedia.org/wiki/Imitation_learning" }
+      ],
+      "related": ["Imitation Learning", "Offline RL"]
+    },
+    {
+      "id": "offline-rl",
+      "term": "Offline RL",
+      "ko": "오프라인 강화학습",
+      "definition": "환경과 새로 상호작용하지 않고, 미리 수집해 둔 고정된 데이터셋만으로 정책을 학습하는 강화학습입니다.",
+      "details": "온라인 RL과 대비되는 개념으로, 실제 로봇을 돌리기 비싸거나 위험해서 과거 운행 로그만 있는 상황에 적합합니다. 다만 데이터에 없는 행동의 가치를 과대평가하기 쉬워, 데이터 분포 밖으로 벗어나지 않게 제약하는 보수적 기법(CQL 등)이 필요합니다. 시뮬레이터(Isaac Sim)가 있는 프로젝트에서는 상호작용 비용이 싸므로 보통 온라인 RL을 쓰지만, 실물 물류센터 로그를 활용해야 하는 단계에서는 오프라인 RL이 대안이 됩니다.",
+      "sources": [
+        { "name": "Levine et al., Offline Reinforcement Learning: Tutorial, Review, and Perspectives (arXiv)", "url": "https://arxiv.org/abs/2005.01643" }
+      ],
+      "related": ["Online RL", "Behavior Cloning", "Imitation Learning"]
+    },
+    {
+      "id": "online-rl",
+      "term": "Online RL",
+      "ko": "온라인 강화학습",
+      "definition": "에이전트가 환경과 실시간으로 상호작용하며 새 데이터를 계속 수집하고, 그 데이터로 정책을 갱신해 나가는 일반적인 강화학습 방식입니다.",
+      "details": "오프라인 RL과 대비되는 개념으로, 직접 시도해 보며 부족한 경험을 스스로 채울 수 있어 탐색(exploration)이 가능하다는 것이 장점입니다. 대신 학습 초기의 미숙한 행동이 실제 환경에서는 위험할 수 있어, 로봇 분야에서는 시뮬레이터 안에서 온라인 RL을 돌리는 것이 표준입니다. Isaac Lab에서 수천 개 환경을 병렬 실행하며 PPO로 학습하는 것이 전형적인 온라인 RL입니다.",
+      "sources": [
+        { "name": "Sutton & Barto, Reinforcement Learning: An Introduction (2nd ed.)", "url": "http://incompleteideas.net/book/the-book-2nd.html" }
+      ],
+      "related": ["Offline RL", "Reinforcement Learning (RL)", "PPO (Proximal Policy Optimization)"]
+    },
+    {
+      "id": "model-based-rl",
+      "term": "Model-Based RL",
+      "ko": "모델 기반 강화학습",
+      "definition": "환경이 어떻게 변하는지(어떤 행동을 하면 다음 상태가 어떻게 되는지) 예측하는 '환경 모델'을 배우거나 이용해서, 그 모델 위에서 계획하거나 가상 경험을 만들어 학습하는 방식입니다.",
+      "details": "모델 프리 RL과 대비되는 개념입니다. 환경 모델로 미래를 상상(시뮬레이션)할 수 있어 실제 데이터가 적어도 학습이 가능하다는 점, 즉 표본 효율이 좋은 것이 장점입니다. 대신 모델이 부정확하면 그 오차가 정책에 그대로 전파되는 위험이 있습니다. 물류 로봇처럼 이미 Isaac Sim이라는 정밀한 시뮬레이터가 있으면 데이터를 싸게 무한정 뽑을 수 있어, 실무에서는 단순한 모델 프리 방법(PPO 등)을 쓰는 경우가 더 많습니다.",
+      "sources": [
+        { "name": "OpenAI Spinning Up - Kinds of RL Algorithms", "url": "https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html" }
+      ],
+      "related": ["Model-Free RL", "Reinforcement Learning (RL)"]
+    },
+    {
+      "id": "model-free-rl",
+      "term": "Model-Free RL",
+      "ko": "모델 프리 강화학습",
+      "definition": "환경 모델을 따로 배우지 않고, 실제로 겪은 경험(상태-행동-보상)만으로 곧바로 정책이나 가치 함수를 학습하는 방식입니다.",
+      "details": "모델 기반 RL과 대비되는 개념으로, 환경의 물리 법칙을 몰라도 되므로 구현이 단순하고 안정적이지만 많은 양의 경험 데이터가 필요합니다(표본 효율이 낮음). PPO, SAC, TD3, DQN 등 널리 쓰이는 알고리즘 대부분이 모델 프리입니다. Isaac Lab처럼 GPU에서 환경을 대량 병렬 실행해 데이터를 싸게 얻을 수 있는 환경에서는 모델 프리 방식이 사실상 표준입니다.",
+      "sources": [
+        { "name": "OpenAI Spinning Up - Kinds of RL Algorithms", "url": "https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html" }
+      ],
+      "related": ["Model-Based RL", "PPO (Proximal Policy Optimization)", "SAC (Soft Actor-Critic)", "DQN (Deep Q-Network)"]
+    },
+    {
+      "id": "curriculum-learning",
+      "term": "Curriculum Learning",
+      "ko": "커리큘럼 학습",
+      "definition": "사람이 쉬운 문제부터 어려운 문제 순서로 공부하듯, 학습 과제의 난이도를 점진적으로 올려가며 모델을 훈련하는 방법입니다.",
+      "details": "처음부터 어려운 목표를 주면 보상을 한 번도 못 받아 학습이 시작조차 안 되는 경우가 많은데, 커리큘럼은 이 문제를 완화합니다. 물류 로봇 예시로는 '장애물 없는 빈 창고에서 목적지 도달 → 정적 장애물 추가 → 움직이는 다른 로봇 추가 → 로봇 대수 증가' 순서로 난이도를 올리는 식입니다. Isaac Lab에서도 학습 진행도에 따라 환경 난이도를 자동 조절하는 커리큘럼 기능을 지원합니다.",
+      "sources": [
+        { "name": "Bengio et al., Curriculum Learning (ICML 2009)", "url": "https://dl.acm.org/doi/10.1145/1553374.1553380" },
+        { "name": "Wikipedia - Curriculum learning", "url": "https://en.wikipedia.org/wiki/Curriculum_learning" }
+      ],
+      "related": ["Reinforcement Learning (RL)", "Transfer Learning"]
+    },
+    {
+      "id": "self-supervised-learning",
+      "term": "Self-Supervised Learning",
+      "ko": "자기지도학습",
+      "definition": "사람이 라벨을 달아주지 않아도, 데이터 자체에서 문제와 정답을 만들어(예: 가려진 부분 맞히기, 다음 장면 예측하기) 유용한 표현을 배우는 학습 방식입니다.",
+      "details": "라벨링 비용 없이 대량의 데이터를 활용할 수 있어, 최신 비전·언어 모델의 사전학습에 널리 쓰입니다. 로봇 분야에서는 카메라 영상에서 시점 간 대응이나 미래 프레임 예측 같은 과제로 시각 인코더를 사전학습한 뒤, 그 표현을 강화학습 정책의 입력으로 쓰는 식으로 활용됩니다. 시뮬레이션에서 자동 생성되는 방대한 관측 데이터와 궁합이 좋습니다.",
+      "sources": [
+        { "name": "Wikipedia - Self-supervised learning", "url": "https://en.wikipedia.org/wiki/Self-supervised_learning" }
+      ],
+      "related": ["Representation Learning", "Transfer Learning"]
+    },
+    {
+      "id": "representation-learning",
+      "term": "Representation Learning",
+      "ko": "표현 학습",
+      "definition": "원시 데이터(이미지 픽셀, 센서 값 등)를 과제 해결에 유용한 압축된 특징 벡터(표현)로 바꾸는 방법을 학습하는 것입니다.",
+      "details": "좋은 표현이 있으면 그 위에 얹는 정책이나 분류기는 훨씬 적은 데이터로 학습됩니다. 강화학습에서는 카메라 영상을 그대로 쓰는 대신 오토인코더나 자기지도학습으로 얻은 저차원 표현을 상태로 쓰면 학습이 빨라지고 안정됩니다. 물류 로봇의 시각 기반 주행에서 '창고 이미지 → 장애물/통로 구조를 담은 특징'으로 변환하는 인코더 학습이 표현 학습의 예입니다.",
+      "sources": [
+        { "name": "Bengio et al., Representation Learning: A Review and New Perspectives (arXiv)", "url": "https://arxiv.org/abs/1206.5538" }
+      ],
+      "related": ["Self-Supervised Learning", "Deep Reinforcement Learning"]
+    },
+    {
+      "id": "transfer-learning",
+      "term": "Transfer Learning",
+      "ko": "전이학습",
+      "definition": "한 과제(또는 환경)에서 학습한 지식을 다른 과제에 재사용하여, 새 과제를 처음부터 배우는 것보다 빠르고 적은 데이터로 학습하는 방법입니다.",
+      "details": "사전학습된 모델을 가져와 미세조정(fine-tuning)하는 것이 대표적인 형태입니다. 로봇 분야에서 가장 중요한 전이는 시뮬레이션에서 배운 정책을 실제 로봇으로 옮기는 Sim-to-Real 전이로, 도메인 랜덤화 같은 기법과 함께 쓰입니다. 물류 시뮬레이션에서는 '창고 A 레이아웃에서 학습한 주행 정책을 창고 B에 적용'하거나 '로봇 1대용 정책을 다중 로봇 학습의 출발점으로 사용'하는 것이 전이학습의 예입니다.",
+      "sources": [
+        { "name": "Wikipedia - Transfer learning", "url": "https://en.wikipedia.org/wiki/Transfer_learning" }
+      ],
+      "related": ["Curriculum Learning", "Representation Learning", "Imitation Learning"]
+    },
+    {
+      "id": "policy-learning",
+      "term": "Policy Learning",
+      "ko": "정책 학습",
+      "definition": "정책(policy)이란 '지금 상태에서 어떤 행동을 할지' 정하는 규칙(보통 신경망)이고, 정책 학습은 이 규칙 자체를 데이터로부터 배우는 것을 말합니다.",
+      "details": "강화학습·모방학습의 최종 산출물이 바로 학습된 정책입니다. 로봇 관점에서는 '센서 관측 입력 → 바퀴 속도/관절 명령 출력'을 수행하는 신경망 하나가 정책이며, Isaac Lab에서 학습을 마치면 이 정책 네트워크를 저장해 시뮬레이션이나 실제 로봇의 제어기로 배포합니다. 정책을 직접 최적화하는 계열(정책 최적화)과 가치 함수를 먼저 배우고 그로부터 정책을 유도하는 계열(DQN 등)로 나뉩니다.",
+      "sources": [
+        { "name": "OpenAI Spinning Up - Key Concepts in RL", "url": "https://spinningup.openai.com/en/latest/spinningup/rl_intro.html" }
+      ],
+      "related": ["Policy Optimization", "Reinforcement Learning (RL)", "Behavior Cloning"]
+    },
+    {
+      "id": "policy-optimization",
+      "term": "Policy Optimization",
+      "ko": "정책 최적화",
+      "definition": "정책 신경망의 파라미터를 '기대 누적 보상이 커지는 방향'으로 경사(gradient)를 따라 직접 갱신하는 강화학습 접근법입니다.",
+      "details": "가치 기반 방법(DQN 계열)과 달리 정책 자체를 최적화 대상으로 삼기 때문에, 로봇 제어처럼 연속적인 행동(속도, 토크)을 다루기에 자연스럽습니다. 정책 경사(policy gradient) 정리에 기반하며, 순수 정책 경사법의 불안정함을 개선한 것이 TRPO와 PPO입니다. Isaac Lab의 로봇 학습 예제 대부분이 정책 최적화 계열(PPO)을 사용합니다.",
+      "sources": [
+        { "name": "OpenAI Spinning Up - Intro to Policy Optimization", "url": "https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html" }
+      ],
+      "related": ["Policy Learning", "PPO (Proximal Policy Optimization)", "Actor-Critic"]
+    },
+    {
+      "id": "ppo",
+      "term": "PPO (Proximal Policy Optimization)",
+      "ko": "근접 정책 최적화",
+      "definition": "정책을 한 번에 너무 크게 바꾸지 않도록 갱신 폭을 잘라내는(clipping) 장치를 넣어, 안정적이면서 구현이 간단한 대표적인 정책 최적화 알고리즘입니다.",
+      "details": "온폴리시(on-policy) 알고리즘으로, 현재 정책이 방금 수집한 데이터로만 학습합니다. 데이터 효율은 오프폴리시 계열(SAC 등)보다 낮지만 하이퍼파라미터에 덜 민감하고 병렬 환경과 궁합이 좋아, GPU에서 수천 개 환경을 동시에 돌리는 Isaac Lab에서는 사실상 기본 알고리즘입니다. 이산·연속 행동 모두 지원하므로 물류 로봇의 주행 제어 학습에 가장 먼저 시도할 만한 선택지입니다.",
+      "sources": [
+        { "name": "Schulman et al., Proximal Policy Optimization Algorithms (arXiv)", "url": "https://arxiv.org/abs/1707.06347" },
+        { "name": "OpenAI Spinning Up - PPO", "url": "https://spinningup.openai.com/en/latest/algorithms/ppo.html" }
+      ],
+      "related": ["Policy Optimization", "Actor-Critic", "MAPPO", "SAC (Soft Actor-Critic)"]
+    },
+    {
+      "id": "sac",
+      "term": "SAC (Soft Actor-Critic)",
+      "ko": "소프트 액터-크리틱",
+      "definition": "보상뿐 아니라 행동의 다양성(엔트로피)도 함께 최대화하여, 탐색을 잘하면서 데이터 효율이 높은 오프폴리시 연속 행동 제어 알고리즘입니다.",
+      "details": "오프폴리시(off-policy)라서 과거 경험을 리플레이 버퍼에 쌓아 재사용하므로 PPO보다 표본 효율이 훨씬 좋고, 엔트로피 보너스 덕분에 지역 최적해에 덜 빠집니다. 연속 행동 공간 전용으로, 로봇 팔 제어나 주행 속도 제어 같은 과제에 강합니다. 시뮬레이션 데이터가 무한에 가까운 Isaac Lab에서는 PPO가 흔하지만, 실제 로봇처럼 데이터 수집이 비싼 상황에서는 SAC가 유리합니다.",
+      "sources": [
+        { "name": "Haarnoja et al., Soft Actor-Critic (arXiv)", "url": "https://arxiv.org/abs/1801.01290" },
+        { "name": "OpenAI Spinning Up - SAC", "url": "https://spinningup.openai.com/en/latest/algorithms/sac.html" }
+      ],
+      "related": ["Actor-Critic", "TD3 (Twin Delayed DDPG)", "PPO (Proximal Policy Optimization)"]
+    },
+    {
+      "id": "td3",
+      "term": "TD3 (Twin Delayed DDPG)",
+      "ko": "트윈 지연 DDPG",
+      "definition": "연속 행동용 오프폴리시 알고리즘 DDPG의 '가치를 과대평가하는' 고질적 문제를, 두 개의 크리틱 중 작은 값을 쓰고 정책 갱신을 지연하는 등의 기법으로 고친 개선판입니다.",
+      "details": "쌍둥이(twin) Q-네트워크, 지연된(delayed) 정책 업데이트, 타깃 행동에 노이즈 추가라는 세 가지 트릭이 핵심입니다. SAC와 함께 연속 제어의 대표 오프폴리시 알고리즘으로, 결정론적(deterministic) 정책을 학습한다는 점이 확률적 정책을 쓰는 SAC와 다릅니다. 물류 로봇의 속도·조향 같은 연속 제어에 쓸 수 있으며, SAC와 성능 비교 대상으로 자주 등장합니다.",
+      "sources": [
+        { "name": "Fujimoto et al., Addressing Function Approximation Error in Actor-Critic Methods (arXiv)", "url": "https://arxiv.org/abs/1802.09477" },
+        { "name": "OpenAI Spinning Up - TD3", "url": "https://spinningup.openai.com/en/latest/algorithms/td3.html" }
+      ],
+      "related": ["SAC (Soft Actor-Critic)", "Actor-Critic", "MADDPG"]
+    },
+    {
+      "id": "dqn",
+      "term": "DQN (Deep Q-Network)",
+      "ko": "심층 Q-네트워크",
+      "definition": "각 행동의 가치(Q값)를 신경망으로 예측하고, 가장 가치가 높은 행동을 고르는 가치 기반 강화학습 알고리즘입니다. 아타리 게임을 사람 수준으로 플레이하며 심층 강화학습 시대를 연 알고리즘입니다.",
+      "details": "리플레이 버퍼와 타깃 네트워크로 학습을 안정화한 것이 핵심 기여이며, 오프폴리시 방식입니다. 단, 행동 후보를 하나씩 비교해야 하므로 '상/하/좌/우'처럼 이산(discrete) 행동 공간에서만 동작하고 연속 제어에는 쓸 수 없습니다. 물류 로봇에서는 격자 지도 위의 이동 방향 선택이나 '어느 선반 작업을 맡을지' 같은 이산적 의사결정 문제에 적용해 볼 수 있으며, QMIX 같은 다중 에이전트 알고리즘의 기반이기도 합니다.",
+      "sources": [
+        { "name": "Mnih et al., Human-level control through deep reinforcement learning (Nature)", "url": "https://www.nature.com/articles/nature14236" },
+        { "name": "Mnih et al., Playing Atari with Deep RL (arXiv)", "url": "https://arxiv.org/abs/1312.5602" }
+      ],
+      "related": ["Deep Reinforcement Learning", "QMIX", "Model-Free RL"]
+    },
+    {
+      "id": "actor-critic",
+      "term": "Actor-Critic",
+      "ko": "액터-크리틱",
+      "definition": "행동을 결정하는 액터(actor, 정책)와 그 행동이 얼마나 좋았는지 평가하는 크리틱(critic, 가치 함수)을 함께 학습시키는 강화학습 구조입니다.",
+      "details": "정책 경사법의 큰 분산을 크리틱의 평가로 줄여, 정책 기반과 가치 기반 방법의 장점을 결합합니다. PPO, SAC, TD3, MAPPO, MADDPG 등 현대 로봇 학습 알고리즘 대부분이 액터-크리틱 구조 위에 만들어져 있습니다. 학습이 끝나면 크리틱은 버리고 액터(정책)만 로봇에 배포한다는 점도 실무에서 알아두면 좋습니다.",
+      "sources": [
+        { "name": "OpenAI Spinning Up - Kinds of RL Algorithms", "url": "https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html" },
+        { "name": "Sutton & Barto, Reinforcement Learning: An Introduction (2nd ed.)", "url": "http://incompleteideas.net/book/the-book-2nd.html" }
+      ],
+      "related": ["PPO (Proximal Policy Optimization)", "SAC (Soft Actor-Critic)", "TD3 (Twin Delayed DDPG)", "Policy Optimization"]
+    },
+    {
+      "id": "mappo",
+      "term": "MAPPO (Multi-Agent PPO)",
+      "ko": "다중 에이전트 PPO",
+      "definition": "PPO를 다중 에이전트 환경으로 확장한 알고리즘으로, 각 에이전트는 자기 관측으로 행동하되 크리틱은 전체 상태를 보고 평가하는 중앙집중 학습-분산 실행(CTDE) 구조를 씁니다.",
+      "details": "복잡한 기법 없이 PPO만 잘 튜닝해도 협력형 다중 에이전트 벤치마크(StarCraft SMAC 등)에서 최신 기법들과 대등하거나 더 좋다는 것을 보여 주목받았습니다. 협력 과제에서 구현이 단순하고 안정적이라 다중 로봇 학습의 좋은 첫 선택지입니다. 물류 시뮬레이션에서 여러 로봇이 통로를 양보하고 작업을 분담하는 협조 정책을 학습시킬 때, 단일 로봇 PPO 코드에서 자연스럽게 확장할 수 있다는 것이 큰 장점입니다.",
+      "sources": [
+        { "name": "Yu et al., The Surprising Effectiveness of PPO in Cooperative Multi-Agent Games (arXiv)", "url": "https://arxiv.org/abs/2103.01955" }
+      ],
+      "related": ["PPO (Proximal Policy Optimization)", "Multi-Agent Reinforcement Learning (MARL)", "QMIX", "MADDPG"]
+    },
+    {
+      "id": "qmix",
+      "term": "QMIX",
+      "ko": "큐믹스",
+      "definition": "협력형 다중 에이전트 학습에서, 각 에이전트의 개별 Q값을 믹싱 네트워크로 조합해 팀 전체의 Q값을 만드는 가치 기반 알고리즘입니다.",
+      "details": "'팀 전체에 좋은 행동이면 각자에게도 좋은 행동'이 되도록 단조성(monotonicity) 제약을 걸어, 학습은 중앙에서 하고 실행은 각 에이전트가 자기 Q값만 보고 독립적으로 할 수 있게 합니다(CTDE). DQN 계열이므로 이산 행동 공간에 적합합니다. 물류 로봇에서는 '각 로봇이 어느 구역/작업을 맡을지' 같은 이산적 협력 의사결정에 어울리며, MAPPO와 함께 협력형 MARL의 표준 베이스라인으로 비교됩니다.",
+      "sources": [
+        { "name": "Rashid et al., QMIX: Monotonic Value Function Factorisation for Deep Multi-Agent RL (arXiv)", "url": "https://arxiv.org/abs/1803.11485" }
+      ],
+      "related": ["DQN (Deep Q-Network)", "Multi-Agent Reinforcement Learning (MARL)", "MAPPO", "MADDPG"]
+    },
+    {
+      "id": "maddpg",
+      "term": "MADDPG (Multi-Agent DDPG)",
+      "ko": "다중 에이전트 DDPG",
+      "definition": "연속 행동용 알고리즘 DDPG를 다중 에이전트로 확장한 것으로, 각 에이전트의 크리틱이 다른 에이전트들의 행동까지 입력으로 받아 평가하는 액터-크리틱 알고리즘입니다.",
+      "details": "중앙집중 학습-분산 실행(CTDE)의 초기 대표작으로, 협력·경쟁·혼합 환경을 모두 다룰 수 있고 연속 행동 공간을 지원하는 것이 특징입니다. 다른 에이전트 때문에 환경이 계속 변하는 비정상성 문제를 '크리틱이 모두의 행동을 보게 하는' 방식으로 완화합니다. 물류 로봇의 연속적인 주행 제어(속도·조향)를 다중 로봇으로 학습할 때 적용할 수 있으며, MAPPO·QMIX와 함께 MARL의 3대 기본 베이스라인으로 꼽힙니다.",
+      "sources": [
+        { "name": "Lowe et al., Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments (arXiv)", "url": "https://arxiv.org/abs/1706.02275" }
+      ],
+      "related": ["Multi-Agent Reinforcement Learning (MARL)", "TD3 (Twin Delayed DDPG)", "MAPPO", "QMIX"]
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "category": "logistics-opt",
+  "categoryKo": "물류 최적화",
+  "terms": [
+    {
+      "id": "warehouse-optimization",
+      "term": "Warehouse Optimization",
+      "ko": "창고 최적화",
+      "definition": "물류센터(창고)의 공간 배치, 재고 위치, 작업 흐름, 인력·로봇 운영 전체를 개선해 더 적은 비용으로 더 많은 주문을 처리하도록 만드는 활동입니다.",
+      "details": "창고 최적화는 하나의 문제가 아니라 레이아웃 설계, 보관 위치 결정, 피킹 방식, 작업 스케줄링 등 여러 하위 최적화 문제의 집합입니다. 각 결정이 서로 영향을 주기 때문에(예: 재고 배치가 로봇 이동 거리를 바꿈) 전체를 함께 보는 관점이 중요합니다. 다중 로봇 물류센터 시뮬레이션에서는 실제 창고를 짓기 전에 레이아웃·로봇 대수·운영 정책을 바꿔가며 처리량과 비용을 가상으로 실험하는 것이 곧 창고 최적화 과정입니다.",
+      "sources": [
+        {"name": "Wikipedia - Warehouse management system", "url": "https://en.wikipedia.org/wiki/Warehouse_management_system"},
+        {"name": "De Koster et al. (2007), Design and control of warehouse order picking: A literature review, EJOR", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0377221706006473"}
+      ],
+      "related": ["Slotting Optimization", "Picking Optimization", "Throughput Optimization", "Fleet Optimization"]
+    },
+    {
+      "id": "slotting-optimization",
+      "term": "Slotting Optimization",
+      "ko": "슬로팅 최적화 (상품 위치 배치 최적화)",
+      "definition": "어떤 상품(SKU)을 창고의 어느 선반 자리(슬롯)에 둘지를 데이터 기반으로 결정하는 최적화입니다. 잘 팔리는 상품을 꺼내기 쉬운 자리에 두는 것이 대표적인 예입니다.",
+      "details": "주문 데이터에서 상품별 출고 빈도(velocity)와 함께 주문되는 상품 조합을 분석해, 이동 거리와 피킹 시간이 최소가 되도록 슬롯을 배정합니다. 수요는 계절·이벤트에 따라 계속 변하므로 슬로팅은 한 번 하고 끝나는 것이 아니라 지속적으로 재배치하는 과정입니다. 로봇 물류센터 시뮬레이션에서는 슬로팅 결과가 로봇의 평균 주행 거리와 통로 혼잡도를 직접 좌우하므로, 배치안을 바꿔가며 처리량 변화를 검증하는 핵심 실험 변수가 됩니다.",
+      "sources": [
+        {"name": "NetSuite - Warehouse Slotting: What It Is & Tips to Improve", "url": "https://www.netsuite.com/portal/resource/articles/inventory-management/warehouse-slotting.shtml"},
+        {"name": "Kardex - Warehouse Slotting Strategies and Best Practices", "url": "https://www.kardex.com/en-us/blog/warehouse-slotting-strategies-best-practices"}
+      ],
+      "related": ["Storage Assignment", "Picking Optimization", "Warehouse Optimization"]
+    },
+    {
+      "id": "picking-optimization",
+      "term": "Picking Optimization",
+      "ko": "피킹 최적화",
+      "definition": "주문된 상품을 선반에서 꺼내오는 '피킹' 작업의 총 시간과 이동 거리를 줄이는 최적화입니다. 피킹은 창고 운영비의 절반 이상을 차지하는 가장 비싼 작업으로 알려져 있습니다.",
+      "details": "피킹 최적화는 어떤 주문을 묶어서 처리할지(배칭), 어떤 경로로 돌지(라우팅), 누가·어느 구역에서 집을지(조닝) 같은 하위 결정들의 조합입니다. De Koster 등의 리뷰 논문에 따르면 피킹 비용은 창고 운영비의 최대 55%에 달해, 여기서의 개선이 전체 효율에 가장 크게 기여합니다. 다중 로봇 시뮬레이션에서는 '어떤 로봇이 어떤 순서로 어떤 선반에 가는가'를 결정하는 문제로 나타나며, 배칭·라우팅·할당 알고리즘을 바꿔가며 시간당 처리 주문 수를 비교하게 됩니다.",
+      "sources": [
+        {"name": "De Koster et al. (2007), Design and control of warehouse order picking: A literature review, EJOR", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0377221706006473"},
+        {"name": "Wikipedia - Order picking", "url": "https://en.wikipedia.org/wiki/Order_picking"}
+      ],
+      "related": ["Order Picking", "Order Batching", "Slotting Optimization", "Task Allocation"]
+    },
+    {
+      "id": "order-batching",
+      "term": "Order Batching",
+      "ko": "주문 배칭 (주문 묶음 처리)",
+      "definition": "여러 고객 주문을 하나의 묶음(배치)으로 합쳐서 한 번의 피킹 이동으로 함께 처리하는 기법입니다. 주문 하나마다 왕복하는 것보다 이동 거리를 크게 줄일 수 있습니다.",
+      "details": "핵심 의사결정은 '어떤 주문들을 같은 배치로 묶을 것인가'이며, 보통 보관 위치가 서로 가까운 주문끼리 묶어 총 이동 거리를 최소화합니다. 배치를 크게 만들수록 이동 효율은 좋아지지만 개별 주문의 대기 시간이 길어지는 트레이드오프가 있습니다. 로봇 물류센터 시뮬레이션에서는 배칭 규칙(묶음 크기, 묶는 기준)이 로봇 한 대가 한 번 출동해서 처리하는 일의 양을 결정하므로, 처리량과 주문 리드타임의 균형점을 찾는 대표적인 실험 대상입니다.",
+      "sources": [
+        {"name": "De Koster et al. (2007), Design and control of warehouse order picking: A literature review, EJOR", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0377221706006473"},
+        {"name": "Wikipedia - Order picking", "url": "https://en.wikipedia.org/wiki/Order_picking"}
+      ],
+      "related": ["Batch Picking", "Order Picking", "Wave Picking", "Picking Optimization"]
+    },
+    {
+      "id": "order-picking",
+      "term": "Order Picking",
+      "ko": "오더 피킹 (주문 피킹)",
+      "definition": "고객 주문서에 적힌 상품들을 창고 보관 위치에서 찾아 꺼내 모으는 작업입니다. 물류센터의 가장 기본이 되는 핵심 프로세스입니다.",
+      "details": "사람이 상품에게 가는 방식(picker-to-parts)과, 로봇이 선반째 상품을 사람에게 가져오는 방식(parts-to-picker, 아마존 Kiva·쿠팡 물류센터 방식)으로 크게 나뉩니다. 노동집약적이고 비용 비중이 커서 자동화와 최적화 연구가 가장 활발한 영역입니다. 다중 로봇 시뮬레이션에서 오더 피킹은 '주문 발생 → 로봇 할당 → 선반 이동 → 피킹 스테이션 전달'로 이어지는 전체 시나리오의 뼈대가 되며, 이후 등장하는 배칭·조닝·웨이브 등은 모두 이 작업을 조직하는 서로 다른 방식입니다.",
+      "sources": [
+        {"name": "Wikipedia - Order picking", "url": "https://en.wikipedia.org/wiki/Order_picking"},
+        {"name": "De Koster et al. (2007), Design and control of warehouse order picking: A literature review, EJOR", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0377221706006473"}
+      ],
+      "related": ["Picking Optimization", "Wave Picking", "Zone Picking", "Batch Picking"]
+    },
+    {
+      "id": "wave-picking",
+      "term": "Wave Picking",
+      "ko": "웨이브 피킹",
+      "definition": "주문을 '언제 처리할지' 기준으로 묶는 방식으로, 출하 시간대·배송 차량 등 공통 조건별로 주문 그룹(웨이브)을 만들어 정해진 시간 단위로 한꺼번에 작업장에 내려보내는 피킹 방식입니다.",
+      "details": "배치 피킹이 '어떤 주문을 함께 집을까'(묶음의 구성), 존 피킹이 '어디서 누가 집을까'(공간 분할)에 관한 것이라면, 웨이브 피킹은 '언제 어떤 주문 그룹을 시작할까'(시간 분할)에 관한 방식입니다. 예를 들어 오후 2시 출발 트럭에 실릴 주문들을 하나의 웨이브로 묶어 오전에 일괄 피킹하는 식이며, 세 방식은 서로 배타적이지 않아 존+웨이브처럼 조합해 쓸 수 있습니다. 시뮬레이션 관점에서는 웨이브 크기와 릴리스 주기가 특정 시간대의 로봇 부하 집중(혼잡)과 처리량을 결정하는 스케줄링 파라미터가 됩니다.",
+      "sources": [
+        {"name": "Wikipedia - Wave picking", "url": "https://en.wikipedia.org/wiki/Wave_picking"},
+        {"name": "NetSuite - What Is Wave Picking?", "url": "https://www.netsuite.com/portal/resource/articles/inventory-management/wave-picking.shtml"}
+      ],
+      "related": ["Zone Picking", "Batch Picking", "Order Batching", "Scheduling"]
+    },
+    {
+      "id": "zone-picking",
+      "term": "Zone Picking",
+      "ko": "존 피킹 (구역 피킹)",
+      "definition": "창고를 여러 구역(존)으로 나누고 각 작업자(또는 로봇)가 자기 구역 안의 상품만 담당해서 피킹하는 방식입니다. 여러 구역에 걸친 주문은 구역 간에 전달하며 완성합니다.",
+      "details": "웨이브 피킹이 시간 기준, 배치 피킹이 주문 묶음 기준이라면, 존 피킹은 공간 기준의 분업입니다. 담당 구역이 고정되어 이동 거리가 짧아지고 작업자가 구역에 숙련되는 장점이 있지만, 구역 간 물량 불균형이 생기면 특정 존이 병목이 될 수 있습니다. 다중 로봇 시뮬레이션에서는 '존을 몇 개로 어떻게 나누고 각 존에 로봇을 몇 대 배정할 것인가'라는 공간 분할 + 자원 배분 문제로 나타나며, 존 경계 설정에 따라 로봇 간 경로 간섭이 줄어드는 효과도 실험할 수 있습니다.",
+      "sources": [
+        {"name": "NetSuite - What Is Zone Picking?", "url": "https://www.netsuite.com/portal/resource/articles/ecommerce/zone-picking.shtml"},
+        {"name": "De Koster et al. (2007), Design and control of warehouse order picking: A literature review, EJOR", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0377221706006473"}
+      ],
+      "related": ["Wave Picking", "Batch Picking", "Robot Allocation", "Bottleneck Detection"]
+    },
+    {
+      "id": "batch-picking",
+      "term": "Batch Picking",
+      "ko": "배치 피킹 (묶음 피킹)",
+      "definition": "여러 주문에 공통으로 들어 있는 상품을 한 번의 이동으로 몰아서 집는 피킹 방식입니다. 같은 상품 위치를 주문마다 반복 방문하는 낭비를 없앱니다.",
+      "details": "주문 배칭(Order Batching)이 '주문을 묶는 의사결정'이라면 배치 피킹은 그 묶음을 실제로 수행하는 작업 방식입니다. 존 피킹(공간 분할)·웨이브 피킹(시간 분할)과 달리 배치 피킹은 '한 번의 주행에서 처리하는 주문 수'를 늘리는 접근이며, 집은 뒤 주문별로 다시 나누는 분류(sortation) 단계가 추가로 필요합니다. 시뮬레이션에서는 로봇 한 대의 적재 용량과 배치 크기를 함께 조정하며 이동 거리 절감 효과와 분류 스테이션의 부하 증가를 비교하는 문제로 다뤄집니다.",
+      "sources": [
+        {"name": "Kardex - An In-Depth Guide to Warehouse Picking Methods", "url": "https://www.kardex.com/en-us/blog/warehouse-picking-methods"},
+        {"name": "De Koster et al. (2007), Design and control of warehouse order picking: A literature review, EJOR", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0377221706006473"}
+      ],
+      "related": ["Order Batching", "Wave Picking", "Zone Picking", "Order Picking"]
+    },
+    {
+      "id": "storage-assignment",
+      "term": "Storage Assignment",
+      "ko": "보관 위치 할당",
+      "definition": "입고된 상품을 창고의 어느 보관 위치에 넣을지 결정하는 규칙 또는 정책입니다. 슬로팅 최적화가 풀려는 문제를 정책 수준에서 부르는 용어입니다.",
+      "details": "대표 정책으로 아무 빈 자리에 넣는 임의 저장(random storage), 상품마다 자리를 고정하는 지정 저장(dedicated storage), 출고 빈도 등급별로 구역을 나누는 클래스 기반 저장(class-based, ABC 저장)이 있습니다. 임의 저장은 공간 효율이 높고 지정 저장은 피킹이 예측 가능하다는 식으로 각 정책마다 트레이드오프가 있습니다. 로봇 물류센터 시뮬레이션에서는 입고 이벤트가 발생할 때마다 '이 선반/상품을 어느 셀로 보낼까'를 정하는 온라인 의사결정 문제이며, 정책 선택이 이후 모든 피킹 이동 거리의 기반이 됩니다.",
+      "sources": [
+        {"name": "De Koster et al. (2007), Design and control of warehouse order picking: A literature review, EJOR", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0377221706006473"},
+        {"name": "Mecalux - Warehouse slotting: amp up your productivity", "url": "https://www.mecalux.com/blog/warehouse-slotting"}
+      ],
+      "related": ["Slotting Optimization", "Rack Allocation", "Warehouse Optimization"]
+    },
+    {
+      "id": "rack-allocation",
+      "term": "Rack Allocation",
+      "ko": "랙(선반) 배치/할당",
+      "definition": "보관 선반(랙)을 창고 바닥의 어디에 배치할지, 그리고 상품·작업을 어떤 랙에 할당할지 결정하는 문제입니다.",
+      "details": "전통 창고에서는 랙 위치가 고정이지만, 이동식 랙 로봇 시스템(아마존 Kiva 방식)에서는 로봇이 랙을 통째로 들어 옮기기 때문에 '작업이 끝난 랙을 어느 자리에 되돌려 놓을까'가 실시간 최적화 문제가 됩니다. 자주 쓰이는 랙을 피킹 스테이션 가까운 자리에 두면 다음 이동 거리가 짧아지지만, 좋은 자리는 한정되어 있어 경쟁이 생깁니다. 시뮬레이션에서는 랙 반환 위치 정책에 따라 로봇 주행 거리와 통로 혼잡이 어떻게 변하는지 관찰하는 실험으로 구성됩니다.",
+      "sources": [
+        {"name": "Wikipedia - Pallet racking", "url": "https://en.wikipedia.org/wiki/Pallet_racking"},
+        {"name": "Wikipedia - Automated storage and retrieval system", "url": "https://en.wikipedia.org/wiki/Automated_storage_and_retrieval_system"}
+      ],
+      "related": ["Storage Assignment", "Slotting Optimization", "Traffic Management"]
+    },
+    {
+      "id": "task-allocation",
+      "term": "Task Allocation",
+      "ko": "작업 할당",
+      "definition": "처리해야 할 작업(태스크) 목록을 여러 작업 주체(로봇·작업자)에게 나누어 배정하는 문제입니다. '어떤 로봇이 어떤 일을 맡을까'를 정합니다.",
+      "details": "로봇 여러 대가 있는 환경에서는 이 문제를 MRTA(Multi-Robot Task Allocation, 다중 로봇 작업 할당)라고 부르며, Gerkey와 Matarić의 분류법이 표준 프레임으로 쓰입니다. 이 분류법은 로봇이 한 번에 하나의 태스크만 수행하는지(ST/MT), 태스크에 로봇이 한 대면 되는지(SR/MR), 지금 있는 태스크만 배정하는지 미래까지 계획하는지(IA/TA)에 따라 문제를 나눕니다. 물류센터 시뮬레이션의 '주문이 들어오면 어느 로봇을 보낼까'는 전형적인 ST-SR-IA 유형이며, 거리·배터리·현재 부하를 반영한 경매(auction) 방식이나 헝가리안 알고리즘 같은 할당 알고리즘으로 풉니다.",
+      "sources": [
+        {"name": "Gerkey & Matarić (2004), A Formal Analysis and Taxonomy of Task Allocation in Multi-Robot Systems, IJRR (Semantic Scholar)", "url": "https://www.semanticscholar.org/paper/A-Formal-Analysis-and-Taxonomy-of-Task-Allocation-Gerkey-Matari%C4%87/02da345914c24b5743d6a660aa8c5d937cc039ce"},
+        {"name": "Wikipedia - Assignment problem", "url": "https://en.wikipedia.org/wiki/Assignment_problem"}
+      ],
+      "related": ["Robot Allocation", "Dispatching", "Scheduling", "Fleet Optimization"]
+    },
+    {
+      "id": "robot-allocation",
+      "term": "Robot Allocation",
+      "ko": "로봇 할당",
+      "definition": "작업·구역·시간대별로 어떤 로봇을(또는 몇 대를) 투입할지 결정하는 문제입니다. 작업 할당(Task Allocation)을 로봇 쪽 관점에서 부르는 표현입니다.",
+      "details": "개별 작업 단위의 배정뿐 아니라 '피킹 존 A에 로봇 5대, 존 B에 3대'처럼 구역·기능별 자원 배분, 충전이 필요한 로봇의 교대 계획까지 포함하는 넓은 개념입니다. 수요가 시간대별로 출렁이는 물류센터에서는 고정 배분보다 상황에 따라 로봇을 재배치하는 동적 할당이 유리한 경우가 많습니다. 시뮬레이션에서는 로봇 총 대수와 구역별 배분 비율을 바꿔가며 처리량 대비 유휴 로봇 수(투자 효율)를 찾는 용량 계획(capacity planning) 실험으로 자주 다뤄집니다.",
+      "sources": [
+        {"name": "Gerkey & Matarić (2004), A Formal Analysis and Taxonomy of Task Allocation in Multi-Robot Systems, IJRR (Semantic Scholar)", "url": "https://www.semanticscholar.org/paper/A-Formal-Analysis-and-Taxonomy-of-Task-Allocation-Gerkey-Matari%C4%87/02da345914c24b5743d6a660aa8c5d937cc039ce"},
+        {"name": "Wikipedia - Automated guided vehicle", "url": "https://en.wikipedia.org/wiki/Automated_guided_vehicle"}
+      ],
+      "related": ["Task Allocation", "Fleet Optimization", "Zone Picking", "Resource Scheduling"]
+    },
+    {
+      "id": "fleet-optimization",
+      "term": "Fleet Optimization",
+      "ko": "플릿(로봇 군단) 최적화",
+      "definition": "로봇 전체 무리(플릿)를 하나의 시스템으로 보고, 대수·배치·경로·충전 계획을 종합적으로 최적화하는 것입니다.",
+      "details": "개별 로봇을 잘 움직이는 것과 플릿 전체가 잘 움직이는 것은 다른 문제입니다. 각 로봇이 자기 기준 최단 경로만 고집하면 같은 통로에 몰려 전체 처리량이 오히려 떨어질 수 있어, 플릿 차원의 조정이 필요합니다. 로봇 대수 결정(적으면 처리량 부족, 많으면 혼잡과 비용 증가), 충전 스테이션 배치, 유휴 로봇 대기 위치 선정 등이 대표 의사결정입니다. Isaac Sim 같은 시뮬레이터의 핵심 용도가 바로 실물 투자 전에 이런 플릿 구성을 가상으로 검증하는 것입니다.",
+      "sources": [
+        {"name": "Wikipedia - Fleet management", "url": "https://en.wikipedia.org/wiki/Fleet_management"},
+        {"name": "Wikipedia - Vehicle routing problem", "url": "https://en.wikipedia.org/wiki/Vehicle_routing_problem"}
+      ],
+      "related": ["Robot Allocation", "Traffic Management", "Task Allocation", "Throughput Optimization"]
+    },
+    {
+      "id": "dispatching",
+      "term": "Dispatching",
+      "ko": "디스패칭 (작업 지시/배차)",
+      "definition": "지금 발생한 작업을 지금 가용한 작업 주체(로봇·차량)에 실시간으로 배정해 출동시키는 것입니다. 택시 배차와 같은 개념입니다.",
+      "details": "긴 시간 범위의 계획을 세우는 스케줄링과 달리, 디스패칭은 '이 순간 이 주문에 어느 로봇을 보낼까'를 즉시 결정하는 실시간 규칙에 가깝습니다. 가장 가까운 로봇 우선, 가장 오래 논 로봇 우선, 마감이 급한 주문 우선 같은 단순 규칙(dispatching rule)부터 여러 기준을 조합한 점수 기반 규칙까지 다양합니다. 다중 로봇 시뮬레이션에서는 디스패칭 규칙 하나만 바꿔도 평균 대기 시간과 처리량이 크게 달라지므로, 규칙 간 성능을 비교하는 것이 기본 실험 중 하나입니다.",
+      "sources": [
+        {"name": "Wikipedia - Dispatch (logistics)", "url": "https://en.wikipedia.org/wiki/Dispatch_(logistics)"},
+        {"name": "Wikipedia - Automated guided vehicle", "url": "https://en.wikipedia.org/wiki/Automated_guided_vehicle"}
+      ],
+      "related": ["Task Allocation", "Scheduling", "Robot Allocation"]
+    },
+    {
+      "id": "scheduling",
+      "term": "Scheduling",
+      "ko": "스케줄링 (일정 계획)",
+      "definition": "어떤 작업을 언제, 어떤 순서로, 어떤 자원으로 수행할지 시간 축 위에 계획하는 것입니다.",
+      "details": "할당(allocation)이 '누가 하느냐'라면 스케줄링은 '언제 어떤 순서로 하느냐'까지 정하는 문제로, 마감 시간·자원 용량·작업 간 선후 관계 같은 제약을 지키면서 총 완료 시간이나 지연을 최소화합니다. 대부분의 스케줄링 문제는 NP-hard여서 규모가 커지면 정확한 최적해 대신 휴리스틱이나 규칙 기반 방법을 씁니다. 물류센터 시뮬레이션에서는 웨이브 릴리스 시각, 로봇 충전 시간대, 피킹 스테이션 가동 계획 등이 모두 스케줄링 결정이며, 시뮬레이션은 계획이 혼잡·고장 같은 변동에 얼마나 견디는지 검증하는 도구가 됩니다.",
+      "sources": [
+        {"name": "Wikipedia - Scheduling (production processes)", "url": "https://en.wikipedia.org/wiki/Scheduling_(production_processes)"},
+        {"name": "Wikipedia - Scheduling (computing)", "url": "https://en.wikipedia.org/wiki/Scheduling_(computing)"}
+      ],
+      "related": ["Job Scheduling", "Resource Scheduling", "Dispatching", "Wave Picking"]
+    },
+    {
+      "id": "job-scheduling",
+      "term": "Job Scheduling",
+      "ko": "작업(잡) 스케줄링",
+      "definition": "여러 개의 작업(잡)을 한정된 기계·로봇에 순서대로 배정해 전체 완료 시간 등을 최소화하는 고전적 최적화 문제입니다.",
+      "details": "대표 모델인 잡숍 스케줄링(job-shop scheduling)은 각 잡이 여러 공정을 정해진 순서로 거쳐야 하고 기계마다 한 번에 하나의 공정만 처리할 수 있을 때, 모든 잡이 끝나는 시각(makespan)을 최소화하는 문제로 NP-hard로 유명합니다. 물류센터에서 '주문 = 잡, 로봇·피킹 스테이션 = 기계'로 대응시키면 주문 처리 순서 결정이 곧 잡 스케줄링이 됩니다. 시뮬레이션에서는 FIFO, 최단 작업 우선(SPT), 마감 임박 우선(EDD) 같은 우선순위 규칙별로 평균 처리 시간과 지연 주문 수를 비교하는 실험을 합니다.",
+      "sources": [
+        {"name": "Wikipedia - Job-shop scheduling", "url": "https://en.wikipedia.org/wiki/Job-shop_scheduling"},
+        {"name": "Wikipedia - Job scheduler", "url": "https://en.wikipedia.org/wiki/Job_scheduler"}
+      ],
+      "related": ["Scheduling", "Resource Scheduling", "Dispatching"]
+    },
+    {
+      "id": "resource-scheduling",
+      "term": "Resource Scheduling",
+      "ko": "자원 스케줄링",
+      "definition": "로봇, 충전기, 피킹 스테이션, 통로 같은 한정된 자원을 여러 작업이 시간대별로 나눠 쓰도록 계획하는 것입니다.",
+      "details": "잡 스케줄링이 '작업의 순서'에 초점을 둔다면, 자원 스케줄링은 '자원의 시간표'에 초점을 둡니다. 같은 자원을 두 작업이 동시에 쓸 수 없다는 제약 아래 자원 가동률을 높이고 작업 대기를 줄이는 것이 목표입니다. 로봇 물류센터에서는 충전 스테이션이 대표적인 희소 자원으로, 모든 로봇이 피크 시간에 충전하러 가지 않도록 충전 시간대를 분산 배정하는 것이 전형적인 자원 스케줄링 문제입니다. 시뮬레이션에서는 자원별 가동률(utilization)을 측정해 남는 자원과 모자란 자원을 찾아내는 데 쓰입니다.",
+      "sources": [
+        {"name": "Wikipedia - Resource allocation", "url": "https://en.wikipedia.org/wiki/Resource_allocation"},
+        {"name": "Wikipedia - Scheduling (computing)", "url": "https://en.wikipedia.org/wiki/Scheduling_(computing)"}
+      ],
+      "related": ["Scheduling", "Job Scheduling", "Robot Allocation", "Bottleneck Detection"]
+    },
+    {
+      "id": "traffic-management",
+      "term": "Traffic Management",
+      "ko": "(로봇) 교통 관리",
+      "definition": "좁은 통로를 공유하는 수십~수백 대의 로봇이 서로 부딪히거나 길을 막지 않도록 이동을 조율하는 것입니다. 도로 교통 관리의 창고 로봇 버전입니다.",
+      "details": "핵심 기술은 다중 에이전트 경로 계획(MAPF, Multi-Agent Path Finding)으로, 여러 로봇의 충돌 없는 경로를 동시에 계산하는 문제입니다. 그 외에 통로별 일방통행 지정, 교차로 우선순위 규칙, 특정 구역 동시 진입 대수 제한 같은 규칙 기반 방법도 함께 쓰입니다. 로봇 대수가 늘수록 경로 간섭이 기하급수적으로 늘어 교통 관리가 전체 처리량의 상한을 결정하게 되며, Isaac Sim 같은 시뮬레이션은 실제 충돌 위험 없이 교통 정책을 검증할 수 있는 안전한 실험장이 됩니다.",
+      "sources": [
+        {"name": "Wikipedia - Multi-agent pathfinding", "url": "https://en.wikipedia.org/wiki/Multi-agent_pathfinding"},
+        {"name": "Wikipedia - Automated guided vehicle", "url": "https://en.wikipedia.org/wiki/Automated_guided_vehicle"}
+      ],
+      "related": ["Congestion Control", "Fleet Optimization", "Rack Allocation"]
+    },
+    {
+      "id": "congestion-control",
+      "term": "Congestion Control",
+      "ko": "혼잡 제어",
+      "definition": "특정 통로나 구역에 로봇이 몰려 정체가 생기는 것을 예방하거나 완화하는 제어 기법입니다.",
+      "details": "혼잡은 처리량을 갉아먹는 주범입니다. 로봇이 몰리면 대기·회피 기동이 늘어 개별 이동 시간이 길어지고, 심하면 서로 길을 막는 교착(deadlock)까지 발생합니다. 대응 방법으로는 혼잡 구간을 비용에 반영해 우회 경로를 택하게 하는 혼잡 인지 라우팅, 구역별 동시 진입 로봇 수 제한, 작업 투입 속도 자체를 늦추는 유입 제어 등이 있으며, 네트워크 통신의 혼잡 제어와 발상이 같습니다. 시뮬레이션에서는 히트맵으로 혼잡 지점을 시각화하고, 제어 정책 적용 전후의 평균 이동 시간 변화를 비교하는 식으로 검증합니다.",
+      "sources": [
+        {"name": "Wikipedia - Network congestion", "url": "https://en.wikipedia.org/wiki/Network_congestion"},
+        {"name": "Wikipedia - Multi-agent pathfinding", "url": "https://en.wikipedia.org/wiki/Multi-agent_pathfinding"}
+      ],
+      "related": ["Traffic Management", "Bottleneck Detection", "Throughput Optimization"]
+    },
+    {
+      "id": "throughput-optimization",
+      "term": "Throughput Optimization",
+      "ko": "처리량 최적화",
+      "definition": "단위 시간당 시스템이 처리하는 일의 양(예: 시간당 완료 주문 수)을 최대화하는 것입니다. 물류센터 성능을 요약하는 가장 대표적인 지표입니다.",
+      "details": "처리량은 로봇 대수, 배칭 정책, 슬로팅, 교통 혼잡 등 앞서 나온 모든 최적화 결과가 합쳐져 나오는 종합 성적표입니다. 중요한 성질은 시스템 처리량이 가장 느린 단계(병목)의 처리량에 묶인다는 점으로, 병목이 아닌 곳을 아무리 개선해도 전체는 빨라지지 않습니다. 시뮬레이션 프로젝트에서는 처리량을 핵심 KPI로 두고, 파라미터(로봇 수, 웨이브 크기, 존 구성 등)를 바꿔가며 처리량 곡선이 어디서 꺾이는지(포화점)를 찾는 것이 전형적인 실험 설계입니다.",
+      "sources": [
+        {"name": "Wikipedia - Throughput", "url": "https://en.wikipedia.org/wiki/Throughput"},
+        {"name": "Wikipedia - Theory of constraints", "url": "https://en.wikipedia.org/wiki/Theory_of_constraints"}
+      ],
+      "related": ["Bottleneck Detection", "Warehouse Optimization", "Fleet Optimization", "Congestion Control"]
+    },
+    {
+      "id": "bottleneck-detection",
+      "term": "Bottleneck Detection",
+      "ko": "병목 탐지",
+      "definition": "전체 시스템의 속도를 제한하는 가장 느린 지점(병목)을 찾아내는 분석입니다. 병목처럼 좁은 구간이 전체 흐름을 결정한다는 데서 나온 용어입니다.",
+      "details": "제약 이론(Theory of Constraints)에 따르면 시스템 개선은 '병목을 찾고 → 병목을 개선하고 → 다음 병목을 다시 찾는' 반복 과정입니다. 물류센터에서는 피킹 스테이션의 긴 대기열, 항상 붐비는 특정 교차로, 부족한 충전기 등이 병목 후보가 됩니다. 시뮬레이션은 병목 탐지에 특히 강력한 도구로, 자원별 가동률·대기열 길이·구간별 로봇 대기 시간을 로그로 수집해 어디가 포화 상태인지 정량적으로 짚어낼 수 있습니다. 병목을 찾은 뒤 그 지점만 보강한 시나리오를 다시 돌려 처리량 개선을 확인하는 것이 표준 워크플로입니다.",
+      "sources": [
+        {"name": "Wikipedia - Bottleneck (production)", "url": "https://en.wikipedia.org/wiki/Bottleneck_(production)"},
+        {"name": "Wikipedia - Theory of constraints", "url": "https://en.wikipedia.org/wiki/Theory_of_constraints"}
+      ],
+      "related": ["Throughput Optimization", "Congestion Control", "Resource Scheduling"]
+    }
+  ]
+}

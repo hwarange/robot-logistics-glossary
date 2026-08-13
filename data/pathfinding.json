@@ -1,0 +1,175 @@
+{
+  "category": "pathfinding",
+  "categoryKo": "경로 탐색 · MAPF",
+  "terms": [
+    {
+      "id": "a-star",
+      "term": "A* (A-star)",
+      "ko": "A* 알고리즘 (에이스타)",
+      "definition": "출발점에서 목표점까지의 최단 경로를 찾는 가장 대표적인 그래프 탐색 알고리즘. \"지금까지 온 거리 + 목표까지 남은 거리 추정치\"가 가장 작은 곳부터 탐색한다.",
+      "details": "Dijkstra에 휴리스틱(목표까지의 거리 추정 함수)을 더해, 목표 방향으로 우선 탐색하므로 훨씬 빠르다. 휴리스틱이 실제 거리를 과대평가하지 않으면 항상 최적 경로를 보장한다. 로봇 한 대의 경로를 격자 지도 위에서 찾는 단일 에이전트 알고리즘으로, 물류센터 시뮬레이션에서는 CBS·WHCA* 같은 다중 에이전트 기법 내부의 기본 엔진(저수준 탐색기)으로 거의 항상 쓰인다.",
+      "sources": [
+        {"name": "Wikipedia — A* search algorithm", "url": "https://en.wikipedia.org/wiki/A*_search_algorithm"}
+      ],
+      "related": ["Dijkstra", "Cooperative A*", "CBS (Conflict-Based Search)"]
+    },
+    {
+      "id": "dijkstra",
+      "term": "Dijkstra",
+      "ko": "다익스트라 알고리즘",
+      "definition": "출발점에서 다른 모든 지점까지의 최단 경로를 구하는 고전 알고리즘. 가까운 곳부터 차례대로 확정해 나간다.",
+      "details": "휴리스틱 없이 출발점 주변을 모든 방향으로 균등하게 넓혀 가며 탐색하므로, A*보다 느리지만 목표가 여러 개이거나 지도 전체의 거리 정보가 필요할 때 유용하다. A*는 사실상 다익스트라에 방향성(휴리스틱)을 붙인 것이라 개념적 뿌리에 해당한다. 단일 에이전트 알고리즘이며, 물류 시뮬레이션에서는 각 지점에서 목표까지의 정확한 거리표(휴리스틱 테이블)를 미리 계산해 두는 용도로도 자주 쓰인다.",
+      "sources": [
+        {"name": "Wikipedia — Dijkstra's algorithm", "url": "https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm"}
+      ],
+      "related": ["A* (A-star)", "D* Lite"]
+    },
+    {
+      "id": "d-star",
+      "term": "D* (D-star, Dynamic A*)",
+      "ko": "D* 알고리즘 (디스타, 동적 A*)",
+      "definition": "지도가 이동 중에 바뀌는 상황(새 장애물 발견 등)에서, 경로 전체를 처음부터 다시 계산하지 않고 바뀐 부분만 고쳐 쓰는 재계획(replanning) 알고리즘.",
+      "details": "\"Dynamic A*\"의 약자로, 미지의 지형을 탐사하는 로봇을 위해 만들어졌다. 이동하다가 예상 밖의 장애물을 만나면 이전 계산 결과를 재활용해 빠르게 새 경로를 만든다. 단일 에이전트용이지만, 물류센터처럼 다른 로봇·낙하물 때문에 통로가 수시로 막히는 동적 환경에서 \"매번 A*를 새로 돌리는\" 비용을 줄여 준다는 발상이 중요하다. 실무에서는 구조가 더 단순한 후속작 D* Lite가 주로 쓰인다.",
+      "sources": [
+        {"name": "Wikipedia — D*", "url": "https://en.wikipedia.org/wiki/D*"}
+      ],
+      "related": ["A* (A-star)", "D* Lite"]
+    },
+    {
+      "id": "d-star-lite",
+      "term": "D* Lite",
+      "ko": "D* 라이트",
+      "definition": "D*와 같은 목적(변화하는 환경에서의 빠른 경로 재계산)을 훨씬 단순한 구조로 달성한 알고리즘. Koenig와 Likhachev가 2002년에 발표했다.",
+      "details": "목표점에서 거꾸로 탐색해 두었다가, 지도에 변화가 생기면 영향을 받는 노드만 갱신해 경로를 수선한다. 원조 D*와 성능은 비슷하면서 구현·분석이 쉬워, 동적 환경 단일 로봇 내비게이션의 사실상 표준이 되었다. 물류 시뮬레이션에서는 개별 로봇이 주행 중 갑자기 막힌 통로(정지한 로봇, 새 장애물)에 즉각 대응해 경로를 고치는 로컬 재계획 계층으로 활용할 수 있다.",
+      "sources": [
+        {"name": "Koenig & Likhachev, \"D* Lite\" (AAAI 2002)", "url": "http://idm-lab.org/bib/abstracts/papers/aaai02b.pdf"},
+        {"name": "AAAI — D* Lite paper page", "url": "https://aaai.org/papers/00476-aaai02-072-d-lite/"}
+      ],
+      "related": ["D* (D-star)", "A* (A-star)", "Dijkstra"]
+    },
+    {
+      "id": "rrt",
+      "term": "RRT (Rapidly-exploring Random Tree)",
+      "ko": "RRT (급속 탐색 랜덤 트리)",
+      "definition": "공간에 무작위로 점을 뿌리며 나무(트리)를 뻗어 나가 경로를 찾는 샘플링 기반 알고리즘. 격자가 아닌 연속 공간, 특히 로봇 팔처럼 차원이 높은 문제에 강하다.",
+      "details": "출발점에서 시작해 무작위 샘플 방향으로 가지를 조금씩 뻗어, 미탐색 영역으로 빠르게 퍼져 나가는 것이 핵심 아이디어다. 격자 기반 A*가 감당하기 어려운 고차원 연속 공간(관절 각도 조합 등)에서도 동작한다. 단일 에이전트·모션 플래닝 계열 알고리즘으로, 물류 시뮬레이션에서는 바닥을 달리는 수백 대 로봇의 경로보다는 선반에서 물건을 집는 로봇 팔(매니퓰레이터)의 동작 계획에 주로 쓰인다. 경로의 최적성은 보장하지 않고 \"일단 되는 경로\"를 빨리 찾는다.",
+      "sources": [
+        {"name": "Wikipedia — Rapidly exploring random tree", "url": "https://en.wikipedia.org/wiki/Rapidly_exploring_random_tree"}
+      ],
+      "related": ["RRT*", "PRM (Probabilistic Roadmap)", "TAMP (Task and Motion Planning)"]
+    },
+    {
+      "id": "rrt-star",
+      "term": "RRT* (RRT-star)",
+      "ko": "RRT 스타",
+      "definition": "RRT를 개선해, 샘플을 계속 뿌릴수록 경로가 점점 최적(최단)에 수렴하도록 만든 알고리즘. Karaman과 Frazzoli가 2011년에 제안했다.",
+      "details": "새 가지를 붙일 때 주변 노드들과 연결을 재검토(rewiring)해 더 짧은 경로로 트리를 계속 고쳐 나간다. 그 결과 시간이 지날수록 해가 최적 경로에 가까워지는 \"점근적 최적성\"을 갖는데, 이는 원조 RRT에 없는 성질이다. 역시 단일 에이전트 모션 플래닝용으로, 시뮬레이션에서는 로봇 팔의 부드럽고 짧은 동작이 필요할 때 RRT 대신 선택한다.",
+      "sources": [
+        {"name": "Karaman & Frazzoli, \"Sampling-based Algorithms for Optimal Motion Planning\" (arXiv:1105.1186)", "url": "https://arxiv.org/abs/1105.1186"}
+      ],
+      "related": ["RRT (Rapidly-exploring Random Tree)", "PRM (Probabilistic Roadmap)"]
+    },
+    {
+      "id": "prm",
+      "term": "PRM (Probabilistic Roadmap)",
+      "ko": "PRM (확률적 로드맵)",
+      "definition": "공간에 무작위 점들을 미리 뿌려 서로 이어 도로망(로드맵)을 만들어 두고, 이후 경로 질의는 그 도로망 위에서 그래프 탐색으로 푸는 방법.",
+      "details": "RRT가 질의마다 트리를 새로 키우는 것과 달리, PRM은 지도를 한 번 만들어 두고 여러 번 재사용하는 \"사전 구축형\"이다. 환경이 고정되어 있고 같은 공간에서 경로 질의가 반복될 때 효율적이므로, 구조가 잘 바뀌지 않는 물류센터 통로망과 궁합이 좋다. 단일 에이전트 모션 플래닝 기법이지만, 만들어진 로드맵 그래프 위에 A*나 MAPF 알고리즘을 얹어 쓰는 식으로 결합할 수 있다.",
+      "sources": [
+        {"name": "Wikipedia — Probabilistic roadmap", "url": "https://en.wikipedia.org/wiki/Probabilistic_roadmap"}
+      ],
+      "related": ["RRT (Rapidly-exploring Random Tree)", "A* (A-star)"]
+    },
+    {
+      "id": "mapf",
+      "term": "MAPF (Multi-Agent Path Finding)",
+      "ko": "다중 에이전트 경로 탐색",
+      "definition": "여러 에이전트(로봇) 각각에 출발점과 목표점이 주어졌을 때, 서로 충돌하지 않는 경로들의 집합을 한꺼번에 찾는 문제.",
+      "details": "로봇 한 대의 경로만 찾는 A*·Dijkstra와 달리, \"같은 시각에 같은 칸을 두 로봇이 차지하면 안 된다\" 같은 로봇 간 충돌 제약을 다루는 것이 본질이다. 최적해를 찾는 것은 NP-hard라서 CBS(최적), Prioritized Planning·WHCA*(빠른 근사) 등 다양한 해법이 연구된다. 수십~수백 대 로봇이 물류센터에서 충돌 없이 다니는 시뮬레이션의 핵심이 바로 이 문제이며, 아마존·쿠팡식 물류 로봇이 대표 응용 사례로 꼽힌다.",
+      "sources": [
+        {"name": "mapf.info — Multi-Agent Path Finding 포털", "url": "http://mapf.info/"},
+        {"name": "Stern et al., \"Multi-Agent Pathfinding: Definitions, Variants, and Benchmarks\" (arXiv:1906.08291)", "url": "https://arxiv.org/abs/1906.08291"}
+      ],
+      "related": ["CBS (Conflict-Based Search)", "MAPD (Multi-Agent Pickup and Delivery)", "Lifelong MAPF", "WHCA* (Windowed Hierarchical Cooperative A*)"]
+    },
+    {
+      "id": "cbs",
+      "term": "CBS (Conflict-Based Search)",
+      "ko": "충돌 기반 탐색",
+      "definition": "MAPF의 대표적 최적 해법. 일단 로봇마다 따로 최단 경로를 구한 뒤, 충돌이 발견되면 \"그 시각에 그 칸에 가지 말 것\"이라는 제약을 추가해 다시 푸는 과정을 반복한다.",
+      "details": "위층(충돌을 찾아 제약을 나눠 붙이는 트리 탐색)과 아래층(제약을 지키며 각 로봇의 경로를 A*로 다시 찾기)의 2단 구조가 핵심이다. 모든 로봇의 이동 거리 합이 최소인 무충돌 해를 보장하는 대표적 최적(optimal) MAPF 알고리즘으로, Sharon 등이 2015년에 발표한 이후 수많은 변형(ECBS 등)의 기반이 되었다. 물류 시뮬레이션에서는 로봇 수가 많아지면 계산이 급격히 무거워지므로, 소규모 정밀 계획이나 근사 변형의 형태로 활용된다.",
+      "sources": [
+        {"name": "Sharon et al., \"Conflict-Based Search for Optimal Multi-Agent Pathfinding\" (AIJ 2015)", "url": "https://doi.org/10.1016/j.artint.2014.11.006"}
+      ],
+      "related": ["MAPF (Multi-Agent Path Finding)", "A* (A-star)", "Prioritized Planning"]
+    },
+    {
+      "id": "mapd",
+      "term": "MAPD (Multi-Agent Pickup and Delivery)",
+      "ko": "다중 에이전트 픽업·배송 문제",
+      "definition": "여러 로봇이 계속 들어오는 운반 작업(선반에서 집어 스테이션에 배달)을 나눠 맡으며, 충돌 없는 경로로 수행하도록 작업 할당과 경로 탐색을 함께 푸는 문제.",
+      "details": "한 번의 출발점→목표점 이동으로 끝나는 표준 MAPF와 달리, \"어느 로봇이 어떤 작업을 맡을지(할당)\"와 \"어떤 경로로 갈지(MAPF)\"를 온라인으로, 끝없이 반복해서 푼다. 즉 쿠팡식 풀필먼트 센터에서 로봇들이 하루 종일 픽업과 배송을 반복하는 상황을 그대로 수학 문제로 만든 것으로, 이 글로서리에서 물류 로봇 시뮬레이션에 가장 직접적으로 해당하는 용어다. Ma 등이 2017년 정식화했으며, 대표 해법으로 Token Passing(TP) 등이 있다.",
+      "sources": [
+        {"name": "Ma et al., \"Lifelong Multi-Agent Path Finding for Online Pickup and Delivery Tasks\" (arXiv:1705.10868)", "url": "https://arxiv.org/abs/1705.10868"}
+      ],
+      "related": ["MAPF (Multi-Agent Path Finding)", "Lifelong MAPF", "CBS (Conflict-Based Search)"]
+    },
+    {
+      "id": "cooperative-a-star",
+      "term": "Cooperative A* (CA*)",
+      "ko": "협조적 A*",
+      "definition": "로봇들이 순서대로 경로를 계획하되, 앞선 로봇들의 경로를 시간까지 포함한 예약 테이블에 기록해 두고, 뒤의 로봇은 그 예약을 피해서 A*로 경로를 찾는 방법.",
+      "details": "공간에 시간 축을 더한 시공간(space-time) 격자에서 탐색하는 것이 핵심으로, \"그 칸은 3초 시점에 이미 예약됨\"처럼 충돌을 피한다. 단일 에이전트용 A*를 다중 에이전트로 확장하는 가장 직관적인 방법이며, Silver의 2005년 논문 \"Cooperative Pathfinding\"에서 제안되었다. 최적해 보장은 없지만 빠르고 구현이 쉬워, 물류 시뮬레이션에서 수십 대 규모 로봇의 실용적 충돌 회피 기법의 출발점이 된다. 우선순위를 정해 차례로 푼다는 점에서 Prioritized Planning의 한 형태다.",
+      "sources": [
+        {"name": "Silver, \"Cooperative Pathfinding\" (AIIDE 2005)", "url": "https://ojs.aaai.org/index.php/AIIDE/article/view/18726"}
+      ],
+      "related": ["A* (A-star)", "WHCA* (Windowed Hierarchical Cooperative A*)", "Prioritized Planning"]
+    },
+    {
+      "id": "whca-star",
+      "term": "WHCA* (Windowed Hierarchical Cooperative A*)",
+      "ko": "윈도우 계층적 협조 A*",
+      "definition": "Cooperative A*를 개선해, 충돌 회피 계산을 가까운 미래의 시간 창(window) 안으로만 제한하고 그 너머는 대략적인 거리 추정으로 처리하는 알고리즘.",
+      "details": "전체 경로를 시공간에서 끝까지 계획하는 대신 \"앞으로 N스텝\"만 정밀하게 계획하고, 로봇이 이동하는 동안 창을 밀어 가며 계산을 분산시킨다. 계층적(Hierarchical)이라는 이름은 장애물만 고려한 추상 거리(진짜 최단거리 휴리스틱)를 하위 탐색에 쓰기 때문이다. 계산량이 로봇 수에 비해 완만하게 늘어 수십~수백 대 규모에서도 실시간으로 돌릴 수 있어, 게임과 물류 로봇 시뮬레이션에서 널리 쓰이는 실용적 다중 에이전트 기법이다.",
+      "sources": [
+        {"name": "Silver, \"Cooperative Pathfinding\" (AIIDE 2005)", "url": "https://ojs.aaai.org/index.php/AIIDE/article/view/18726"}
+      ],
+      "related": ["Cooperative A*", "MAPF (Multi-Agent Path Finding)", "Prioritized Planning"]
+    },
+    {
+      "id": "prioritized-planning",
+      "term": "Prioritized Planning",
+      "ko": "우선순위 기반 계획",
+      "definition": "로봇들에 우선순위를 매기고, 높은 순위부터 차례로 경로를 계획하되 뒤 순위는 앞 순위 로봇들의 경로를 움직이는 장애물처럼 피하게 하는 MAPF 해법의 큰 틀.",
+      "details": "다중 에이전트 문제를 \"단일 에이전트 문제 여러 개를 순서대로 풀기\"로 바꾸는 분해 전략이라, 매우 빠르고 규모 확장성이 좋다. 대신 우선순위를 잘못 정하면 해를 못 찾거나 크게 돌아가는 해가 나올 수 있어 완전성·최적성 보장이 없으며, 우선순위를 탐색으로 잘 고르는 연구(PBS 등)도 있다. Cooperative A*와 WHCA*가 이 계열의 대표 구현이고, 물류 시뮬레이션에서 로봇 수백 대를 감당해야 할 때 CBS 같은 최적 기법 대신 가장 흔히 선택되는 실용 노선이다.",
+      "sources": [
+        {"name": "Ma et al., \"Searching with Consistent Prioritization for Multi-Agent Path Finding\" (arXiv:1812.06356)", "url": "https://arxiv.org/abs/1812.06356"},
+        {"name": "Silver, \"Cooperative Pathfinding\" (AIIDE 2005)", "url": "https://ojs.aaai.org/index.php/AIIDE/article/view/18726"}
+      ],
+      "related": ["Cooperative A*", "WHCA* (Windowed Hierarchical Cooperative A*)", "CBS (Conflict-Based Search)"]
+    },
+    {
+      "id": "lifelong-mapf",
+      "term": "Lifelong MAPF (Lifelong Multi-Agent Path Finding)",
+      "ko": "평생(연속) 다중 에이전트 경로 탐색",
+      "definition": "로봇이 목표에 도착하면 끝나는 것이 아니라 곧바로 다음 목표를 부여받아, 시스템 전체가 멈추지 않고 계속 도는 상황의 MAPF 변형.",
+      "details": "일회성 MAPF와 달리 계획과 실행이 끝없이 이어지므로, 전체를 한 번에 푸는 대신 일정 주기마다 가까운 미래만 다시 계획하는 롤링 호라이즌(예: RHCR) 방식이 대표적이다. 물류센터 로봇은 하루 종일 \"선반으로 → 스테이션으로 → 다음 선반으로\"를 반복하므로, MAPD와 함께 물류 로봇 시뮬레이션에 가장 직접적으로 해당하는 문제 설정이다. 시간당 처리량(throughput)을 성능 지표로 삼는 점도 실제 풀필먼트 센터 운영과 일치한다.",
+      "sources": [
+        {"name": "Li et al., \"Lifelong Multi-Agent Path Finding in Large-Scale Warehouses\" (arXiv:2005.07371)", "url": "https://arxiv.org/abs/2005.07371"},
+        {"name": "Ma et al., \"Lifelong Multi-Agent Path Finding for Online Pickup and Delivery Tasks\" (arXiv:1705.10868)", "url": "https://arxiv.org/abs/1705.10868"}
+      ],
+      "related": ["MAPF (Multi-Agent Path Finding)", "MAPD (Multi-Agent Pickup and Delivery)", "WHCA* (Windowed Hierarchical Cooperative A*)"]
+    },
+    {
+      "id": "tamp",
+      "term": "TAMP (Task and Motion Planning)",
+      "ko": "작업·모션 통합 계획",
+      "definition": "\"무엇을 어떤 순서로 할지\"라는 상위 작업 계획과 \"몸을 실제로 어떻게 움직일지\"라는 하위 모션 계획을 분리하지 않고 함께 푸는 문제.",
+      "details": "예를 들어 \"상자 A를 옮기려면 위의 상자 B를 먼저 치워야 한다\" 같은 논리적 순서(작업 계획)와, 각 동작이 물리적으로 가능한지(팔이 닿는지, 경로가 있는지 — RRT 등 모션 플래닝)를 서로 확인해 가며 통합적으로 계획한다. 경로만 다루는 MAPF보다 한 층 위의 문제로, 물류 시뮬레이션에서는 로봇 팔이 물건을 집고·놓고·재배치하는 조작(manipulation) 작업이나, 이동과 조작이 얽힌 시나리오를 설계할 때 등장한다. Isaac Sim 같은 시뮬레이터에서 픽앤플레이스 데모를 고도화할 때 접하게 되는 개념이다.",
+      "sources": [
+        {"name": "Garrett et al., \"Integrated Task and Motion Planning\" (arXiv:2010.01083)", "url": "https://arxiv.org/abs/2010.01083"}
+      ],
+      "related": ["RRT (Rapidly-exploring Random Tree)", "MAPF (Multi-Agent Path Finding)", "MAPD (Multi-Agent Pickup and Delivery)"]
+    }
+  ]
+}
